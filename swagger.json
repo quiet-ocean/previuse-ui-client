@@ -1,0 +1,4872 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Previuse API",
+    "description": "previuse",
+    "termsOfService": "https://www.google.com/policies/terms/",
+    "contact": {
+      "email": "contact@snippets.local"
+    },
+    "license": {
+      "name": "MIT License"
+    },
+    "version": "v1"
+  },
+  "host": "localhost:8000",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "Basic": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "Basic": []
+    }
+  ],
+  "paths": {
+    "/Platform/allUserPlatforms/": {
+      "get": {
+        "operationId": "Platform_allUserPlatforms_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Platform"
+              }
+            }
+          }
+        },
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": []
+    },
+    "/Platform/byCampaign/{campaign_id}/": {
+      "get": {
+        "operationId": "Platform_byCampaign_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Platform"
+            }
+          }
+        },
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "campaign_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/Platform/new": {
+      "post": {
+        "operationId": "Platform_new_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "related_campaign",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "platform",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "youtube",
+              "instagram",
+              "facebook",
+              "tiktok"
+            ]
+          },
+          {
+            "name": "post_title",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "analytics",
+            "in": "formData",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "end_date",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "x-nullable": true
+          },
+          {
+            "name": "budget",
+            "in": "formData",
+            "required": false,
+            "type": "number",
+            "x-nullable": true
+          },
+          {
+            "name": "budget_type",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "daily",
+              "monthly"
+            ],
+            "x-nullable": true
+          },
+          {
+            "name": "business_page",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 200,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/platformCreate"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": []
+    },
+    "/Platform/platformTypes/{client_id}/": {
+      "get": {
+        "operationId": "Platform_platformTypes_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/platformType"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "client_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/Platform/platforms/client/{client_id}/": {
+      "get": {
+        "operationId": "Platform_platforms_client_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Platform"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "client_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/Platform/specific/{id}": {
+      "get": {
+        "operationId": "Platform_specific_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformChange"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "patch": {
+        "operationId": "Platform_specific_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "platform",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "name": "post_title",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "analytics",
+            "in": "formData",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "end_date",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "x-nullable": true
+          },
+          {
+            "name": "budget",
+            "in": "formData",
+            "required": false,
+            "type": "number",
+            "x-nullable": true
+          },
+          {
+            "name": "budget_type",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "daily",
+              "monthly"
+            ],
+            "x-nullable": true
+          },
+          {
+            "name": "business_page",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 200,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformChange"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "delete": {
+        "operationId": "Platform_specific_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this platform.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/activate/{uid}/{token}": {
+      "get": {
+        "operationId": "activation",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "activation"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "token",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "uid",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/auth/jwt/create/": {
+      "post": {
+        "operationId": "auth_jwt_create_create",
+        "description": "Takes a set of user credentials and returns an access and refresh JSON web\ntoken pair to prove the authentication of those credentials.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TokenObtainPair"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TokenObtainPair"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/jwt/refresh/": {
+      "post": {
+        "operationId": "auth_jwt_refresh_create",
+        "description": "Takes a refresh type JSON web token and returns an access type JSON web\ntoken if the refresh token is valid.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TokenRefresh"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TokenRefresh"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/jwt/verify/": {
+      "post": {
+        "operationId": "auth_jwt_verify_create",
+        "description": "Takes a token and indicates if it is valid.  This view provides no\ninformation about a token's fitness for a particular use.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TokenVerify"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TokenVerify"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/login/": {
+      "post": {
+        "operationId": "auth_login_create",
+        "description": "Use this endpoint to obtain user authentication token.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TokenCreate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TokenCreate"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/logout/": {
+      "post": {
+        "operationId": "auth_logout_create",
+        "description": "Use this endpoint to logout user (remove user authentication token).",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/": {
+      "get": {
+        "operationId": "auth_users_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "post": {
+        "operationId": "auth_users_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCreate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserCreate"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/activation/": {
+      "post": {
+        "operationId": "auth_users_activation",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Activation"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Activation"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/me/": {
+      "get": {
+        "operationId": "auth_users_me_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserCreation"
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "put": {
+        "operationId": "auth_users_me_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCreation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserCreation"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "patch": {
+        "operationId": "auth_users_me_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserCreation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserCreation"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "delete": {
+        "operationId": "auth_users_me_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/resend_activation/": {
+      "post": {
+        "operationId": "auth_users_resend_activation",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendEmailReset"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SendEmailReset"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/reset_email/": {
+      "post": {
+        "operationId": "auth_users_reset_username",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendEmailReset"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SendEmailReset"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/reset_email_confirm/": {
+      "post": {
+        "operationId": "auth_users_reset_username_confirm",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UsernameResetConfirm"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UsernameResetConfirm"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/reset_password/": {
+      "post": {
+        "operationId": "auth_users_reset_password",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendEmailReset"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SendEmailReset"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/reset_password_confirm/": {
+      "post": {
+        "operationId": "auth_users_reset_password_confirm",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PasswordResetConfirm"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PasswordResetConfirm"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/set_email/": {
+      "post": {
+        "operationId": "auth_users_set_username",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SetUsername"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SetUsername"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/set_password/": {
+      "post": {
+        "operationId": "auth_users_set_password",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SetPassword"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/SetPassword"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": []
+    },
+    "/auth/users/{id}/": {
+      "get": {
+        "operationId": "auth_users_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "put": {
+        "operationId": "auth_users_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "patch": {
+        "operationId": "auth_users_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "delete": {
+        "operationId": "auth_users_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this user.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/campaigns/": {
+      "get": {
+        "operationId": "campaigns_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Campaigns"
+              }
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "post": {
+        "operationId": "campaigns_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "campaign_name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1
+          },
+          {
+            "name": "campaign_pic",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "x-nullable": true
+          },
+          {
+            "name": "related_client",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CampaignSerializerPost"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": []
+    },
+    "/campaigns/DeleteCampaignUserPermission/{related_campaign}/{related_user}": {
+      "delete": {
+        "operationId": "campaigns_DeleteCampaignUserPermission_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "related_campaign",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "related_user",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/campaigns/active/{id}": {
+      "post": {
+        "operationId": "campaigns_active_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "active",
+            "in": "formData",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CampaignActive"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this campain.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/campaigns/by_client/{client_id}": {
+      "get": {
+        "operationId": "campaigns_by_client_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Campaigns"
+              }
+            }
+          }
+        },
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "client_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/campaigns/duplicate/{id}": {
+      "post": {
+        "operationId": "campaigns_duplicate_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CampaignDuplicate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CampaignDuplicate"
+            }
+          }
+        },
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this campain.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/campaigns/get_Platforms/{campaign_id}": {
+      "get": {
+        "operationId": "campaigns_get_Platforms_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Campaigns"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "campaign_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/campaigns/media_box/{campaign_id}/": {
+      "get": {
+        "operationId": "campaigns_media_box_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MediaBoxWithFiles"
+            }
+          }
+        },
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "campaign_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/campaigns/permission": {
+      "post": {
+        "operationId": "campaigns_permission_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CampaignPermission"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CampaignPermission"
+            }
+          }
+        },
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": []
+    },
+    "/campaigns/permission/{related_campaign}": {
+      "get": {
+        "operationId": "campaigns_permission_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CampaignPermission"
+              }
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "related_campaign",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/campaigns/platform/{platform}": {
+      "get": {
+        "operationId": "campaigns_platform_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Campaigns"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "platform",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/campaigns/progress/{campaign_id}/{wanted_post_status}": {
+      "get": {
+        "operationId": "campaigns_progress_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Campaigns"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "campaign_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "wanted_post_status",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/campaigns/{id}": {
+      "patch": {
+        "operationId": "campaigns_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "campaign_name",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "name": "campaign_pic",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CampaignSpecific"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "delete": {
+        "operationId": "campaigns_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/chats/{campaign_id}": {
+      "get": {
+        "operationId": "chats_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Chat"
+              }
+            }
+          }
+        },
+        "tags": [
+          "chats"
+        ]
+      },
+      "post": {
+        "operationId": "chats_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Chat"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Chat"
+            }
+          }
+        },
+        "tags": [
+          "chats"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "campaign_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/clients/": {
+      "get": {
+        "operationId": "clients_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ClientSerializerRetrieve"
+              }
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "clients"
+        ]
+      },
+      "post": {
+        "operationId": "clients_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "client_name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1
+          },
+          {
+            "name": "client_pic",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ClientSerializerRetrieve"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "clients"
+        ]
+      },
+      "parameters": []
+    },
+    "/clients/DeleteClientPermission/{related_client}/{related_user}": {
+      "delete": {
+        "operationId": "clients_DeleteClientPermission_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "related_client",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "related_user",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/clients/active/{id}": {
+      "post": {
+        "operationId": "clients_active_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "active",
+            "in": "formData",
+            "required": false,
+            "type": "boolean",
+            "default": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ClientActive"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "clients"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this client.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/clients/duplicate/{id}": {
+      "post": {
+        "operationId": "clients_duplicate_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DuplicateClient"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DuplicateClient"
+            }
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this client.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/clients/platform/{platform}": {
+      "get": {
+        "operationId": "clients_platform_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ClientSerializerMaster"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "clients"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "platform",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/clients/user_permission": {
+      "post": {
+        "operationId": "clients_user_permission_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "client_user_Permission",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "owner",
+              "edit",
+              "comment",
+              "view"
+            ]
+          },
+          {
+            "name": "related_client",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "x-nullable": true
+          },
+          {
+            "name": "related_user",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ClientPermission"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "clients"
+        ]
+      },
+      "parameters": []
+    },
+    "/clients/user_permission/{related_client}": {
+      "get": {
+        "operationId": "clients_user_permission_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ClientPermission"
+              }
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "clients"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "related_client",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/clients/withDate": {
+      "get": {
+        "operationId": "clients_withDate_list",
+        "description": "API endpoint that returns the instances of a model with their latest revision made by a specific user, including the revision date.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ClientRetrieveSerializerDate"
+              }
+            }
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      },
+      "parameters": []
+    },
+    "/clients/{id}": {
+      "get": {
+        "operationId": "clients_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ClientSerializerSpecific"
+            }
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      },
+      "put": {
+        "operationId": "clients_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClientSerializerSpecific"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ClientSerializerSpecific"
+            }
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      },
+      "patch": {
+        "operationId": "clients_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClientSerializerSpecific"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ClientSerializerSpecific"
+            }
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      },
+      "delete": {
+        "operationId": "clients_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "clients"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/generals/UserHistory": {
+      "get": {
+        "operationId": "generals_UserHistory_list",
+        "description": "API endpoint that returns the revisions made by a specific user.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Revision"
+              }
+            }
+          }
+        },
+        "tags": [
+          "generals"
+        ]
+      },
+      "parameters": []
+    },
+    "/media_box/delete_file/{id}/": {
+      "put": {
+        "operationId": "media_box_delete_file_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "file_in",
+            "in": "formData",
+            "description": "This field is required.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "file_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "picture",
+              "video",
+              "text",
+              "other"
+            ]
+          },
+          {
+            "name": "media_box",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MediaFiles"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "media_box"
+        ]
+      },
+      "patch": {
+        "operationId": "media_box_delete_file_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "file_in",
+            "in": "formData",
+            "description": "This field is required.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "file_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "picture",
+              "video",
+              "text",
+              "other"
+            ]
+          },
+          {
+            "name": "media_box",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MediaFiles"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "media_box"
+        ]
+      },
+      "delete": {
+        "operationId": "media_box_delete_file_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "media_box"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this file_in_media.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/media_box/expose/{box_id}/": {
+      "get": {
+        "operationId": "media_box_expose_read",
+        "description": "",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "A page number within the paginated result set.",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "required": [
+                "count",
+                "results"
+              ],
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "integer"
+                },
+                "next": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "previous": {
+                  "type": "string",
+                  "format": "uri",
+                  "x-nullable": true
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/MediaBoxWithFiles"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "media_box"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "box_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/media_box/files_media_box/": {
+      "post": {
+        "operationId": "media_box_files_media_box_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "file_in",
+            "in": "formData",
+            "description": "This field is required.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "file_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "picture",
+              "video",
+              "text",
+              "other"
+            ]
+          },
+          {
+            "name": "media_box",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MediaFiles"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "media_box"
+        ]
+      },
+      "parameters": []
+    },
+    "/media_box/files_media_box/{id}/": {
+      "get": {
+        "operationId": "media_box_files_media_box_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MediaFiles"
+              }
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "media_box"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this file_in_media.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/media_box/retrieve_by_model": {
+      "post": {
+        "operationId": "media_box_retrieve_by_model_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetMediaBoxByModel"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GetMediaBoxByModel"
+            }
+          }
+        },
+        "tags": [
+          "media_box"
+        ]
+      },
+      "parameters": []
+    },
+    "/media_box/{id}/": {
+      "get": {
+        "operationId": "media_box_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MediaBox"
+              }
+            }
+          }
+        },
+        "tags": [
+          "media_box"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this media box.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/members/csrf_cookie": {
+      "get": {
+        "operationId": "members_csrf_cookie_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "members"
+        ]
+      },
+      "parameters": []
+    },
+    "/members/invite_user_campaign": {
+      "post": {
+        "operationId": "members_invite_user_campaign_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InviteUserCampaign"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/InviteUserCampaign"
+            }
+          }
+        },
+        "tags": [
+          "members"
+        ]
+      },
+      "parameters": []
+    },
+    "/members/invite_user_client": {
+      "post": {
+        "operationId": "members_invite_user_client_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InviteUser"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/InviteUser"
+            }
+          }
+        },
+        "tags": [
+          "members"
+        ]
+      },
+      "parameters": []
+    },
+    "/members/media_box": {
+      "get": {
+        "operationId": "members_media_box_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MediaBoxWithFiles"
+              }
+            }
+          }
+        },
+        "tags": [
+          "members"
+        ]
+      },
+      "parameters": []
+    },
+    "/members/update_user": {
+      "put": {
+        "operationId": "members_update_user_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "format": "email",
+            "maxLength": 255,
+            "minLength": 1
+          },
+          {
+            "name": "first_name",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "last_name",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "user_type",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "marketer",
+              "customer"
+            ],
+            "x-nullable": true
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserUpdate"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "members"
+        ]
+      },
+      "patch": {
+        "operationId": "members_update_user_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "format": "email",
+            "maxLength": 255,
+            "minLength": 1
+          },
+          {
+            "name": "first_name",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "last_name",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "user_type",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "marketer",
+              "customer"
+            ],
+            "x-nullable": true
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserUpdate"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "members"
+        ]
+      },
+      "parameters": []
+    },
+    "/notifications/": {
+      "get": {
+        "operationId": "notifications_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserNotifications"
+              }
+            }
+          }
+        },
+        "tags": [
+          "notifications"
+        ]
+      },
+      "parameters": []
+    },
+    "/notifications/{notification}": {
+      "post": {
+        "operationId": "notifications_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReadNotifications"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ReadNotifications"
+            }
+          }
+        },
+        "tags": [
+          "notifications"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "notification",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/posts/": {
+      "get": {
+        "operationId": "posts_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlatformPostSerializerMaster"
+              }
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "post": {
+        "operationId": "posts_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "spread",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "related_platform",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "x-nullable": true
+          },
+          {
+            "name": "page_name",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "headline",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "call_to_action",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "LearnMore",
+              "BuyNow"
+            ]
+          },
+          {
+            "name": "logo",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostCreate"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": []
+    },
+    "/posts/PostByPlatform/{id}": {
+      "get": {
+        "operationId": "posts_PostByPlatform_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostSerializerMaster"
+            }
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this platform_post.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/posts/approve/{id}": {
+      "get": {
+        "operationId": "posts_approve_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostApproval"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "post": {
+        "operationId": "posts_approve_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "approve_status",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "Approve",
+              "Decline",
+              "Pending"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostApproval"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this platform_post.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/posts/by_campaign/{wantedStatus}/{wantedCampaign}/": {
+      "get": {
+        "operationId": "posts_by_campaign_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostSerializerMaster"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "wantedCampaign",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "wantedStatus",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/posts/by_client/{wantedStatus}/{wantedClient}/": {
+      "get": {
+        "operationId": "posts_by_client_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostSerializerMaster"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "wantedClient",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "wantedStatus",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/posts/carousel_post/{master_id}": {
+      "get": {
+        "operationId": "posts_carousel_post_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CarouselPost"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "post": {
+        "operationId": "posts_carousel_post_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "spread",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "related_platform",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "x-nullable": true
+          },
+          {
+            "name": "page_name",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "headline",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "call_to_action",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "LearnMore",
+              "BuyNow"
+            ]
+          },
+          {
+            "name": "logo",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CarouselPost"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "master_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/posts/duplicate_post/{id}": {
+      "post": {
+        "operationId": "posts_duplicate_post_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DuplicatePlatformPost"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DuplicatePlatformPost"
+            }
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this platform_post.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/posts/media_box/{post_id}/": {
+      "get": {
+        "operationId": "posts_media_box_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MediaBoxWithFiles"
+            }
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "post_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/posts/specific/{id}": {
+      "get": {
+        "operationId": "posts_specific_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostChange"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "patch": {
+        "operationId": "posts_specific_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "spread",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "related_platform",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "text_in",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "x-nullable": true
+          },
+          {
+            "name": "page_name",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "headline",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "call_to_action",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "LearnMore",
+              "BuyNow"
+            ]
+          },
+          {
+            "name": "logo",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostChange"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "delete": {
+        "operationId": "posts_specific_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this platform_post.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/posts/spread_by_platform/{platform_type}/": {
+      "get": {
+        "operationId": "posts_spread_by_platform_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Spread"
+              }
+            }
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "platform_type",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/posts/update_approve/{id}": {
+      "put": {
+        "operationId": "posts_update_approve_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "approve_status",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "Approve",
+              "Decline",
+              "Pending"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostApproval"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "patch": {
+        "operationId": "posts_update_approve_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "approve_status",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "Approve",
+              "Decline",
+              "Pending"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostApproval"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this platform_post.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/posts/{wantedStatus}": {
+      "get": {
+        "operationId": "posts_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformPostSerializerMaster"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "wantedStatus",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "ClientSerializerMaster": {
+      "required": [
+        "client_name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "client_name": {
+          "title": "Client name",
+          "type": "string",
+          "maxLength": 256,
+          "minLength": 1
+        },
+        "client_pic": {
+          "title": "Client pic",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        },
+        "active": {
+          "title": "Active",
+          "type": "boolean"
+        },
+        "alive": {
+          "title": "Alive",
+          "type": "boolean"
+        },
+        "create_date": {
+          "title": "Create date",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        }
+      }
+    },
+    "Campaigns": {
+      "required": [
+        "related_client",
+        "campaign_name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "related_client": {
+          "$ref": "#/definitions/ClientSerializerMaster"
+        },
+        "campaign_name": {
+          "title": "Campaign name",
+          "type": "string",
+          "maxLength": 256,
+          "minLength": 1
+        },
+        "campaign_pic": {
+          "title": "Campaign pic",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        },
+        "active": {
+          "title": "Active",
+          "type": "boolean"
+        },
+        "alive": {
+          "title": "Alive",
+          "type": "boolean"
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        }
+      }
+    },
+    "Platform": {
+      "required": [
+        "related_campaign",
+        "platform"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "related_campaign": {
+          "$ref": "#/definitions/Campaigns"
+        },
+        "platform": {
+          "title": "Platform",
+          "type": "string",
+          "enum": [
+            "youtube",
+            "instagram",
+            "facebook",
+            "tiktok"
+          ]
+        },
+        "post_title": {
+          "title": "Post title",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "analytics": {
+          "title": "Analytics",
+          "type": "boolean"
+        },
+        "start_date": {
+          "title": "Start date",
+          "type": "string",
+          "format": "date",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "end_date": {
+          "title": "End date",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "budget": {
+          "title": "Budget",
+          "type": "number",
+          "x-nullable": true
+        },
+        "budget_type": {
+          "title": "Budget type",
+          "type": "string",
+          "enum": [
+            "daily",
+            "monthly"
+          ],
+          "x-nullable": true
+        },
+        "business_page": {
+          "title": "Business page",
+          "type": "string",
+          "maxLength": 200,
+          "x-nullable": true
+        },
+        "active": {
+          "title": "Active",
+          "type": "boolean"
+        },
+        "alive": {
+          "title": "Alive",
+          "type": "boolean"
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        }
+      }
+    },
+    "platformCreate": {
+      "required": [
+        "related_campaign",
+        "platform"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "related_campaign": {
+          "title": "Related campaign",
+          "type": "integer"
+        },
+        "platform": {
+          "title": "Platform",
+          "type": "string",
+          "enum": [
+            "youtube",
+            "instagram",
+            "facebook",
+            "tiktok"
+          ]
+        },
+        "post_title": {
+          "title": "Post title",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "analytics": {
+          "title": "Analytics",
+          "type": "boolean"
+        },
+        "start_date": {
+          "title": "Start date",
+          "type": "string",
+          "format": "date",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "end_date": {
+          "title": "End date",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "budget": {
+          "title": "Budget",
+          "type": "number",
+          "x-nullable": true
+        },
+        "budget_type": {
+          "title": "Budget type",
+          "type": "string",
+          "enum": [
+            "daily",
+            "monthly"
+          ],
+          "x-nullable": true
+        },
+        "business_page": {
+          "title": "Business page",
+          "type": "string",
+          "maxLength": 200,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        }
+      }
+    },
+    "platformType": {
+      "required": [
+        "platform"
+      ],
+      "type": "object",
+      "properties": {
+        "platform": {
+          "title": "Platform",
+          "type": "string",
+          "enum": [
+            "youtube",
+            "instagram",
+            "facebook",
+            "tiktok"
+          ]
+        }
+      }
+    },
+    "PlatformChange": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "platform": {
+          "title": "Platform",
+          "type": "string",
+          "minLength": 1
+        },
+        "post_title": {
+          "title": "Post title",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "analytics": {
+          "title": "Analytics",
+          "type": "boolean"
+        },
+        "start_date": {
+          "title": "Start date",
+          "type": "string",
+          "format": "date",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "end_date": {
+          "title": "End date",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "budget": {
+          "title": "Budget",
+          "type": "number",
+          "x-nullable": true
+        },
+        "budget_type": {
+          "title": "Budget type",
+          "type": "string",
+          "enum": [
+            "daily",
+            "monthly"
+          ],
+          "x-nullable": true
+        },
+        "business_page": {
+          "title": "Business page",
+          "type": "string",
+          "maxLength": 200,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        }
+      }
+    },
+    "TokenObtainPair": {
+      "required": [
+        "email",
+        "password"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "minLength": 1
+        },
+        "password": {
+          "title": "Password",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "TokenRefresh": {
+      "required": [
+        "refresh"
+      ],
+      "type": "object",
+      "properties": {
+        "refresh": {
+          "title": "Refresh",
+          "type": "string",
+          "minLength": 1
+        },
+        "access": {
+          "title": "Access",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "TokenVerify": {
+      "required": [
+        "token"
+      ],
+      "type": "object",
+      "properties": {
+        "token": {
+          "title": "Token",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "TokenCreate": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "title": "Password",
+          "type": "string",
+          "minLength": 1
+        },
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "format": "email",
+          "readOnly": true,
+          "minLength": 1
+        }
+      }
+    },
+    "UserCreate": {
+      "required": [
+        "email",
+        "password"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "format": "email",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "password": {
+          "title": "Password",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Activation": {
+      "required": [
+        "uid",
+        "token"
+      ],
+      "type": "object",
+      "properties": {
+        "uid": {
+          "title": "Uid",
+          "type": "string",
+          "minLength": 1
+        },
+        "token": {
+          "title": "Token",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "Company": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "name": {
+          "title": "Name",
+          "type": "string",
+          "maxLength": 256,
+          "minLength": 1
+        },
+        "company_size": {
+          "title": "Company size",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "UserCreation": {
+      "required": [
+        "email",
+        "password",
+        "company"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "format": "email",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "first_name": {
+          "title": "First name",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "last_name": {
+          "title": "Last name",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "password": {
+          "title": "Password",
+          "type": "string",
+          "minLength": 1
+        },
+        "avatar": {
+          "title": "Avatar",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        },
+        "company": {
+          "$ref": "#/definitions/Company"
+        }
+      }
+    },
+    "SendEmailReset": {
+      "required": [
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "format": "email",
+          "minLength": 1
+        }
+      }
+    },
+    "UsernameResetConfirm": {
+      "required": [
+        "new_email"
+      ],
+      "type": "object",
+      "properties": {
+        "new_email": {
+          "title": "Email",
+          "type": "string",
+          "format": "email",
+          "maxLength": 255,
+          "minLength": 1
+        }
+      }
+    },
+    "PasswordResetConfirm": {
+      "required": [
+        "uid",
+        "token",
+        "new_password"
+      ],
+      "type": "object",
+      "properties": {
+        "uid": {
+          "title": "Uid",
+          "type": "string",
+          "minLength": 1
+        },
+        "token": {
+          "title": "Token",
+          "type": "string",
+          "minLength": 1
+        },
+        "new_password": {
+          "title": "New password",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "SetUsername": {
+      "required": [
+        "current_password",
+        "new_email"
+      ],
+      "type": "object",
+      "properties": {
+        "current_password": {
+          "title": "Current password",
+          "type": "string",
+          "minLength": 1
+        },
+        "new_email": {
+          "title": "Email",
+          "type": "string",
+          "format": "email",
+          "maxLength": 255,
+          "minLength": 1
+        }
+      }
+    },
+    "SetPassword": {
+      "required": [
+        "new_password",
+        "current_password"
+      ],
+      "type": "object",
+      "properties": {
+        "new_password": {
+          "title": "New password",
+          "type": "string",
+          "minLength": 1
+        },
+        "current_password": {
+          "title": "Current password",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "CampaignSerializerPost": {
+      "required": [
+        "campaign_name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "active": {
+          "title": "Active",
+          "type": "string",
+          "readOnly": true,
+          "default": true
+        },
+        "alive": {
+          "title": "Alive",
+          "type": "string",
+          "readOnly": true,
+          "default": true
+        },
+        "campaign_name": {
+          "title": "Campaign name",
+          "type": "string",
+          "maxLength": 256,
+          "minLength": 1
+        },
+        "campaign_pic": {
+          "title": "Campaign pic",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "related_client": {
+          "title": "Related client",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "CampaignActive": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "active": {
+          "title": "Active",
+          "type": "boolean"
+        }
+      }
+    },
+    "CampaignDuplicate": {
+      "type": "object",
+      "properties": {}
+    },
+    "MediaFiles": {
+      "required": [
+        "file_type",
+        "media_box"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "file_in": {
+          "title": "File in",
+          "description": "This field is required.",
+          "type": "string",
+          "readOnly": true,
+          "format": "uri"
+        },
+        "file_type": {
+          "title": "File type",
+          "type": "string",
+          "enum": [
+            "picture",
+            "video",
+            "text",
+            "other"
+          ]
+        },
+        "file_size": {
+          "title": "File size",
+          "type": "integer",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "media_box": {
+          "title": "Media box",
+          "type": "integer"
+        }
+      }
+    },
+    "MediaBoxWithFiles": {
+      "required": [
+        "file_in_media"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "file_in_media": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaFiles"
+          }
+        },
+        "created": {
+          "title": "Created",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "box_limit": {
+          "title": "Box limit",
+          "type": "integer"
+        },
+        "current_space_used": {
+          "title": "Current space used",
+          "type": "integer"
+        }
+      }
+    },
+    "CampaignPermission": {
+      "required": [
+        "campaign_user_permission"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "campaign_user_permission": {
+          "title": "Campaign user permission",
+          "type": "string",
+          "enum": [
+            "owner",
+            "edit",
+            "comment",
+            "view"
+          ]
+        },
+        "related_campaign": {
+          "title": "Related campaign",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "related_user": {
+          "title": "Related user",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "CampaignSpecific": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "campaign_name": {
+          "title": "Campaign name",
+          "type": "string",
+          "minLength": 1
+        },
+        "campaign_pic": {
+          "title": "Campaign pic",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        }
+      }
+    },
+    "Chat": {
+      "required": [
+        "campain",
+        "user_message_sender"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "message": {
+          "title": "Message",
+          "type": "string",
+          "maxLength": 264,
+          "x-nullable": true
+        },
+        "timestamp": {
+          "title": "Timestamp",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "campain": {
+          "title": "Campain",
+          "type": "integer"
+        },
+        "user_message_sender": {
+          "title": "User message sender",
+          "type": "integer"
+        }
+      }
+    },
+    "ClientSerializerRetrieve": {
+      "required": [
+        "client_name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "active": {
+          "title": "Active",
+          "type": "string",
+          "readOnly": true,
+          "default": true
+        },
+        "alive": {
+          "title": "Alive",
+          "type": "string",
+          "readOnly": true,
+          "default": true
+        },
+        "client_name": {
+          "title": "Client name",
+          "type": "string",
+          "maxLength": 256,
+          "minLength": 1
+        },
+        "client_pic": {
+          "title": "Client pic",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        },
+        "create_date": {
+          "title": "Create date",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        }
+      }
+    },
+    "ClientActive": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "active": {
+          "title": "Active",
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "DuplicateClient": {
+      "type": "object",
+      "properties": {}
+    },
+    "ClientPermission": {
+      "required": [
+        "client_user_Permission"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "client_user_Permission": {
+          "title": "Client user permission",
+          "type": "string",
+          "enum": [
+            "owner",
+            "edit",
+            "comment",
+            "view"
+          ]
+        },
+        "related_client": {
+          "title": "Related client",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "related_user": {
+          "title": "Related user",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "ClientRetrieveSerializerDate": {
+      "required": [
+        "revision_date",
+        "client_name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "revision_date": {
+          "title": "Revision date",
+          "type": "string",
+          "format": "date-time"
+        },
+        "client_name": {
+          "title": "Client name",
+          "type": "string",
+          "maxLength": 256,
+          "minLength": 1
+        },
+        "client_pic": {
+          "title": "Client pic",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        },
+        "active": {
+          "title": "Active",
+          "type": "boolean"
+        },
+        "alive": {
+          "title": "Alive",
+          "type": "boolean"
+        },
+        "create_date": {
+          "title": "Create date",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        }
+      }
+    },
+    "ClientSerializerSpecific": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "client_name": {
+          "title": "Client name",
+          "type": "string",
+          "minLength": 1
+        },
+        "client_pic": {
+          "title": "Client pic",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        },
+        "active": {
+          "title": "Active",
+          "type": "boolean"
+        },
+        "alive": {
+          "title": "Alive",
+          "type": "boolean"
+        },
+        "create_date": {
+          "title": "Create date",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        }
+      }
+    },
+    "Revision": {
+      "required": [
+        "object_id",
+        "db",
+        "format",
+        "serialized_data",
+        "object_repr",
+        "revision",
+        "content_type"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "object_id": {
+          "title": "Object id",
+          "description": "Primary key of the model under version control.",
+          "type": "string",
+          "maxLength": 191,
+          "minLength": 1
+        },
+        "db": {
+          "title": "Db",
+          "description": "The database the model under version control is stored in.",
+          "type": "string",
+          "maxLength": 191,
+          "minLength": 1
+        },
+        "format": {
+          "title": "Format",
+          "description": "The serialization format used by this model.",
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "serialized_data": {
+          "title": "Serialized data",
+          "description": "The serialized form of this version of the model.",
+          "type": "string",
+          "minLength": 1
+        },
+        "object_repr": {
+          "title": "Object repr",
+          "description": "A string representation of the object.",
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "title": "Revision",
+          "description": "The revision that contains this version.",
+          "type": "integer"
+        },
+        "content_type": {
+          "title": "Content type",
+          "description": "Content type of the model under version control.",
+          "type": "integer"
+        }
+      }
+    },
+    "GetMediaBoxByModel": {
+      "required": [
+        "model_name",
+        "model_id"
+      ],
+      "type": "object",
+      "properties": {
+        "model_name": {
+          "title": "Model name",
+          "type": "string",
+          "enum": [
+            "platform_post",
+            "user",
+            "campain"
+          ]
+        },
+        "model_id": {
+          "title": "Model id",
+          "type": "integer"
+        }
+      }
+    },
+    "MediaBox": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "created": {
+          "title": "Created",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "box_limit": {
+          "title": "Box limit",
+          "type": "integer"
+        },
+        "current_space_used": {
+          "title": "Current space used",
+          "type": "integer"
+        }
+      }
+    },
+    "InviteUserCampaign": {
+      "required": [
+        "campaign_user_permission",
+        "related_user"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "campaign_user_permission": {
+          "title": "Campaign user permission",
+          "type": "string",
+          "enum": [
+            "owner",
+            "edit",
+            "comment",
+            "view"
+          ]
+        },
+        "related_user": {
+          "title": "Related user",
+          "type": "string",
+          "format": "email",
+          "minLength": 1
+        },
+        "related_campaign": {
+          "title": "Related campaign",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "InviteUser": {
+      "required": [
+        "client_user_Permission",
+        "related_user"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "client_user_Permission": {
+          "title": "Client user permission",
+          "type": "string",
+          "enum": [
+            "owner",
+            "edit",
+            "comment",
+            "view"
+          ]
+        },
+        "related_user": {
+          "title": "Related user",
+          "type": "string",
+          "format": "email",
+          "minLength": 1
+        },
+        "related_client": {
+          "title": "Related client",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "UserUpdate": {
+      "required": [
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "email": {
+          "title": "Email",
+          "type": "string",
+          "format": "email",
+          "maxLength": 255,
+          "minLength": 1
+        },
+        "first_name": {
+          "title": "First name",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "last_name": {
+          "title": "Last name",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "password": {
+          "title": "Password",
+          "type": "string",
+          "readOnly": true,
+          "minLength": 1
+        },
+        "user_type": {
+          "title": "User type",
+          "type": "string",
+          "enum": [
+            "marketer",
+            "customer"
+          ],
+          "x-nullable": true
+        },
+        "avatar": {
+          "title": "Avatar",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        }
+      }
+    },
+    "UserNotifications": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "group_name": {
+          "title": "Group name",
+          "type": "string",
+          "maxLength": 264,
+          "x-nullable": true
+        },
+        "type_of_notification": {
+          "title": "Type of notification",
+          "type": "string",
+          "maxLength": 264,
+          "x-nullable": true
+        },
+        "message": {
+          "title": "Message",
+          "type": "string",
+          "maxLength": 264,
+          "x-nullable": true
+        },
+        "message_type": {
+          "title": "Message type",
+          "type": "string",
+          "enum": [
+            "Info",
+            "Good",
+            "Bad"
+          ],
+          "x-nullable": true
+        },
+        "user_sender": {
+          "title": "User sender",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "ReadNotifications": {
+      "type": "object",
+      "properties": {}
+    },
+    "PlatformPostSerializerMaster": {
+      "required": [
+        "related_platform"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "related_platform": {
+          "$ref": "#/definitions/Platform"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "x-nullable": true
+        },
+        "page_name": {
+          "title": "Page name",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "headline": {
+          "title": "Headline",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "call_to_action": {
+          "title": "Call to action",
+          "type": "string",
+          "enum": [
+            "LearnMore",
+            "BuyNow"
+          ]
+        },
+        "approve_status": {
+          "title": "Approve status",
+          "type": "integer",
+          "enum": [
+            1,
+            -1,
+            0
+          ]
+        },
+        "action_date": {
+          "title": "Action date",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "logo": {
+          "title": "Logo",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        },
+        "spread": {
+          "title": "Spread",
+          "type": "integer",
+          "x-nullable": true
+        },
+        "related_platform_post": {
+          "title": "Related platform post",
+          "type": "integer",
+          "x-nullable": true
+        }
+      }
+    },
+    "PlatformPostCreate": {
+      "required": [
+        "spread",
+        "related_platform"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "spread": {
+          "title": "Spread",
+          "type": "integer"
+        },
+        "related_platform": {
+          "title": "Related platform",
+          "type": "integer"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "x-nullable": true
+        },
+        "page_name": {
+          "title": "Page name",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "headline": {
+          "title": "Headline",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "call_to_action": {
+          "title": "Call to action",
+          "type": "string",
+          "enum": [
+            "LearnMore",
+            "BuyNow"
+          ]
+        },
+        "action_date": {
+          "title": "Action date",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "logo": {
+          "title": "Logo",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        }
+      }
+    },
+    "PlatformPostApproval": {
+      "required": [
+        "approve_status"
+      ],
+      "type": "object",
+      "properties": {
+        "approve_status": {
+          "title": "Approve status",
+          "type": "string",
+          "enum": [
+            "Approve",
+            "Decline",
+            "Pending"
+          ]
+        }
+      }
+    },
+    "CarouselPost": {
+      "required": [
+        "spread",
+        "related_platform"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "spread": {
+          "title": "Spread",
+          "type": "integer"
+        },
+        "related_platform": {
+          "title": "Related platform",
+          "type": "integer"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "x-nullable": true
+        },
+        "page_name": {
+          "title": "Page name",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "headline": {
+          "title": "Headline",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "call_to_action": {
+          "title": "Call to action",
+          "type": "string",
+          "enum": [
+            "LearnMore",
+            "BuyNow"
+          ]
+        },
+        "action_date": {
+          "title": "Action date",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "logo": {
+          "title": "Logo",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        }
+      }
+    },
+    "DuplicatePlatformPost": {
+      "type": "object",
+      "properties": {}
+    },
+    "PlatformPostChange": {
+      "required": [
+        "spread",
+        "related_platform"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "spread": {
+          "title": "Spread",
+          "type": "integer"
+        },
+        "related_platform": {
+          "title": "Related platform",
+          "type": "integer"
+        },
+        "text_in": {
+          "title": "Text in",
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "x-nullable": true
+        },
+        "page_name": {
+          "title": "Page name",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "headline": {
+          "title": "Headline",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "call_to_action": {
+          "title": "Call to action",
+          "type": "string",
+          "enum": [
+            "LearnMore",
+            "BuyNow"
+          ]
+        },
+        "action_date": {
+          "title": "Action date",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "logo": {
+          "title": "Logo",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        }
+      }
+    },
+    "Spread": {
+      "required": [
+        "related_platform_type",
+        "spread"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "related_platform_type": {
+          "title": "Related platform type",
+          "type": "string",
+          "enum": [
+            "youtube",
+            "instagram",
+            "facebook",
+            "tiktok"
+          ]
+        },
+        "spread": {
+          "title": "Spread",
+          "type": "string",
+          "maxLength": 256,
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

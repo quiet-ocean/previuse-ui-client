@@ -1,0 +1,6 @@
+src/serviceWorker.ts
+src/**/__tests__/**
+src/server
+src/setupProxy.js
+src/swagger2Ts
+/build
