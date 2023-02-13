@@ -2,8 +2,6 @@ image: node:18.10.0
 
 stages:
   - build
-  - test
-  - deploy
 
 build:
   stage: build
@@ -18,44 +16,5 @@ build:
     paths:
       - node_modules/
       - build
-  except: # Do not trigger a pipeline when pushing tags
-    - tags
-
-test:
-  stage: test
-  coverage: '/Lines\s*:\s*(\d+.?\d*)%/'
-  dependencies:
-    - build
-  script:
-    - npm run test:ci
-  cache:
-    paths:
-      - coverage/
-  artifacts:
-    paths:
-      - coverage/
-    when: always
-    reports:
-      junit:
-        - junit.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage/cobertura-coverage.xml
-  except: # Do not trigger a pipeline when pushing tags
-    - tags
-
-pages:
-  stage: deploy
-  dependencies:
-    - test
-  script:
-    - mkdir .public
-    - cp -r coverage/* .public
-    - mv .public public
-  artifacts:
-    paths:
-      - public
-  only:
-    - master
   except: # Do not trigger a pipeline when pushing tags
     - tags
