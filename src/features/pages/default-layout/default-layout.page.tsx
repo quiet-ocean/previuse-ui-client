@@ -21,9 +21,10 @@ import HeaderComponent from '../../components/header/header.component';
 import DialogComponent from '../../components/dialog/dialog.component';
 import { DialogTypes } from '../../../common/state/dialog/dialog.state';
 import SnackBarComponent from '../../components/snackbar/snackbar.component';
-import { UserCreation } from '../../../swagger2Ts/interfaces';
+import { Campaigns, UserCreation } from '../../../swagger2Ts/interfaces';
 import { GetLoggedInUserAction } from '../../../common/state/auth/auth.actions';
 import DrawerComponent from '../../components/drawer/drawer.component';
+import { ListCampaignsAction } from '../../../common/state/campaign/campaign.actions';
 
 interface AppProps {
   path: string;
@@ -40,6 +41,7 @@ interface AppProps {
   snackbackContent?: JSX.Element;
   snackbarType?: SnackBarType;
   isSnackbarOpen: boolean;
+  campaigns?: Campaigns[];
 }
 
 interface DispatchProps {
@@ -48,6 +50,7 @@ interface DispatchProps {
   onScreenResize: () => void;
   onCloseDialog?: () => void;
   getLoggedInUser: () => Promise<UserCreation>;
+  listCampaigns: (clientId: number) => Promise<Campaigns[]>;
 }
 
 const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
@@ -64,6 +67,7 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
     try {
       services.loading.actions.start();
       const user = await props.getLoggedInUser();
+      props.listCampaigns(user.id as number);
       services.snackbar.actions.open({ content: `Welcome user ${user.email}` })
     } finally {
       services.loading.actions.stop();
@@ -110,11 +114,14 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
           <div dir={direction}>
             <HeaderComponent onShowMenu={services.drawer.actions.open} />
 
-            <DrawerComponent
-              open={props.isDrawerRender}
-              onClose={services.drawer.actions.close}
-              user={props.user}
-            />
+            {props.campaigns && (
+              <DrawerComponent
+                open={props.isDrawerRender}
+                onClose={services.drawer.actions.close}
+                user={props.user}
+                campaings={props.campaigns}
+              />
+            )}
 
             <StyledContainer style={{backgroundImage: `url(${background})`}}>
               {props.loading && <SpinnerComponent />}
@@ -151,12 +158,13 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => {
     getDirection: bindActionCreators(GetDirectionAction, dispatch),
     onScreenResize: bindActionCreators(OnScreenResizeAction, dispatch),
     getLoggedInUser: bindActionCreators(GetLoggedInUserAction, dispatch),
+    listCampaigns: bindActionCreators(ListCampaignsAction, dispatch),
   };
 };
 
 const mapStateToProps = (state: RootState) => {
   const { general, dialog, drawer, snackbar } = state.view;
-  const { auth } = state.app;
+  const { auth, campaign } = state.app;
   return {
     user: auth.user,
     isDialogRender: dialog.isRender,
@@ -170,6 +178,7 @@ const mapStateToProps = (state: RootState) => {
     snackbackContent: snackbar.content,
     snackbarType: snackbar.type,
     isSnackbarOpen: snackbar.open,
+    campaigns: campaign.campaings
   };
 };
 

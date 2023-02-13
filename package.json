@@ -47,9 +47,9 @@
   },
   "scripts": {
     "prebuild": "npm run build-swagger-ts",
+    "prestart": "npm run build-swagger-ts",
     "pretest": "npm run build-swagger-ts",
-    "prestorybook": "npm run build-swagger-ts",
-    "start": "react-app-rewired start",
+    "start": "sh ./scripts/start.sh",
     "update-build": "node ./update-build.js",
     "build": "rimraf build && react-app-rewired build",
     "test": "react-app-rewired test --verbose --coverage --runInBand --collectCoverageFrom='src/**/**/**/*.component.tsx'",

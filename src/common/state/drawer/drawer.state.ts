@@ -3,7 +3,7 @@ export interface DrawerState {
 }
 
 const drawerInitialState: DrawerState = {
-  isRender: false
+  isRender: true
 };
 
 export default drawerInitialState;

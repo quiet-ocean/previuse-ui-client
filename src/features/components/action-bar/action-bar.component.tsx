@@ -3,14 +3,15 @@ import StyledContainer from './action-bar.styles';
 
 export interface ActionBarComponentProps {
   hasDrawer: boolean;
+  clientName?: string;
 }
 
 const ActionBarComponent: React.FC<ActionBarComponentProps> = (props) => {
   return (
     <StyledContainer hasDrawer={props.hasDrawer}>
-      ActionBarComponent
+      <span>{props.clientName}</span>
     </StyledContainer>
   );
 }
- 
+
 export default ActionBarComponent;

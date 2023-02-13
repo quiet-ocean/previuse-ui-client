@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   ChevronLeft,
+  ExpandLess,
+  ExpandMore,
   Face,
-  Group,
+  Facebook,
 } from '@material-ui/icons';
 
 import {
   CardActionArea,
   CardContent,
+  Collapse,
   Divider,
   List,
   ListItem,
@@ -26,16 +29,20 @@ import {
 } from './drawer.styles';
 
 import logo from '../../../assets/images/logo.png';
-import { NavLink } from 'react-router-dom';
-import { UserCreation } from '../../../swagger2Ts/interfaces';
+import { Campaigns, UserCreation } from '../../../swagger2Ts/interfaces';
 
 interface DrawerProps {
   open?: boolean;
   user?: UserCreation;
+  campaings: Campaigns[];
   onClose: () => void;
 }
 
 const DrawerComponent: React.FC<DrawerProps> = (props) => {
+  const [campaignsCollapsed, setCampaignsCollapsed] = useState<boolean>(true);
+
+  const toggleCampaigns = () => setCampaignsCollapsed(!campaignsCollapsed);
+
   const getAvatar = () => {
     if (props.user && props.user.avatar) {
       return <img src={props.user.avatar} alt="" />;
@@ -55,12 +62,22 @@ const DrawerComponent: React.FC<DrawerProps> = (props) => {
       <StyledWrapper>
 
         <List>
-          <NavLink to={'/'}>
-            <ListItem button>
-              <ListItemIcon><Group /></ListItemIcon>
-              <ListItemText primary='Clients' />
-            </ListItem>
-          </NavLink>
+          <ListItem button onClick={toggleCampaigns} className='collapse-title'>
+            <ListItemText primary='Campaigns' />
+            {campaignsCollapsed ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+
+          <Collapse in={campaignsCollapsed} timeout="auto" unmountOnExit>
+            <List>
+              {props.campaings.map((campaign) => (
+                <ListItem key={campaign.id} button className='nested'>
+                  <ListItemIcon><Facebook /></ListItemIcon>
+                  <ListItemText primary={campaign.campaign_name} />
+                </ListItem>
+              ))}
+            </List>
+          </Collapse>
+
         </List>
 
         <Divider />
