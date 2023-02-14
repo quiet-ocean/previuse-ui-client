@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Card } from '@material-ui/core';
+import { Card, Grid } from '@material-ui/core';
+import { groupBy } from 'lodash';
 import { connect } from 'react-redux';
 import { RouteChildrenProps, useHistory, useParams } from 'react-router';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
@@ -18,6 +19,7 @@ import {
   StyledPostNavigation,
   StyledPostButton,
 } from './home.styles';
+import LayoutsComponent from '../../components/layouts/layouts.component';
 
 interface HomePageProps {
   isDrawerRender: boolean;
@@ -31,6 +33,8 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   const [selectedCampaign, setSelectedCampaign] = useState<Campaigns>();
   const [campaignPosts, setCampaignPosts] = useState<PlatformPostSerializerMaster[]>();
   const [selectedPost, setSelectedPost] = useState<PlatformPostSerializerMaster>();
+  const [platformPosts, setPlatformPosts] = useState<Record<Platform, PlatformPostSerializerMaster[]>>();
+
   const [spreadings, setSpreadings] = useState<Spread[]>();
 
   const { campaignId } = useParams() as { campaignId: string };
@@ -52,6 +56,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   useEffect(() => {
     if (props.posts && selectedCampaign) {
       const filteredPosts = props.posts.filter((post) => post.related_platform.related_campaign.id === selectedCampaign.id);
+      setPlatformPosts(groupBy(filteredPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
       setCampaignPosts(filteredPosts);
       onSelectPost(filteredPosts[0]);
     }
@@ -67,6 +72,9 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     return <EmptyStateComponent title='No Posts Yet' />
   }
 
+  const selectedSpread = spreadings && selectedPost &&
+    spreadings.find((spread) => spread.id === selectedPost.spread);
+
   return (
     <LayoutComponent hasDrawer={props.isDrawerRender}>
       <ActionBarComponent
@@ -79,42 +87,60 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
           <EmptyStateComponent title='No Posts Yet' />
         )}
 
-        <div className="container">
-          <div className="preview">
-            <Card>
-              {selectedPost && spreadings && (
-                <PostPreviewComponent
-                  post={selectedPost}
-                  selectedSpread={spreadings.find((spread) => spread.id === selectedPost.spread) as Spread}
-                />
-              )}
-            </Card>
-          </div>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <div className="left">
+              <div className="preview">
+                <Card>
+                  {selectedPost && selectedSpread && (
+                    <PostPreviewComponent
+                      post={selectedPost}
+                      selectedSpread={selectedSpread}
+                    />
+                  )}
+                </Card>
+              </div>
 
-          <div className="layout"><Card></Card></div>
+              <div className="layout">
+                <Card>
+                  {platformPosts && (
+                    <LayoutsComponent
+                      posts={platformPosts}
+                      onPostClick={onSelectPost}
+                      selectedPost={selectedPost}
+                    />
+                  )}
+                </Card>
+              </div>
 
-          <div className="navigation">
-            <StyledPostNavigation>
-              {campaignPosts && campaignPosts.map((post, i) => (
-                <StyledPostButton
-                  key={post.id}
-                  theme='natural'
-                  text={(i + 1).toString()}
-                  selected={selectedPost && selectedPost.id === post.id}
-                  onClick={onSelectPost.bind(null, post)}
-                />
-              ))}
-            </StyledPostNavigation>
-          </div>
+              <div className="navigation">
+                <StyledPostNavigation>
+                  {campaignPosts && campaignPosts.map((post, i) => (
+                    <StyledPostButton
+                      key={post.id}
+                      theme='natural'
+                      text={(i + 1).toString()}
+                      selected={selectedPost && selectedPost.id === post.id}
+                      onClick={onSelectPost.bind(null, post)}
+                    />
+                  ))}
+                </StyledPostNavigation>
+              </div>
 
-          <div className="summary"><Card></Card></div>
+              <div className="summary"><Card></Card></div>
+            </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div className="right">
+              <div className="panel1"><Card></Card></div>
 
-          <div className="panel1"><Card></Card></div>
+              <div className="panel2"><Card></Card></div>
 
-          <div className="panel2"><Card></Card></div>
+              <div className="chat"><Card></Card></div>
+            </div>
+          </Grid>
+        </Grid>
 
-          <div className="chat"><Card></Card></div>
-        </div>
       </StyledContainer>
     </LayoutComponent>
   );
