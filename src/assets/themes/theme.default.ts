@@ -108,6 +108,7 @@ const theme: DefaultTheme = {
         background-color: inherit;
         height: 40px;
         width: 40px;
+        min-width: 40px;
         border-radius: 10px;
       }
     `,

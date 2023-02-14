@@ -21,10 +21,11 @@ import HeaderComponent from '../../components/header/header.component';
 import DialogComponent from '../../components/dialog/dialog.component';
 import { DialogTypes } from '../../../common/state/dialog/dialog.state';
 import SnackBarComponent from '../../components/snackbar/snackbar.component';
-import { Campaigns, UserCreation } from '../../../swagger2Ts/interfaces';
+import { Campaigns, PlatformPostSerializerMaster, UserCreation } from '../../../swagger2Ts/interfaces';
 import { GetLoggedInUserAction } from '../../../common/state/auth/auth.actions';
 import DrawerComponent from '../../components/drawer/drawer.component';
 import { ListCampaignsAction } from '../../../common/state/campaign/campaign.actions';
+import { ListPostsAction } from '../../../common/state/post/post.actions';
 
 interface AppProps {
   path: string;
@@ -51,6 +52,7 @@ interface DispatchProps {
   onCloseDialog?: () => void;
   getLoggedInUser: () => Promise<UserCreation>;
   listCampaigns: (clientId: number) => Promise<Campaigns[]>;
+  listPosts: () => Promise<PlatformPostSerializerMaster[]>;
 }
 
 const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
@@ -63,19 +65,8 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
 
   const [direction, setDirection] = useState<string>(props.getDirection());
 
-  const fetchUser = async () => {
-    try {
-      services.loading.actions.start();
-      const user = await props.getLoggedInUser();
-      props.listCampaigns(user.id as number);
-      services.snackbar.actions.open({ content: `Welcome user ${user.email}` })
-    } finally {
-      services.loading.actions.stop();
-    }
-  }
-
   useEffect(() => {
-    fetchUser();
+    init();
     window.addEventListener('resize', props.onScreenResize);
 
     return () => {
@@ -87,6 +78,16 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
     setDirection(props.getDirection());
   }, [props.language]);
 
+  const init = async () => {
+    try {
+      services.loading.actions.start();
+      const user = await props.getLoggedInUser();
+      props.listCampaigns(user.id as number);
+      props.listPosts();
+    } finally {
+      services.loading.actions.stop();
+    }
+  }
 
   const onCloseDialog = () => {
     services.dialog.actions.close();
@@ -159,6 +160,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => {
     onScreenResize: bindActionCreators(OnScreenResizeAction, dispatch),
     getLoggedInUser: bindActionCreators(GetLoggedInUserAction, dispatch),
     listCampaigns: bindActionCreators(ListCampaignsAction, dispatch),
+    listPosts: bindActionCreators(ListPostsAction, dispatch),
   };
 };
 
