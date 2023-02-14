@@ -6,7 +6,7 @@ export const SUCCESS_SUFFIX = '_SUCCESS';
 
 export const ROUTES: StringMap = {
   empty: '/',
-  home: '/home'
+  home: '/home/:campaignId'
 };
 
 export const MOBILE_MAX_WIDTH = 1023;

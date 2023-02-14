@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { RouteChildrenProps } from 'react-router';
+import { RouteChildrenProps, useParams } from 'react-router';
 import { AnyAction, Dispatch } from 'redux';
 import { RootState } from '../../../common/models';
 import { Campaigns, UserCreation } from '../../../swagger2Ts/interfaces';
@@ -18,12 +18,25 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
+  const [selectedCampaign, setSelectedCampaign] = useState<Campaigns>();
+
+  const { campaignId } = useParams() as { campaignId: string };
+
+  useEffect(() => {
+    if (props.campaings) {
+      setSelectedCampaign(props.campaings.find((campaign) => campaign.id === parseInt(campaignId)));
+    }
+  }, [campaignId, props.campaings])
+
   return (
     <LayoutComponent hasDrawer={props.isDrawerRender}>
-      <ActionBarComponent hasDrawer={props.isDrawerRender} clientName={props.user && props.user.email} />
+      <ActionBarComponent
+        hasDrawer={props.isDrawerRender}
+        clientName={selectedCampaign && selectedCampaign.related_client.client_name}
+      />
 
       <StyledContainer hasDrawer={props.isDrawerRender}>
-        home
+
       </StyledContainer>
     </LayoutComponent>
   );

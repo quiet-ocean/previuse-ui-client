@@ -103,10 +103,12 @@ const theme: DefaultTheme = {
     `,
     natural: `
       && {
-        color: ${additionalTextColor};
-        border: 1px solid ${primaryBorder};
-        background-color: ${naturalBackgroundColor}
-        font-weight: bold;
+        color: ${additionalTextColor2};
+        border: 1px solid ${additionalTextColor2};
+        background-color: inherit;
+        height: 40px;
+        width: 40px;
+        border-radius: 10px;
       }
     `,
     buttons: `

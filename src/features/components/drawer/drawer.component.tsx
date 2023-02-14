@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import {
   ChevronLeft,
@@ -70,10 +71,12 @@ const DrawerComponent: React.FC<DrawerProps> = (props) => {
           <Collapse in={campaignsCollapsed} timeout="auto" unmountOnExit>
             <List>
               {props.campaings.map((campaign) => (
-                <ListItem key={campaign.id} button className='nested'>
-                  <ListItemIcon><Facebook /></ListItemIcon>
-                  <ListItemText primary={campaign.campaign_name} />
-                </ListItem>
+                <NavLink key={campaign.id} to={`/home/${campaign.id}`}>
+                  <ListItem button className='nested'>
+                    <ListItemIcon><Facebook /></ListItemIcon>
+                    <ListItemText primary={campaign.campaign_name} />
+                  </ListItem>
+                </NavLink>
               ))}
             </List>
           </Collapse>

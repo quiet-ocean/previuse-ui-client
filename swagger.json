@@ -1095,6 +1095,76 @@
         }
       ]
     },
+    "/campaigns/ad_copy/{campaign_id}/": {
+      "post": {
+        "operationId": "campaigns_ad_copy_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "description",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "maxLength": 1200,
+            "minLength": 1
+          },
+          {
+            "name": "relevant_population",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserPromptsAIDescription"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "campaign_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/campaigns/ad_get_ai/{campaign_id}/": {
+      "get": {
+        "operationId": "campaigns_ad_get_ai_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "campaigns"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "campaign_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
     "/campaigns/by_client/{client_id}": {
       "get": {
         "operationId": "campaigns_by_client_read",
@@ -1416,7 +1486,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Chat"
+                "$ref": "#/definitions/ChatUser"
               }
             }
           }
@@ -1434,7 +1504,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Chat"
+              "$ref": "#/definitions/ChatUser"
             }
           }
         ],
@@ -1442,7 +1512,7 @@
           "201": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/Chat"
+              "$ref": "#/definitions/ChatUser"
             }
           }
         },
@@ -2291,13 +2361,26 @@
         "description": "",
         "parameters": [
           {
-            "name": "email",
+            "name": "last_login",
             "in": "formData",
-            "required": true,
+            "required": false,
             "type": "string",
-            "format": "email",
-            "maxLength": 255,
-            "minLength": 1
+            "format": "date-time",
+            "x-nullable": true
+          },
+          {
+            "name": "is_superuser",
+            "in": "formData",
+            "description": "Designates that this user has all permissions without explicitly assigning them.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "x-nullable": true
           },
           {
             "name": "first_name",
@@ -2316,6 +2399,26 @@
             "x-nullable": true
           },
           {
+            "name": "username",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "business_type",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "Social_advertising",
+              "PR",
+              "Design"
+            ],
+            "x-nullable": true
+          },
+          {
             "name": "user_type",
             "in": "formData",
             "required": false,
@@ -2327,10 +2430,10 @@
             "x-nullable": true
           },
           {
-            "name": "avatar",
+            "name": "company",
             "in": "formData",
             "required": false,
-            "type": "file",
+            "type": "integer",
             "x-nullable": true
           }
         ],
@@ -2355,13 +2458,26 @@
         "description": "",
         "parameters": [
           {
-            "name": "email",
+            "name": "last_login",
             "in": "formData",
-            "required": true,
+            "required": false,
             "type": "string",
-            "format": "email",
-            "maxLength": 255,
-            "minLength": 1
+            "format": "date-time",
+            "x-nullable": true
+          },
+          {
+            "name": "is_superuser",
+            "in": "formData",
+            "description": "Designates that this user has all permissions without explicitly assigning them.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "x-nullable": true
           },
           {
             "name": "first_name",
@@ -2380,6 +2496,26 @@
             "x-nullable": true
           },
           {
+            "name": "username",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 256,
+            "x-nullable": true
+          },
+          {
+            "name": "business_type",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "Social_advertising",
+              "PR",
+              "Design"
+            ],
+            "x-nullable": true
+          },
+          {
             "name": "user_type",
             "in": "formData",
             "required": false,
@@ -2391,10 +2527,10 @@
             "x-nullable": true
           },
           {
-            "name": "avatar",
+            "name": "company",
             "in": "formData",
             "required": false,
-            "type": "file",
+            "type": "integer",
             "x-nullable": true
           }
         ],
@@ -2927,13 +3063,13 @@
           {
             "name": "spread",
             "in": "formData",
-            "required": true,
+            "required": false,
             "type": "integer"
           },
           {
             "name": "related_platform",
             "in": "formData",
-            "required": true,
+            "required": false,
             "type": "integer"
           },
           {
@@ -3860,6 +3996,27 @@
         }
       }
     },
+    "UserPromptsAIDescription": {
+      "required": [
+        "description",
+        "relevant_population"
+      ],
+      "type": "object",
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "maxLength": 1200,
+          "minLength": 1
+        },
+        "relevant_population": {
+          "title": "Relevant population",
+          "type": "string",
+          "maxLength": 500,
+          "minLength": 1
+        }
+      }
+    },
     "CampaignDuplicate": {
       "type": "object",
       "properties": {}
@@ -4006,10 +4163,10 @@
         }
       }
     },
-    "Chat": {
+    "ChatUser": {
       "required": [
-        "campain",
-        "user_message_sender"
+        "user_message_sender",
+        "campain"
       ],
       "type": "object",
       "properties": {
@@ -4017,6 +4174,9 @@
           "title": "ID",
           "type": "integer",
           "readOnly": true
+        },
+        "user_message_sender": {
+          "$ref": "#/definitions/UserCreation"
         },
         "message": {
           "title": "Message",
@@ -4032,10 +4192,6 @@
         },
         "campain": {
           "title": "Campain",
-          "type": "integer"
-        },
-        "user_message_sender": {
-          "title": "User message sender",
           "type": "integer"
         }
       }
@@ -4427,22 +4583,31 @@
       }
     },
     "UserUpdate": {
-      "required": [
-        "email"
-      ],
       "type": "object",
       "properties": {
-        "id": {
-          "title": "ID",
-          "type": "integer",
-          "readOnly": true
-        },
-        "email": {
-          "title": "Email",
+        "last_login": {
+          "title": "Last login",
           "type": "string",
-          "format": "email",
-          "maxLength": 255,
-          "minLength": 1
+          "format": "date-time",
+          "x-nullable": true
+        },
+        "is_superuser": {
+          "title": "Superuser status",
+          "description": "Designates that this user has all permissions without explicitly assigning them.",
+          "type": "boolean"
+        },
+        "avatar": {
+          "title": "Avatar",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        },
+        "date": {
+          "title": "Date",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
         },
         "first_name": {
           "title": "First name",
@@ -4456,11 +4621,28 @@
           "maxLength": 256,
           "x-nullable": true
         },
-        "password": {
-          "title": "Password",
+        "username": {
+          "title": "Username",
           "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
           "readOnly": true,
-          "minLength": 1
+          "x-nullable": true
+        },
+        "business_type": {
+          "title": "Business type",
+          "type": "string",
+          "enum": [
+            "Social_advertising",
+            "PR",
+            "Design"
+          ],
+          "x-nullable": true
         },
         "user_type": {
           "title": "User type",
@@ -4471,12 +4653,10 @@
           ],
           "x-nullable": true
         },
-        "avatar": {
-          "title": "Avatar",
-          "type": "string",
-          "readOnly": true,
-          "x-nullable": true,
-          "format": "uri"
+        "company": {
+          "title": "Company",
+          "type": "integer",
+          "x-nullable": true
         }
       }
     },
@@ -4766,10 +4946,6 @@
       "properties": {}
     },
     "PlatformPostChange": {
-      "required": [
-        "spread",
-        "related_platform"
-      ],
       "type": "object",
       "properties": {
         "id": {
@@ -4865,6 +5041,13 @@
           "type": "string",
           "maxLength": 256,
           "minLength": 1
+        },
+        "display_image": {
+          "title": "Display image",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
         }
       }
     }
