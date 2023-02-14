@@ -29,6 +29,7 @@
     "i18next-resource-store-loader": "0.1.2",
     "i18next-xhr-backend": "3.2.2",
     "lodash": "4.17.21",
+    "moment": "2.29.4",
     "react": "17.0.1",
     "react-app-rewire-styled-components": "3.0.2",
     "react-app-rewired": "2.2.1",

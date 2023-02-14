@@ -6,20 +6,21 @@ import { RouteChildrenProps, useHistory, useParams } from 'react-router';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 
 import { RootState } from '../../../common/models';
-import { ListSpreadingsAction } from '../../../common/state/post/post.actions';
+import { ListPostMediaAction, ListSpreadingsAction } from '../../../common/state/post/post.actions';
 import { Platform } from '../../../swagger2Ts/enums';
-import { Campaigns, PlatformPostSerializerMaster, Spread, UserCreation } from '../../../swagger2Ts/interfaces';
+import { Campaigns, MediaBoxWithFiles, MediaFiles, PlatformPostSerializerMaster, Spread, UserCreation } from '../../../swagger2Ts/interfaces';
 import ActionBarComponent from '../../components/action-bar/action-bar.component';
 import EmptyStateComponent from '../../components/empty-state/empty-state.component';
 import LayoutComponent from '../../components/layout/layout.component';
 import PostPreviewComponent from '../../components/post-preview/post-preview.component';
+import LayoutsComponent from '../../components/layouts/layouts.component';
+import CampaignPanelComponent from '../../components/campaign-panel/campaign-panel.component';
 
 import {
   StyledContainer,
   StyledPostNavigation,
   StyledPostButton,
 } from './home.styles';
-import LayoutsComponent from '../../components/layouts/layouts.component';
 
 interface HomePageProps {
   isDrawerRender: boolean;
@@ -27,12 +28,14 @@ interface HomePageProps {
   campaings?: Campaigns[];
   posts?: PlatformPostSerializerMaster[];
   listSpreadings: (platformType: Platform) => Promise<Spread[]>;
+  listPostMedia: (postId: number) => Promise<MediaBoxWithFiles>;
 }
 
 const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   const [selectedCampaign, setSelectedCampaign] = useState<Campaigns>();
   const [campaignPosts, setCampaignPosts] = useState<PlatformPostSerializerMaster[]>();
   const [selectedPost, setSelectedPost] = useState<PlatformPostSerializerMaster>();
+  const [postMedia, setPostMedia] = useState<MediaFiles[]>();
   const [platformPosts, setPlatformPosts] = useState<Record<Platform, PlatformPostSerializerMaster[]>>();
 
   const [spreadings, setSpreadings] = useState<Spread[]>();
@@ -65,6 +68,8 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   const onSelectPost = async (post: PlatformPostSerializerMaster) => {
     setSelectedPost(post);
     const postSpreadings = await props.listSpreadings(post.related_platform.platform);
+    const media = await props.listPostMedia(post.id as number);
+    setPostMedia(media.file_in_media);
     setSpreadings(postSpreadings);
   }
 
@@ -132,7 +137,18 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
           </Grid>
           <Grid item xs={6}>
             <div className="right">
-              <div className="panel1"><Card></Card></div>
+              <div className="panel1">
+                <Card>
+                  {selectedPost && selectedCampaign && postMedia && (
+                    <CampaignPanelComponent
+                      platform={selectedPost.related_platform}
+                      postMedia={postMedia}
+                      campaign={selectedCampaign}
+                    />
+
+                  )}
+                </Card>
+              </div>
 
               <div className="panel2"><Card></Card></div>
 
@@ -154,7 +170,8 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => ({
-  listSpreadings: bindActionCreators(ListSpreadingsAction, dispatch)
+  listSpreadings: bindActionCreators(ListSpreadingsAction, dispatch),
+  listPostMedia: bindActionCreators(ListPostMediaAction, dispatch),
 });
 
 export default connect(

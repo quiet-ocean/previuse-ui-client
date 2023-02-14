@@ -1,5 +1,6 @@
-import { Grid, List, MenuItem } from '@material-ui/core';
 import React from 'react';
+import { MenuItem } from '@material-ui/core';
+
 import { Platform } from '../../../swagger2Ts/enums';
 import { PlatformPostSerializerMaster } from '../../../swagger2Ts/interfaces';
 import StyledContainer from './layouts.styles';
