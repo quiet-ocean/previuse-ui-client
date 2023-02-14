@@ -83,7 +83,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
             </Card>
           </div>
 
-          <div className="layout"><Card>layout</Card></div>
+          <div className="layout"><Card></Card></div>
 
           <div className="navigation">
             <StyledPostNavigation>
@@ -99,13 +99,13 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
             </StyledPostNavigation>
           </div>
 
-          <div className="summary"><Card>summary</Card></div>
+          <div className="summary"><Card></Card></div>
 
-          <div className="panel1"><Card>panel1</Card></div>
+          <div className="panel1"><Card></Card></div>
 
-          <div className="panel2"><Card>panel2</Card></div>
+          <div className="panel2"><Card></Card></div>
 
-          <div className="chat"><Card>chat</Card></div>
+          <div className="chat"><Card></Card></div>
         </div>
       </StyledContainer>
     </LayoutComponent>
