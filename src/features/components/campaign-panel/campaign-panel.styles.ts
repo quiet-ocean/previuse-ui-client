@@ -10,6 +10,15 @@ const StyledContainer = styled.div`
     padding-bottom: 12px;
   }
 
+  a {
+    color: ${({ theme }) => theme.colors.additionalTextColor3};
+    border-bottom: ${({ theme }) => `1px solid ${theme.colors.additionalTextColor3}`};
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   hr {
     background-color: ${({ theme }) => theme.colors.secondaryBorderColor};
   }

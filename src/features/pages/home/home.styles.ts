@@ -17,7 +17,7 @@ export const StyledContainer: AnyStyledComponent = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 550px 50px 1fr;
-    grid-gap: 12px;
+    grid-gap: 24px;
     grid-template-areas:
       "preview layout"
       "navigation navigation"
@@ -45,7 +45,7 @@ export const StyledContainer: AnyStyledComponent = styled.div`
   
   .right {
     height: 100%;
-    grid-gap: 12px;
+    grid-gap: 24px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -76,4 +76,5 @@ export const StyledPostNavigation: AnyStyledComponent = styled.div`
 export const StyledPostButton: AnyStyledComponent = styled(ButtonComponent)`
   background: ${(props: any) => props.selected ? '#5831e9' : 'inherit'} !important;
   color: ${(props: any) => props.selected ? '#fff' : 'inherit'} !important;
+  font-weight: ${(props: any) => props.selected ? '500' : 'normal'} !important;
 `;

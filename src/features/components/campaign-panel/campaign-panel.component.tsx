@@ -27,7 +27,14 @@ export interface CampaignPanelComponentProps {
 const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) => {
   return (
     <StyledContainer>
-      <InputLabel>External Link</InputLabel>
+      {props.platform.business_page && (
+        <>
+          <InputLabel>External Link</InputLabel>
+          <a rel="noreferrer" target='_blank' href={`http://${props.platform.business_page}`}>
+            http://{props.platform.business_page}
+          </a>
+        </>
+      )}
       <Box>
         <InputLabel>Pixel / Analytics Code:</InputLabel>
       </Box>
@@ -47,7 +54,9 @@ const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) =>
             </div>
             <div>
               <InputLabel>Campaign end</InputLabel>
-              <div>{moment(props.platform.end_date).format('DD/MM/YYYY')}</div>
+              {props.platform.end_date && (
+                <div>{moment(props.platform.end_date).format('DD/MM/YYYY')}</div>
+              )}
             </div>
           </StyledDates>
         </Box>
