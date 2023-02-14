@@ -7,16 +7,16 @@ export const StyledContainer: AnyStyledComponent = styled.div`
   margin: auto;
   transition: ${({ theme }) => theme.transitionRate};
   padding-top: 21px;
+
+  .container {
+    height: 100%;
+  }
 `;
 
 export const StyledPostNavigation: AnyStyledComponent = styled.div`
   button {
     margin-right: 12px;
   }
-`;
-
-export const StyledPreview: AnyStyledComponent = styled.div`
-  
 `;
 
 export const StyledPostButton: AnyStyledComponent = styled(ButtonComponent)`

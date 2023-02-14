@@ -14,4 +14,12 @@ export const GlobalStyle = createGlobalStyle`
   #root {
     height: 100%;
   }
+
+  .MuiCard-root {
+    height: 100%;
+    box-shadow: none !important;
+    border: ${({ theme }) => `1px solid ${theme.colors.additionalTextColor2}`};
+    border-radius: 12px !important;
+    overflow: auto;
+  }
 `

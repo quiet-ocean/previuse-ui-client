@@ -13,7 +13,6 @@ import StyledContainer from './post-preview.styles';
 
 export interface PostPreviewComponentProps {
   post: PlatformPostSerializerMaster;
-  spreadings: Spread[];
   selectedSpread: Spread;
 }
 
