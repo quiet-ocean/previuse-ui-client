@@ -10,6 +10,45 @@ export const StyledContainer: AnyStyledComponent = styled.div`
 
   .container {
     height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 50px 1fr;
+    grid-gap: 12px;
+    grid-template-areas:
+      "preview layout panel1 chat"
+      "navigation navigation panel1 chat"
+      "summary summary panel2 chat"
+  }
+
+  .preview {
+    grid-area: preview;
+  }
+  
+  .layout {
+    grid-area: layout;
+  }
+  
+  .navigation {
+    grid-area: navigation;
+    display: flex;
+    align-items: center;
+  }
+  
+  .summary {
+    grid-area: summary;
+  }
+  
+  .panel1 {
+    grid-area: panel1;
+  }
+  
+  .panel2 {
+    grid-area: panel2;
+  }
+  
+  .chat {
+    grid-area: chat;
   }
 `;
 

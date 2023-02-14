@@ -1,8 +1,9 @@
-import { Card, Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { Card } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { RouteChildrenProps, useParams } from 'react-router';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
+
 import { RootState } from '../../../common/models';
 import { ListSpreadingsAction } from '../../../common/state/post/post.actions';
 import { Platform } from '../../../swagger2Ts/enums';
@@ -70,54 +71,42 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
           <EmptyStateComponent title='No Posts Yet' />
         )}
 
-        <Grid container spacing={3} className='container'>
-          <Grid item xs={6}>
-            <Grid container spacing={3}>
-              <Grid item xs={8}>
-                <Card>
-                  {selectedPost && spreadings && (
-                    <PostPreviewComponent
-                      post={selectedPost}
-                      selectedSpread={spreadings.find((spread) => spread.id === selectedPost.spread) as Spread}
-                    />
-                  )}
-                </Card>
-              </Grid>
-              <Grid item xs={4}>
-                <Card>
+        <div className="container">
+          <div className="preview">
+            <Card>
+              {selectedPost && spreadings && (
+                <PostPreviewComponent
+                  post={selectedPost}
+                  selectedSpread={spreadings.find((spread) => spread.id === selectedPost.spread) as Spread}
+                />
+              )}
+            </Card>
+          </div>
 
-                </Card>
-              </Grid>
-            </Grid>
-          </Grid>
+          <div className="layout"><Card>layout</Card></div>
 
-          <Grid item xs={6}>
-            <Grid className='container' container spacing={3}>
-              <Grid item xs={6}>
-                <Card>
+          <div className="navigation">
+            <StyledPostNavigation>
+              {campaignPosts && campaignPosts.map((post, i) => (
+                <StyledPostButton
+                  key={post.id}
+                  theme='natural'
+                  text={(i + 1).toString()}
+                  selected={selectedPost && selectedPost.id === post.id}
+                  onClick={onSelectPost.bind(null, post)}
+                />
+              ))}
+            </StyledPostNavigation>
+          </div>
 
-                </Card>
-              </Grid>
-              <Grid item xs={6}>
-                <Card>
+          <div className="summary"><Card>summary</Card></div>
 
-                </Card>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+          <div className="panel1"><Card>panel1</Card></div>
 
-        <StyledPostNavigation>
-          {campaignPosts && campaignPosts.map((post, i) => (
-            <StyledPostButton
-              key={post.id}
-              theme='natural'
-              text={(i + 1).toString()}
-              selected={selectedPost && selectedPost.id === post.id}
-              onClick={onSelectPost.bind(null, post)}
-            />
-          ))}
-        </StyledPostNavigation>
+          <div className="panel2"><Card>panel2</Card></div>
+
+          <div className="chat"><Card>chat</Card></div>
+        </div>
       </StyledContainer>
     </LayoutComponent>
   );
