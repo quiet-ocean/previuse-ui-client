@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { RouteChildrenProps, useParams } from 'react-router';
+import { RouteChildrenProps, useHistory, useParams } from 'react-router';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 
 import { RootState } from '../../../common/models';
@@ -35,9 +35,17 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
 
   const { campaignId } = useParams() as { campaignId: string };
 
+  const history = useHistory();
+
   useEffect(() => {
     if (props.campaings) {
-      setSelectedCampaign(props.campaings.find((campaign) => campaign.id === parseInt(campaignId)));
+      if (campaignId === ':campaignId') {
+        setSelectedCampaign(props.campaings[0]);
+        history.replace(`/home/${props.campaings[0].id}`);
+
+      } else {
+        setSelectedCampaign(props.campaings.find((campaign) => campaign.id === parseInt(campaignId)));
+      }
     }
   }, [campaignId, props.campaings])
 
