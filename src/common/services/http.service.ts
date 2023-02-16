@@ -9,6 +9,8 @@ class HttpService {
       headers.append('Content-Type', options.contentType);
     }
 
+    headers.append("X-CSRFToken", document.cookie.split('csrftoken=')[1]);
+
     return fetch(url, {
       method,
       headers,

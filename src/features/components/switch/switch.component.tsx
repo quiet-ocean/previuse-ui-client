@@ -15,6 +15,8 @@ export interface SwitchComponentProps {
   color?: string;
   checkedText?: string;
   unCheckedText?: string;
+  checkedButtonColor?: string;
+  unCheckedButtonColor?: string;
   className?: string;
 }
 
@@ -34,9 +36,12 @@ const SwitchComponent: React.FC<SwitchComponentProps> = (props) => {
 
   return (
     <StyledContainer
+      className={checked ? 'checked' : undefined}
       checked={checked}
       color={props.color}
       checkedColor={props.checkedColor}
+      checkedButtonColor={props.checkedButtonColor}
+      unCheckedButtonColor={props.unCheckedButtonColor}
     >
       <Switch
         checked={checked}

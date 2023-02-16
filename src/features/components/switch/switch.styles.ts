@@ -1,7 +1,7 @@
 import styled, { AnyStyledComponent } from 'styled-components';
 
 const size = () => `
-  width: 153px;
+  width: 215px;
   height: 41px;
 `;
 
@@ -19,6 +19,10 @@ const StyledContainer: AnyStyledComponent = styled.div`
 
       input {
         left: -104px;
+      }
+
+      .MuiSwitch-thumb, .MuiIconButton-label {
+        background-color: ${(props: any) => props.unCheckedButtonColor as string || '#fff'};
       }
     }
   }
@@ -47,20 +51,15 @@ const StyledContainer: AnyStyledComponent = styled.div`
     width: 33px;
     height: 33px;
     border-radius: 10px;
-    background-color: #fff;
-  }
-
-  .MuiIconButton-label svg {
-    color: #000;
+    background-color: ${(props: any) => props.checkedButtonColor as string || '#fff'};
   }
 `;
 
 export const StyledLabel: AnyStyledComponent = styled.div`
   position: absolute;
-  top: 10px;
-  color: #fff;
-  left: ${(props: any) => props.checked ? '8px' : 'auto'};
-  right: ${(props: any) => props.checked ? 'auto' : '8px'};
+  top: 12px;
+  left: ${(props: any) => props.checked ? '44px' : 'auto'};
+  right: ${(props: any) => props.checked ? 'auto' : '44px'};
   transition: ${({ theme }) => theme.transitionRate};
   font-size: 18px;
   text-transform: capitalize;

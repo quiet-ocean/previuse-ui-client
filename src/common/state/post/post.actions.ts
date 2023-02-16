@@ -1,7 +1,7 @@
 import createAsyncAction from '../../../utils/createAsyncAction';
 import EndPoints from '../../../swagger2Ts/endpoints';
 import httpService from '../../services/http.service';
-import { MediaBoxWithFiles, PlatformPostSerializerMaster, Spread } from '../../../swagger2Ts/interfaces';
+import { MediaBoxWithFiles, PlatformPostApproval, PlatformPostSerializerMaster, Spread } from '../../../swagger2Ts/interfaces';
 import { Platform } from '../../../swagger2Ts/enums';
 
 
@@ -9,6 +9,7 @@ export enum PostActionTypes {
   LIST_POSTS = '@@post/LIST_POSTS',
   LIST_SPREADINGS = '@@post/LIST_SPREADINGS',
   LIST_POST_MEDIA = '@@post/LIST_POST_MEDIA',
+  SET_POST_STATUS = '@@post/SET_POST_STATUS',
 }
 
 export const ListPostsAction: () => Promise<
@@ -27,4 +28,18 @@ export const ListPostMediaAction: (postId: number) => Promise<
 MediaBoxWithFiles
 > = createAsyncAction(PostActionTypes.LIST_POST_MEDIA, (postId) => {
   return httpService.fetch({ url: `/posts/media_box/${postId}/` });
+});
+
+export const SetPostStatusAction: (args: PlatformPostApproval & {postId: number}) => Promise<
+void
+> = createAsyncAction(PostActionTypes.SET_POST_STATUS, (args) => {
+  const formData = new FormData();
+  formData.append('approve_status', args.approve_status);
+  
+  return httpService.fetch({
+    url: `/posts/approve/${args.postId}`,
+    body: formData,
+    method: 'POST',
+    contentType: undefined
+  });
 });

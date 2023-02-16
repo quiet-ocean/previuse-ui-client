@@ -5,10 +5,24 @@ import { connect } from 'react-redux';
 import { RouteChildrenProps, useHistory, useParams } from 'react-router';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 
+import {
+  ListPostMediaAction,
+  ListSpreadingsAction,
+  SetPostStatusAction
+} from '../../../common/state/post/post.actions';
+
+import {
+  Campaigns,
+  MediaBoxWithFiles,
+  MediaFiles,
+  PlatformPostApproval,
+  PlatformPostSerializerMaster,
+  Spread,
+  UserCreation
+} from '../../../swagger2Ts/interfaces';
+
 import { RootState } from '../../../common/models';
-import { ListPostMediaAction, ListSpreadingsAction } from '../../../common/state/post/post.actions';
-import { Platform } from '../../../swagger2Ts/enums';
-import { Campaigns, MediaBoxWithFiles, MediaFiles, PlatformPostSerializerMaster, Spread, UserCreation } from '../../../swagger2Ts/interfaces';
+import { ApproveStatus, Platform } from '../../../swagger2Ts/enums';
 import ActionBarComponent from '../../components/action-bar/action-bar.component';
 import EmptyStateComponent from '../../components/empty-state/empty-state.component';
 import LayoutComponent from '../../components/layout/layout.component';
@@ -29,6 +43,7 @@ interface HomePageProps {
   posts?: PlatformPostSerializerMaster[];
   listSpreadings: (platformType: Platform) => Promise<Spread[]>;
   listPostMedia: (postId: number) => Promise<MediaBoxWithFiles>;
+  setPostStatus: (args: PlatformPostApproval & { postId: number }) => Promise<void>;
 }
 
 const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
@@ -73,6 +88,15 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     setSpreadings(postSpreadings);
   }
 
+  const onSetPostStatus = (approved: boolean) => {
+    if (!selectedPost) return;
+
+    props.setPostStatus({
+      postId: selectedPost.id as number,
+      approve_status: approved ? ApproveStatus.Approve : ApproveStatus.Decline
+    });
+  }
+
   if (campaignPosts && !campaignPosts.length) {
     return <EmptyStateComponent title='No Posts Yet' />
   }
@@ -82,10 +106,14 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
 
   return (
     <LayoutComponent hasDrawer={props.isDrawerRender}>
-      <ActionBarComponent
-        hasDrawer={props.isDrawerRender}
-        clientName={selectedCampaign && selectedCampaign.related_client.client_name}
-      />
+      {selectedPost && (
+        <ActionBarComponent
+          hasDrawer={props.isDrawerRender}
+          clientName={selectedCampaign && selectedCampaign.related_client.client_name}
+          onSetPostStatus={onSetPostStatus}
+          postStatus={selectedPost.approve_status}
+        />
+      )}
 
       <StyledContainer hasDrawer={props.isDrawerRender}>
         {campaignPosts && !campaignPosts.length && (
@@ -172,6 +200,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => ({
   listSpreadings: bindActionCreators(ListSpreadingsAction, dispatch),
   listPostMedia: bindActionCreators(ListPostMediaAction, dispatch),
+  setPostStatus: bindActionCreators(SetPostStatusAction, dispatch),
 });
 
 export default connect(

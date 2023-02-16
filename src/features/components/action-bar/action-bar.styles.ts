@@ -15,6 +15,28 @@ const StyledContainer: AnyStyledComponent = styled.div`
   position: relative;
   font-size: 24px;
   font-weight: 400;
+
+  .on {
+    color: #BDBDBD;
+  }
+
+  .off {
+    color: #fff;
+  }
+
+  .checked {
+    .on {
+      color: #fff;
+    }
+
+    .off {
+      color: #BDBDBD !important;
+    }
+  }
+`;
+
+export const StyledSwitchButton = styled.div`
+  font-size: 18px;
 `;
 
 export const StyledActions = styled.div`
