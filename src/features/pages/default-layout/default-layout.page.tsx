@@ -27,6 +27,11 @@ import DrawerComponent from '../../components/drawer/drawer.component';
 import { ListCampaignsAction } from '../../../common/state/campaign/campaign.actions';
 import { ListPostsAction } from '../../../common/state/post/post.actions';
 
+const mockMessage = [
+  'Did you know ? our system is more convenient then chat/email',
+  'Try our new feature',
+]
+
 interface AppProps {
   path: string;
   component: any;
@@ -121,6 +126,7 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
                 onClose={services.drawer.actions.close}
                 user={props.user}
                 campaings={props.campaigns}
+                alertMessages={mockMessage}
               />
             )}
 

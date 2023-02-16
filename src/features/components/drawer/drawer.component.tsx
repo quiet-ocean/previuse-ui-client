@@ -3,8 +3,6 @@ import { NavLink } from 'react-router-dom';
 
 import {
   ChevronLeft,
-  ExpandLess,
-  ExpandMore,
   Face,
   Facebook,
   KeyboardArrowLeft,
@@ -14,7 +12,6 @@ import {
 import {
   CardActionArea,
   CardContent,
-  Collapse,
   Divider,
   List,
   ListItem,
@@ -31,7 +28,8 @@ import {
   StyledAvatar,
   StyledAlert,
   StyledAlertIcon,
-  StyledTitle
+  StyledTitle,
+  StyledBulb
 } from './drawer.styles';
 
 import logo from '../../../assets/images/logo.png';
@@ -44,9 +42,19 @@ interface DrawerProps {
   user?: UserCreation;
   campaings: Campaigns[];
   onClose: () => void;
+  alertMessages: string[];
 }
 
 const DrawerComponent: React.FC<DrawerProps> = (props) => {
+  const [alertIndex, setAlertIndex] = useState<number>(0);
+  const [renderAlertMessages, setRenderAlertMessages] = useState<boolean>(true);
+
+  const prevMessage = () => alertIndex < props.alertMessages.length - 1 && setAlertIndex(alertIndex + 1);
+
+  const nextMessage = () => alertIndex > 0 && setAlertIndex(alertIndex - 1);
+
+  const toggleAlertMessages = () => setRenderAlertMessages(!renderAlertMessages);
+
   const getAvatar = () => {
     if (props.user && props.user.avatar) {
       return <img src={props.user.avatar} alt="" />;
@@ -97,14 +105,39 @@ const DrawerComponent: React.FC<DrawerProps> = (props) => {
         </List>
       </StyledWrapper>
 
-      <StyledAlert>
-        <StyledAlertIcon><LightBulb /></StyledAlertIcon>
-        <div className="buttons">
-          <ButtonComponent type='icon' iconElement={<KeyboardArrowLeft />} />
-          <ButtonComponent type='icon' iconElement={<KeyboardArrowRight />} />
-        </div>
-        <span>Did you know ? our system is more convenient then chat/email</span>
-      </StyledAlert>
+
+      {renderAlertMessages && (
+        <StyledAlert>
+          <ButtonComponent theme='clear' type='icon' onClick={toggleAlertMessages} />
+
+          <StyledAlertIcon><LightBulb /></StyledAlertIcon>
+
+          <div className="buttons">
+            <ButtonComponent
+              type='icon'
+              iconElement={<KeyboardArrowLeft />}
+              onClick={nextMessage}
+              disabled={alertIndex === 0}
+            />
+
+            <ButtonComponent
+              type='icon'
+              iconElement={<KeyboardArrowRight />}
+              onClick={prevMessage}
+              disabled={alertIndex === props.alertMessages.length - 1}
+            />
+          </div>
+          <span>{props.alertMessages[alertIndex]}</span>
+        </StyledAlert>
+      )}
+
+      {!renderAlertMessages && (
+        <StyledBulb>
+          <CardActionArea>
+            <StyledAlertIcon onClick={toggleAlertMessages}><LightBulb /></StyledAlertIcon>
+          </CardActionArea>
+        </StyledBulb>
+      )}
 
       <StyledCloseButton onClick={props.onClose} iconElement={<ChevronLeft />} />
     </StyledDrawer>

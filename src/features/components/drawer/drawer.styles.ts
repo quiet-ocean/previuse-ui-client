@@ -164,6 +164,16 @@ export const StyledTitle = styled.div`
   font-size: 14px;
 `;
 
+export const StyledBulb = styled.div`
+  position: absolute;
+  bottom: 90px;
+  left: 22px;
+
+  ${StyledAlertIcon} {
+    top: 0;
+  }
+`;
+
 export const StyledAlert = styled.div`
   position: absolute;
   bottom: 0;
@@ -179,6 +189,12 @@ export const StyledAlert = styled.div`
   box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.15);
   font-size: 14px;
   padding: 24px;
+
+  button.clear {
+    position: absolute;
+    top: -21px;
+    right: -23px;
+  }
 
   .buttons {
     display: flex;
