@@ -6,6 +6,8 @@ export const StyledContainer: AnyStyledComponent = styled.div`
   display: flex;
   width: 100%;
   background-size: cover;
+  min-width: 1000px;
+  overflow: auto;
 
   && {
     margin: 0;

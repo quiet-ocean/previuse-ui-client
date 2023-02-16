@@ -7,6 +7,8 @@ import {
   ExpandMore,
   Face,
   Facebook,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
 } from '@material-ui/icons';
 
 import {
@@ -27,10 +29,15 @@ import {
   StyledUser,
   StyledWrapper,
   StyledAvatar,
+  StyledAlert,
+  StyledAlertIcon,
+  StyledTitle
 } from './drawer.styles';
 
 import logo from '../../../assets/images/logo.png';
+import { ReactComponent as LightBulb } from '../../../assets/images/light-bulb.svg';
 import { Campaigns, UserCreation } from '../../../swagger2Ts/interfaces';
+import ButtonComponent from '../button/button.component';
 
 interface DrawerProps {
   open?: boolean;
@@ -40,10 +47,6 @@ interface DrawerProps {
 }
 
 const DrawerComponent: React.FC<DrawerProps> = (props) => {
-  const [campaignsCollapsed, setCampaignsCollapsed] = useState<boolean>(true);
-
-  const toggleCampaigns = () => setCampaignsCollapsed(!campaignsCollapsed);
-
   const getAvatar = () => {
     if (props.user && props.user.avatar) {
       return <img src={props.user.avatar} alt="" />;
@@ -60,32 +63,6 @@ const DrawerComponent: React.FC<DrawerProps> = (props) => {
       anchor="left"
     >
       <StyledLogo><img src={logo} /></StyledLogo>
-      <StyledWrapper>
-
-        <List>
-          <ListItem button onClick={toggleCampaigns} className='collapse-title'>
-            <ListItemText primary='Campaigns' />
-            {campaignsCollapsed ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-
-          <Collapse in={campaignsCollapsed} timeout="auto" unmountOnExit>
-            <List>
-              {props.campaings.map((campaign) => (
-                <NavLink key={campaign.id} to={`/home/${campaign.id}`}>
-                  <ListItem button className='nested'>
-                    <ListItemIcon><Facebook /></ListItemIcon>
-                    <ListItemText primary={campaign.campaign_name} />
-                  </ListItem>
-                </NavLink>
-              ))}
-            </List>
-          </Collapse>
-
-        </List>
-
-        <Divider />
-
-      </StyledWrapper>
 
       {props.user && (
         <StyledUser>
@@ -103,6 +80,31 @@ const DrawerComponent: React.FC<DrawerProps> = (props) => {
           </div>
         </StyledUser>
       )}
+
+      <Divider className='padding' />
+
+      <StyledWrapper>
+        <StyledTitle>Campaign Network/Type:</StyledTitle>
+        <List>
+          {props.campaings.map((campaign) => (
+            <NavLink key={campaign.id} to={`/home/${campaign.id}`}>
+              <ListItem button className='nested'>
+                <ListItemIcon><Facebook /></ListItemIcon>
+                <ListItemText primary={campaign.campaign_name} />
+              </ListItem>
+            </NavLink>
+          ))}
+        </List>
+      </StyledWrapper>
+
+      <StyledAlert>
+        <StyledAlertIcon><LightBulb /></StyledAlertIcon>
+        <div className="buttons">
+          <ButtonComponent type='icon' iconElement={<KeyboardArrowLeft />} />
+          <ButtonComponent type='icon' iconElement={<KeyboardArrowRight />} />
+        </div>
+        <span>Did you know ? our system is more convenient then chat/email</span>
+      </StyledAlert>
 
       <StyledCloseButton onClick={props.onClose} iconElement={<ChevronLeft />} />
     </StyledDrawer>

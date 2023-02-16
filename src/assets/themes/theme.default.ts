@@ -83,7 +83,7 @@ const theme: DefaultTheme = {
     fullHeight: '100%',
     fullWidth: '100%',
     textBoxHeight: '38px',
-    drawerWidth: '200px'
+    drawerWidth: '291px'
   },
 
   mixins: {

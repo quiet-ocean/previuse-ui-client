@@ -5,4 +5,6 @@ export const StyledContainer: AnyStyledComponent = styled.div`
   padding-left: ${(props: any) => props.hasDrawer ? props.theme.sizes.drawerWidth as string : '0'};
   transition: ${({ theme }) => theme.transitionRate};
   height: 100%;
+  min-width: 1400px;
+  min-height: 800px;
 `;
