@@ -74,7 +74,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     if (props.posts && selectedCampaign) {
       const filteredPosts = props.posts.filter((post) => post.related_platform.related_campaign.id === selectedCampaign.id);
       setPlatformPosts(groupBy(filteredPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
-      setCampaignPosts(filteredPosts);
+      setCampaignPosts(props.posts);
       onSelectPost(filteredPosts[0]);
     }
   }, [selectedCampaign, props.posts])
@@ -96,7 +96,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     });
   }
 
-  if (campaignPosts && !campaignPosts.length) {
+  if (platformPosts && !Object.keys(platformPosts).length) {
     return <EmptyStateComponent title='No Posts Yet' />
   }
 
