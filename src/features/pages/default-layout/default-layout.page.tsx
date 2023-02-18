@@ -26,6 +26,8 @@ import { GetLoggedInUserAction } from '../../../common/state/auth/auth.actions';
 import DrawerComponent from '../../components/drawer/drawer.component';
 import { ListCampaignsAction } from '../../../common/state/campaign/campaign.actions';
 import { ListPostsAction } from '../../../common/state/post/post.actions';
+import EmptyStateComponent from '../../components/empty-state/empty-state.component';
+import { LinearProgress } from '@material-ui/core';
 
 const mockMessage = [
   'Did you know ? our system is more convenient then chat/email',
@@ -112,6 +114,18 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
     }
   }
 
+  if (!props.campaigns) {
+    return <LinearProgress style={{height: '10px'}} />
+  }
+
+  if (props.campaigns && !props.campaigns.length) {
+    return (
+      <StyledContainer hasDrawer={props.isDrawerRender}>
+        <EmptyStateComponent title='No Campaigns Yet' />
+      </StyledContainer>
+    )
+  }
+
   return (
     <DirectionContext.Provider value={direction}>
       <Route
@@ -130,7 +144,7 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
               />
             )}
 
-            <StyledContainer style={{backgroundImage: `url(${background})`}}>
+            <StyledContainer style={{ backgroundImage: `url(${background})` }}>
               {props.loading && <SpinnerComponent />}
 
               <StyledContent><Component {...matchProps} /></StyledContent>

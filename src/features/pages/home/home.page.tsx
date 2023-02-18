@@ -60,11 +60,10 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (props.campaings) {
+    if (props.campaings && props.campaings.length) {
       if (campaignId === ':campaignId') {
         setSelectedCampaign(props.campaings[0]);
         history.replace(`/home/${props.campaings[0].id}`);
-
       } else {
         setSelectedCampaign(props.campaings.find((campaign) => campaign.id === parseInt(campaignId)));
       }
