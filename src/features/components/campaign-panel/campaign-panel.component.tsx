@@ -27,14 +27,6 @@ export interface CampaignPanelComponentProps {
 const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) => {
   return (
     <StyledContainer>
-      {props.platform.business_page && (
-        <>
-          <InputLabel>External Link</InputLabel>
-          <a rel="noreferrer" target='_blank' href={`http://${props.platform.business_page}`}>
-            http://{props.platform.business_page}
-          </a>
-        </>
-      )}
       <Box>
         <InputLabel>Pixel / Analytics Code:</InputLabel>
       </Box>

@@ -6,19 +6,6 @@ const StyledContainer = styled.div`
   padding: 24px;
   height: calc(100% - 48px);
 
-  label {
-    padding-bottom: 12px;
-  }
-
-  a {
-    color: ${({ theme }) => theme.colors.additionalTextColor3};
-    border-bottom: ${({ theme }) => `1px solid ${theme.colors.additionalTextColor3}`};
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
   hr {
     background-color: ${({ theme }) => theme.colors.secondaryBorderColor};
   }
@@ -35,15 +22,15 @@ const StyledContainer = styled.div`
     height: auto !important;
   }
 
-  .external-link {
-    width: 100%;
-  }
-
   .MuiBox-root {
     margin: 24px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    &:first-child {
+      margin-top: 0;
+    }
 
     .flex {
       display: flex;

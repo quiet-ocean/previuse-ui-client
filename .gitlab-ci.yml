@@ -2,6 +2,7 @@ image: node:18.10.0
 
 stages:
   - build
+  - deploy
 
 build:
   stage: build
@@ -18,3 +19,17 @@ build:
       - build
   except: # Do not trigger a pipeline when pushing tags
     - tags
+
+deploy:
+  image: python:latest
+  tags: 
+   - x86
+  stage: deploy
+  dependencies:    
+    - build  
+  when: manual
+  script:
+    - aws s3 sync ./build/ s3://${AWS_STORAGE_BUCKET_NAME}/templates/client_build
+  only:    
+    refs:      
+      - master

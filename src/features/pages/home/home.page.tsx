@@ -35,6 +35,7 @@ import {
   StyledPostNavigation,
   StyledPostButton,
 } from './home.styles';
+import PostSummaryComponent from '../../components/post-summary/post-summary.component';
 
 interface HomePageProps {
   isDrawerRender: boolean;
@@ -158,8 +159,6 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
                   ))}
                 </StyledPostNavigation>
               </div>
-
-              <div className="summary"><Card></Card></div>
             </div>
           </Grid>
           <Grid item xs={6}>
@@ -177,7 +176,13 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
                 </Card>
               </div>
 
-              <div className="panel2"><Card></Card></div>
+              <div className="panel2">
+                <Card>
+                  {selectedPost && (
+                    <PostSummaryComponent platform={selectedPost.related_platform} />
+                  )}
+                </Card>
+              </div>
 
               <div className="chat"><Card></Card></div>
             </div>

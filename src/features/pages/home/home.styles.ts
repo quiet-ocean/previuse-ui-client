@@ -21,7 +21,6 @@ export const StyledContainer: AnyStyledComponent = styled.div`
     grid-template-areas:
       "preview layout"
       "navigation navigation"
-      "summary summary"
   }
 
   .preview {
@@ -37,10 +36,6 @@ export const StyledContainer: AnyStyledComponent = styled.div`
     grid-area: navigation;
     display: flex;
     align-items: center;
-  }
-  
-  .summary {
-    grid-area: summary;
   }
   
   .right {
