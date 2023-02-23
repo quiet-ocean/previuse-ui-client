@@ -6,6 +6,8 @@ stages:
 
 build:
   stage: build
+  tags: 
+   - x86
 
   script:
     - npm install
