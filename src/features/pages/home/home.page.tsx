@@ -21,7 +21,7 @@ import {
   UserCreation
 } from '../../../swagger2Ts/interfaces';
 
-import { RootState } from '../../../common/models';
+import { RootState, ThunkAction, WebSocketMessage } from '../../../common/models';
 import { ApproveStatus, Platform } from '../../../swagger2Ts/enums';
 import ActionBarComponent from '../../components/action-bar/action-bar.component';
 import EmptyStateComponent from '../../components/empty-state/empty-state.component';
@@ -36,15 +36,22 @@ import {
   StyledPostButton,
 } from './home.styles';
 import PostSummaryComponent from '../../components/post-summary/post-summary.component';
+import { CloseWebSocketAction, InitiateWebSocketAction, ListChatMessagesAction } from '../../../common/state/websocket/websocket.actions';
+import ChatComponent from '../../components/chat/chat.component';
 
 interface HomePageProps {
   isDrawerRender: boolean;
   user?: UserCreation;
   campaings?: Campaigns[];
   posts?: PlatformPostSerializerMaster[];
+  websocket?: WebSocket;
+  websocketMessages: WebSocketMessage[];
   listSpreadings: (platformType: Platform) => Promise<Spread[]>;
   listPostMedia: (postId: number) => Promise<MediaBoxWithFiles>;
   setPostStatus: (args: PlatformPostApproval & { postId: number }) => Promise<void>;
+  listWebSocketMessage: (campaignId: number) => Promise<WebSocketMessage[]>;
+  initiateWebSocket: ThunkAction;
+  closeWebSocket: ThunkAction;
 }
 
 const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
@@ -62,14 +69,27 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
 
   useEffect(() => {
     if (props.campaings && props.campaings.length) {
+      let id: string | number = campaignId;
       if (campaignId === ':campaignId') {
         setSelectedCampaign(props.campaings[0]);
         history.replace(`/home/${props.campaings[0].id}`);
+        id = props.campaings[0].id as number;
       } else {
         setSelectedCampaign(props.campaings.find((campaign) => campaign.id === parseInt(campaignId)));
       }
+      setWebSocket(id as number, props.user?.id as number);
     }
   }, [campaignId, props.campaings])
+
+  useEffect(() => {
+    if (selectedCampaign) {
+      props.listWebSocketMessage(selectedCampaign.id as number);
+    }
+
+    return () => {
+      props.closeWebSocket()
+    };
+  }, [selectedCampaign])
 
   useEffect(() => {
     if (props.posts && selectedCampaign) {
@@ -79,6 +99,10 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
       onSelectPost(filteredPosts[0]);
     }
   }, [selectedCampaign, props.posts])
+
+  const setWebSocket = (campaign: number, userId: number) => {
+    props.initiateWebSocket(`ws/chat/${campaign}/${userId}`);
+  }
 
   const onSelectPost = async (post: PlatformPostSerializerMaster) => {
     setSelectedPost(post);
@@ -184,7 +208,17 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
                 </Card>
               </div>
 
-              <div className="chat"><Card></Card></div>
+              <div className="chat">
+                <Card>
+                  {props.websocket && props.user && props.websocketMessages && (
+                    <ChatComponent
+                      websocket={props.websocket}
+                      user={props.user}
+                      messages={props.websocketMessages}
+                    />
+                  )}
+                </Card>
+              </div>
             </div>
           </Grid>
         </Grid>
@@ -199,12 +233,17 @@ const mapStateToProps = (state: RootState) => ({
   user: state.app.auth.user,
   campaings: state.app.campaign.campaings,
   posts: state.app.post.posts,
+  websocket: state.app.websocket.instance,
+  websocketMessages: state.app.websocket.messages
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => ({
   listSpreadings: bindActionCreators(ListSpreadingsAction, dispatch),
   listPostMedia: bindActionCreators(ListPostMediaAction, dispatch),
   setPostStatus: bindActionCreators(SetPostStatusAction, dispatch),
+  initiateWebSocket: bindActionCreators(InitiateWebSocketAction, dispatch),
+  closeWebSocket: bindActionCreators(CloseWebSocketAction, dispatch),
+  listWebSocketMessage: bindActionCreators(ListChatMessagesAction, dispatch)
 });
 
 export default connect(

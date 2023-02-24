@@ -26,6 +26,7 @@ export const StyledContainer: AnyStyledComponent = styled.div`
   .preview {
     grid-area: preview;
     min-width: 300px;
+    max-width: 400px;
   }
   
   .layout {

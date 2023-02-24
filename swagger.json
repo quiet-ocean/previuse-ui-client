@@ -82,6 +82,202 @@
         }
       ]
     },
+    "/Platform/handle_file/{id}": {
+      "put": {
+        "operationId": "Platform_handle_file_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "file_in",
+            "in": "formData",
+            "description": "This field is required.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "file_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "picture",
+              "video",
+              "text",
+              "other"
+            ]
+          },
+          {
+            "name": "media_box",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MediaFiles"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "patch": {
+        "operationId": "Platform_handle_file_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "file_in",
+            "in": "formData",
+            "description": "This field is required.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "file_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "picture",
+              "video",
+              "text",
+              "other"
+            ]
+          },
+          {
+            "name": "media_box",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MediaFiles"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "delete": {
+        "operationId": "Platform_handle_file_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this file_in_media.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/Platform/media_box/new_file/{platform_id}/": {
+      "post": {
+        "operationId": "Platform_media_box_new_file_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "file_in",
+            "in": "formData",
+            "description": "This field is required.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "file_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "picture",
+              "video",
+              "text",
+              "other"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/platformMediaFiles"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "platform_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/Platform/media_box/{platform_id}/": {
+      "get": {
+        "operationId": "Platform_media_box_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MediaBoxWithFiles"
+            }
+          }
+        },
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "platform_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
     "/Platform/new": {
       "post": {
         "operationId": "Platform_new_create",
@@ -120,7 +316,23 @@
             "type": "boolean"
           },
           {
+            "name": "analytics_code",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 1000,
+            "x-nullable": true
+          },
+          {
             "name": "end_date",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "x-nullable": true
+          },
+          {
+            "name": "start_date",
             "in": "formData",
             "required": false,
             "type": "string",
@@ -279,7 +491,23 @@
             "type": "boolean"
           },
           {
+            "name": "analytics_code",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 1000,
+            "x-nullable": true
+          },
+          {
             "name": "end_date",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "format": "date",
+            "x-nullable": true
+          },
+          {
+            "name": "start_date",
             "in": "formData",
             "required": false,
             "type": "string",
@@ -353,6 +581,194 @@
           "description": "A unique integer value identifying this platform.",
           "required": true,
           "type": "integer"
+        }
+      ]
+    },
+    "/Platform/tags/new/": {
+      "post": {
+        "operationId": "Platform_tags_new_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "maxLength": 75,
+            "minLength": 1
+          },
+          {
+            "name": "related_platform",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformTypes"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": []
+    },
+    "/Platform/tags/update/{tag_id}": {
+      "get": {
+        "operationId": "Platform_tags_update_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformTypes"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "put": {
+        "operationId": "Platform_tags_update_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "maxLength": 75,
+            "minLength": 1
+          },
+          {
+            "name": "related_platform",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformTypes"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "patch": {
+        "operationId": "Platform_tags_update_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "maxLength": 75,
+            "minLength": 1
+          },
+          {
+            "name": "related_platform",
+            "in": "formData",
+            "required": false,
+            "type": "integer",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformTypes"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "delete": {
+        "operationId": "Platform_tags_update_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "tag_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ]
+    },
+    "/Platform/tags/{platform_id}": {
+      "get": {
+        "operationId": "Platform_tags_read",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PlatformTypes"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "Platform"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "platform_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
         }
       ]
     },
@@ -1149,7 +1565,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserPromptsAIGet"
+            }
           }
         },
         "tags": [
@@ -2574,6 +2993,28 @@
       },
       "parameters": []
     },
+    "/notifications/generics/": {
+      "get": {
+        "operationId": "notifications_generics_list",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GenericMessages"
+              }
+            }
+          }
+        },
+        "tags": [
+          "notifications"
+        ]
+      },
+      "parameters": []
+    },
     "/notifications/{notification}": {
       "post": {
         "operationId": "notifications_create",
@@ -2650,6 +3091,14 @@
             "type": "integer"
           },
           {
+            "name": "post_tittle",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 100,
+            "x-nullable": true
+          },
+          {
             "name": "description",
             "in": "formData",
             "required": false,
@@ -2687,6 +3136,22 @@
             "in": "formData",
             "required": false,
             "type": "file",
+            "x-nullable": true
+          },
+          {
+            "name": "Caption",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 100,
+            "x-nullable": true
+          },
+          {
+            "name": "primary_text",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 500,
             "x-nullable": true
           }
         ],
@@ -2908,6 +3373,14 @@
             "type": "integer"
           },
           {
+            "name": "post_tittle",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 100,
+            "x-nullable": true
+          },
+          {
             "name": "description",
             "in": "formData",
             "required": false,
@@ -2945,6 +3418,22 @@
             "in": "formData",
             "required": false,
             "type": "file",
+            "x-nullable": true
+          },
+          {
+            "name": "Caption",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 100,
+            "x-nullable": true
+          },
+          {
+            "name": "primary_text",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 500,
             "x-nullable": true
           }
         ],
@@ -3004,6 +3493,175 @@
           "name": "id",
           "in": "path",
           "description": "A unique integer value identifying this platform_post.",
+          "required": true,
+          "type": "integer"
+        }
+      ]
+    },
+    "/posts/file/": {
+      "post": {
+        "operationId": "posts_file_create",
+        "description": "",
+        "parameters": [
+          {
+            "name": "file_in",
+            "in": "formData",
+            "description": "This field is required.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "post_id",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "file_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "picture",
+              "video",
+              "text",
+              "other"
+            ]
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PostMediaFiles"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": []
+    },
+    "/posts/handle_file/{id}": {
+      "put": {
+        "operationId": "posts_handle_file_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "file_in",
+            "in": "formData",
+            "description": "This field is required.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "file_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "picture",
+              "video",
+              "text",
+              "other"
+            ]
+          },
+          {
+            "name": "media_box",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MediaFiles"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "patch": {
+        "operationId": "posts_handle_file_partial_update",
+        "description": "",
+        "parameters": [
+          {
+            "name": "file_in",
+            "in": "formData",
+            "description": "This field is required.",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "file_type",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "picture",
+              "video",
+              "text",
+              "other"
+            ]
+          },
+          {
+            "name": "media_box",
+            "in": "formData",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/MediaFiles"
+            }
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "delete": {
+        "operationId": "posts_handle_file_delete",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "consumes": [
+          "application/x-www-form-urlencoded",
+          "multipart/form-data"
+        ],
+        "tags": [
+          "posts"
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "A unique integer value identifying this file_in_media.",
           "required": true,
           "type": "integer"
         }
@@ -3080,6 +3738,14 @@
             "minLength": 1
           },
           {
+            "name": "post_tittle",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 100,
+            "x-nullable": true
+          },
+          {
             "name": "description",
             "in": "formData",
             "required": false,
@@ -3117,6 +3783,22 @@
             "in": "formData",
             "required": false,
             "type": "file",
+            "x-nullable": true
+          },
+          {
+            "name": "Caption",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 100,
+            "x-nullable": true
+          },
+          {
+            "name": "primary_text",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "maxLength": 500,
             "x-nullable": true
           }
         ],
@@ -3427,15 +4109,27 @@
           "title": "Analytics",
           "type": "boolean"
         },
-        "start_date": {
-          "title": "Start date",
+        "analytics_code": {
+          "title": "Analytics code",
           "type": "string",
-          "format": "date",
+          "maxLength": 1000,
+          "x-nullable": true
+        },
+        "create_date": {
+          "title": "Create date",
+          "type": "string",
+          "format": "date-time",
           "readOnly": true,
           "x-nullable": true
         },
         "end_date": {
           "title": "End date",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "start_date": {
+          "title": "Start date",
           "type": "string",
           "format": "date",
           "x-nullable": true
@@ -3477,6 +4171,116 @@
         }
       }
     },
+    "MediaFiles": {
+      "required": [
+        "file_type",
+        "media_box"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "file_in": {
+          "title": "File in",
+          "description": "This field is required.",
+          "type": "string",
+          "readOnly": true,
+          "format": "uri"
+        },
+        "file_type": {
+          "title": "File type",
+          "type": "string",
+          "enum": [
+            "picture",
+            "video",
+            "text",
+            "other"
+          ]
+        },
+        "file_size": {
+          "title": "File size",
+          "type": "integer",
+          "readOnly": true,
+          "x-nullable": true
+        },
+        "media_box": {
+          "title": "Media box",
+          "type": "integer"
+        }
+      }
+    },
+    "platformMediaFiles": {
+      "required": [
+        "file_type"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "file_in": {
+          "title": "File in",
+          "description": "This field is required.",
+          "type": "string",
+          "readOnly": true,
+          "format": "uri"
+        },
+        "file_type": {
+          "title": "File type",
+          "type": "string",
+          "enum": [
+            "picture",
+            "video",
+            "text",
+            "other"
+          ]
+        }
+      }
+    },
+    "MediaBoxWithFiles": {
+      "required": [
+        "file_in_media"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "file_in_media": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MediaFiles"
+          }
+        },
+        "created": {
+          "title": "Created",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "last_change": {
+          "title": "Last change",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "box_limit": {
+          "title": "Box limit",
+          "type": "integer"
+        },
+        "current_space_used": {
+          "title": "Current space used",
+          "type": "integer"
+        }
+      }
+    },
     "platformCreate": {
       "required": [
         "related_campaign",
@@ -3513,15 +4317,27 @@
           "title": "Analytics",
           "type": "boolean"
         },
-        "start_date": {
-          "title": "Start date",
+        "analytics_code": {
+          "title": "Analytics code",
           "type": "string",
-          "format": "date",
+          "maxLength": 1000,
+          "x-nullable": true
+        },
+        "create_date": {
+          "title": "Create date",
+          "type": "string",
+          "format": "date-time",
           "readOnly": true,
           "x-nullable": true
         },
         "end_date": {
           "title": "End date",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "start_date": {
+          "title": "Start date",
           "type": "string",
           "format": "date",
           "x-nullable": true
@@ -3596,15 +4412,27 @@
           "title": "Analytics",
           "type": "boolean"
         },
-        "start_date": {
-          "title": "Start date",
+        "analytics_code": {
+          "title": "Analytics code",
           "type": "string",
-          "format": "date",
+          "maxLength": 1000,
+          "x-nullable": true
+        },
+        "create_date": {
+          "title": "Create date",
+          "type": "string",
+          "format": "date-time",
           "readOnly": true,
           "x-nullable": true
         },
         "end_date": {
           "title": "End date",
+          "type": "string",
+          "format": "date",
+          "x-nullable": true
+        },
+        "start_date": {
+          "title": "Start date",
           "type": "string",
           "format": "date",
           "x-nullable": true
@@ -3634,6 +4462,30 @@
           "type": "string",
           "format": "date-time",
           "readOnly": true,
+          "x-nullable": true
+        }
+      }
+    },
+    "PlatformTypes": {
+      "required": [
+        "tag"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "tag": {
+          "title": "Tag",
+          "type": "string",
+          "maxLength": 75,
+          "minLength": 1
+        },
+        "related_platform": {
+          "title": "Related platform",
+          "type": "integer",
           "x-nullable": true
         }
       }
@@ -4017,89 +4869,50 @@
         }
       }
     },
-    "CampaignDuplicate": {
-      "type": "object",
-      "properties": {}
-    },
-    "MediaFiles": {
+    "UserPromptsAIGet": {
       "required": [
-        "file_type",
-        "media_box"
+        "action",
+        "input_in",
+        "output"
       ],
       "type": "object",
       "properties": {
-        "id": {
-          "title": "ID",
+        "user": {
+          "title": "User",
           "type": "integer",
-          "readOnly": true
-        },
-        "file_in": {
-          "title": "File in",
-          "description": "This field is required.",
-          "type": "string",
-          "readOnly": true,
-          "format": "uri"
-        },
-        "file_type": {
-          "title": "File type",
-          "type": "string",
-          "enum": [
-            "picture",
-            "video",
-            "text",
-            "other"
-          ]
-        },
-        "file_size": {
-          "title": "File size",
-          "type": "integer",
-          "readOnly": true,
           "x-nullable": true
         },
-        "media_box": {
-          "title": "Media box",
-          "type": "integer"
-        }
-      }
-    },
-    "MediaBoxWithFiles": {
-      "required": [
-        "file_in_media"
-      ],
-      "type": "object",
-      "properties": {
-        "id": {
-          "title": "ID",
-          "type": "integer",
-          "readOnly": true
+        "action": {
+          "title": "Action",
+          "type": "string",
+          "enum": [
+            "Description",
+            "tag_line"
+          ]
         },
-        "file_in_media": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/MediaFiles"
-          }
+        "input_in": {
+          "title": "Input in",
+          "type": "string",
+          "maxLength": 250,
+          "minLength": 1
+        },
+        "output": {
+          "title": "Output",
+          "type": "string",
+          "maxLength": 500,
+          "minLength": 1
         },
         "created": {
           "title": "Created",
           "type": "string",
           "format": "date-time",
           "readOnly": true
-        },
-        "last_change": {
-          "title": "Last change",
-          "type": "string",
-          "format": "date-time",
-          "readOnly": true
-        },
-        "box_limit": {
-          "title": "Box limit",
-          "type": "integer"
-        },
-        "current_space_used": {
-          "title": "Current space used",
-          "type": "integer"
         }
       }
+    },
+    "CampaignDuplicate": {
+      "type": "object",
+      "properties": {}
     },
     "CampaignPermission": {
       "required": [
@@ -4473,7 +5286,8 @@
           "enum": [
             "platform_post",
             "user",
-            "campain"
+            "campain",
+            "Platform"
           ]
         },
         "model_id": {
@@ -4703,6 +5517,32 @@
         }
       }
     },
+    "GenericMessages": {
+      "required": [
+        "message_in"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "message_in": {
+          "title": "Message in",
+          "type": "string",
+          "maxLength": 2500,
+          "minLength": 1
+        },
+        "symbol": {
+          "title": "Symbol",
+          "type": "string",
+          "readOnly": true,
+          "x-nullable": true,
+          "format": "uri"
+        }
+      }
+    },
     "ReadNotifications": {
       "type": "object",
       "properties": {}
@@ -4720,6 +5560,12 @@
         },
         "related_platform": {
           "$ref": "#/definitions/Platform"
+        },
+        "post_tittle": {
+          "title": "Post tittle",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
         },
         "description": {
           "title": "Description",
@@ -4776,6 +5622,18 @@
           "x-nullable": true,
           "format": "uri"
         },
+        "Caption": {
+          "title": "Caption",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
+        },
+        "primary_text": {
+          "title": "Primary text",
+          "type": "string",
+          "maxLength": 500,
+          "x-nullable": true
+        },
         "spread": {
           "title": "Spread",
           "type": "integer",
@@ -4807,6 +5665,12 @@
         "related_platform": {
           "title": "Related platform",
           "type": "integer"
+        },
+        "post_tittle": {
+          "title": "Post tittle",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
         },
         "description": {
           "title": "Description",
@@ -4853,6 +5717,18 @@
           "readOnly": true,
           "x-nullable": true,
           "format": "uri"
+        },
+        "Caption": {
+          "title": "Caption",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
+        },
+        "primary_text": {
+          "title": "Primary text",
+          "type": "string",
+          "maxLength": 500,
+          "x-nullable": true
         }
       }
     },
@@ -4893,6 +5769,12 @@
           "title": "Related platform",
           "type": "integer"
         },
+        "post_tittle": {
+          "title": "Post tittle",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
+        },
         "description": {
           "title": "Description",
           "type": "string",
@@ -4938,12 +5820,59 @@
           "readOnly": true,
           "x-nullable": true,
           "format": "uri"
+        },
+        "Caption": {
+          "title": "Caption",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
+        },
+        "primary_text": {
+          "title": "Primary text",
+          "type": "string",
+          "maxLength": 500,
+          "x-nullable": true
         }
       }
     },
     "DuplicatePlatformPost": {
       "type": "object",
       "properties": {}
+    },
+    "PostMediaFiles": {
+      "required": [
+        "post_id",
+        "file_type"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "ID",
+          "type": "integer",
+          "readOnly": true
+        },
+        "file_in": {
+          "title": "File in",
+          "description": "This field is required.",
+          "type": "string",
+          "readOnly": true,
+          "format": "uri"
+        },
+        "post_id": {
+          "title": "Post id",
+          "type": "integer"
+        },
+        "file_type": {
+          "title": "File type",
+          "type": "string",
+          "enum": [
+            "picture",
+            "video",
+            "text",
+            "other"
+          ]
+        }
+      }
     },
     "PlatformPostChange": {
       "type": "object",
@@ -4966,6 +5895,12 @@
           "type": "string",
           "minLength": 1
         },
+        "post_tittle": {
+          "title": "Post tittle",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
+        },
         "description": {
           "title": "Description",
           "type": "string",
@@ -5011,6 +5946,18 @@
           "readOnly": true,
           "x-nullable": true,
           "format": "uri"
+        },
+        "Caption": {
+          "title": "Caption",
+          "type": "string",
+          "maxLength": 100,
+          "x-nullable": true
+        },
+        "primary_text": {
+          "title": "Primary text",
+          "type": "string",
+          "maxLength": 500,
+          "x-nullable": true
         }
       }
     },

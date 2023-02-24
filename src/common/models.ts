@@ -2,6 +2,7 @@
 import { Action, StateType } from 'typesafe-actions';
 import rootReducer from './reducers';
 import { Dispatch, AnyAction } from 'redux';
+import { UserCreation } from '../swagger2Ts/interfaces';
 
 export interface StringMap {
   [s: string]: string;
@@ -16,6 +17,7 @@ export interface Endpoint {
   body?: any;
 }
 
+export type ThunkAction = (params?: any) => (dispatch: Dispatch<any, RootState>, getState: () => RootState) => void;
 export type AsyncAction = (type: string, fn: (params?: any) => Promise<any>) => any;
 
 export type ActionCreator = (
@@ -31,4 +33,11 @@ export enum PostLayout {
   facebook4 = 'facebook4',
   tiktok1 = 'tiktok1',
   instagram1 = 'instagram1',
+}
+
+export interface WebSocketMessage {
+  message: string;
+  campaign_id: number;
+  user_message_sender: UserCreation;
+  user: UserCreation;
 }
