@@ -1,8 +1,8 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // const host = 'http://3.125.137.91:8000';
-// const host = 'http://dev.previuse.com:8000';
-const host = 'http://127.0.0.1:8000';
+const host = 'http://dev.previuse.com:8000';
+// const host = 'http://127.0.0.1:8000';
 
 const token = process.env.REACT_APP_AWS_TOKEN.replace(/['"]+/g, '');
 
