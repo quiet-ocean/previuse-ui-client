@@ -10,12 +10,19 @@ export enum PostActionTypes {
   LIST_SPREADINGS = '@@post/LIST_SPREADINGS',
   LIST_POST_MEDIA = '@@post/LIST_POST_MEDIA',
   SET_POST_STATUS = '@@post/SET_POST_STATUS',
+  LIST_POSTS_BY_CAMPAIGN = '@@post/LIST_POSTS_BY_CAMPAIGN',
 }
 
 export const ListPostsAction: () => Promise<
 PlatformPostSerializerMaster[]
 > = createAsyncAction(PostActionTypes.LIST_POSTS, () => {
   return httpService.fetch(EndPoints.posts_list);
+});
+
+export const ListPostsByCampaignAction: () => Promise<
+PlatformPostSerializerMaster[]
+> = createAsyncAction(PostActionTypes.LIST_POSTS_BY_CAMPAIGN, (campaignId: number) => {
+  return httpService.fetch({ url: `/posts/bycampaign/${campaignId}/` })
 });
 
 export const ListSpreadingsAction: (platformType: Platform) => Promise<

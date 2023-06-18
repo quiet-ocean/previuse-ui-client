@@ -4,6 +4,7 @@ import { MenuItem } from '@material-ui/core';
 import { Platform } from '../../../swagger2Ts/enums';
 import { PlatformPostSerializerMaster } from '../../../swagger2Ts/interfaces';
 import StyledContainer from './layouts.styles';
+import { StyledMenuItemContainer } from './layouts.styles';
 
 export interface LayoutsComponentProps {
   posts: Record<Platform, PlatformPostSerializerMaster[]>;
@@ -22,16 +23,16 @@ const LayoutsComponent: React.FC<LayoutsComponentProps> = (props) => {
               <div className='list'>
                 {props.posts[platform as Platform].map((post) => {
                   return (
-                    <div
+                    <StyledMenuItemContainer
                       onClick={props.onPostClick.bind(null, post)}
                       key={post.id}
+                      $logo={post.logo || ''}
                     >
                       <MenuItem
                         className={props.selectedPost && props.selectedPost.id === post.id ? 'selected' : undefined}
                       >
-
                       </MenuItem>
-                    </div>
+                    </StyledMenuItemContainer>
                   )
                 })}
               </div>

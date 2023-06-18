@@ -7,6 +7,7 @@ import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 
 import {
   ListPostMediaAction,
+  ListPostsByCampaignAction,
   ListSpreadingsAction,
   SetPostStatusAction
 } from '../../../common/state/post/post.actions';
@@ -43,7 +44,7 @@ interface HomePageProps {
   isDrawerRender: boolean;
   user?: UserCreation;
   campaings?: Campaigns[];
-  posts?: PlatformPostSerializerMaster[];
+  campaignPosts?: PlatformPostSerializerMaster[]; 
   websocket?: WebSocket;
   websocketMessages: WebSocketMessage[];
   listSpreadings: (platformType: Platform) => Promise<Spread[]>;
@@ -52,11 +53,13 @@ interface HomePageProps {
   listWebSocketMessage: (campaignId: number) => Promise<WebSocketMessage[]>;
   initiateWebSocket: ThunkAction;
   closeWebSocket: ThunkAction;
+  listPostsByCampaign: (campaignId: number) => Promise<PlatformPostSerializerMaster[]>;
 }
 
 const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
+  const { campaignPosts } = props;
   const [selectedCampaign, setSelectedCampaign] = useState<Campaigns>();
-  const [campaignPosts, setCampaignPosts] = useState<PlatformPostSerializerMaster[]>();
+  // const [campaignPosts, setCampaignPosts] = useState<PlatformPostSerializerMaster[]>();
   const [selectedPost, setSelectedPost] = useState<PlatformPostSerializerMaster>();
   const [postMedia, setPostMedia] = useState<MediaFiles[]>();
   const [platformPosts, setPlatformPosts] = useState<Record<Platform, PlatformPostSerializerMaster[]>>();
@@ -79,6 +82,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
       }
       setWebSocket(id as number, props.user?.id as number);
     }
+    props.listPostsByCampaign(Number(campaignId))
   }, [campaignId, props.campaings])
 
   useEffect(() => {
@@ -92,13 +96,11 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   }, [selectedCampaign])
 
   useEffect(() => {
-    if (props.posts && selectedCampaign) {
-      const filteredPosts = props.posts.filter((post) => post.related_platform.related_campaign.id === selectedCampaign.id);
-      setPlatformPosts(groupBy(filteredPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
-      setCampaignPosts(props.posts.filter((post) => post.related_platform.related_campaign.id === selectedCampaign.id));
-      onSelectPost(filteredPosts[0]);
+    if (campaignPosts&& selectedCampaign) {
+      setPlatformPosts(groupBy(campaignPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
+      onSelectPost(campaignPosts[0]);
     }
-  }, [selectedCampaign, props.posts])
+  }, [selectedCampaign, campaignPosts])
 
   const setWebSocket = (campaign: number, userId: number) => {
     props.initiateWebSocket(`ws/chat/${campaign}/${userId}`);
@@ -106,8 +108,8 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
 
   const onSelectPost = async (post: PlatformPostSerializerMaster) => {
     setSelectedPost(post);
-    const postSpreadings = await props.listSpreadings(post.related_platform.platform);
-    const media = await props.listPostMedia(post.id as number);
+    const postSpreadings = await props.listSpreadings(post?.related_platform.platform);
+    const media = await props.listPostMedia(post?.id as number);
     setPostMedia(media.file_in_media);
     setSpreadings(postSpreadings);
   }
@@ -172,12 +174,12 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
 
               <div className="navigation">
                 <StyledPostNavigation>
-                  {campaignPosts && campaignPosts.map((post, i) => (
+                  {campaignPosts && campaignPosts.map((post: any, i: number) => (
                     <StyledPostButton
-                      key={post.id}
+                      key={post?.id}
                       theme='natural'
                       text={(i + 1).toString()}
-                      selected={selectedPost && selectedPost.id === post.id}
+                      selected={selectedPost && selectedPost?.id === post?.id}
                       onClick={onSelectPost.bind(null, post)}
                     />
                   ))}
@@ -232,7 +234,7 @@ const mapStateToProps = (state: RootState) => ({
   isDrawerRender: state.view.drawer.isRender,
   user: state.app.auth.user,
   campaings: state.app.campaign.campaings,
-  posts: state.app.post.posts,
+  campaignPosts: state.app.post.campaignPosts,
   websocket: state.app.websocket.instance,
   websocketMessages: state.app.websocket.messages
 });
@@ -243,7 +245,8 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => ({
   setPostStatus: bindActionCreators(SetPostStatusAction, dispatch),
   initiateWebSocket: bindActionCreators(InitiateWebSocketAction, dispatch),
   closeWebSocket: bindActionCreators(CloseWebSocketAction, dispatch),
-  listWebSocketMessage: bindActionCreators(ListChatMessagesAction, dispatch)
+  listWebSocketMessage: bindActionCreators(ListChatMessagesAction, dispatch),
+  listPostsByCampaign: bindActionCreators(ListPostsByCampaignAction, dispatch)
 });
 
 export default connect(

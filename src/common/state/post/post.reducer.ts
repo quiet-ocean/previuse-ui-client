@@ -12,6 +12,8 @@ const postReducer: Reducer<PostState> = (
     case `${PostActionTypes.LIST_POSTS}${SUCCESS_SUFFIX}`:
       return { ...state, posts: action.payload }
 
+    case `${PostActionTypes.LIST_POSTS_BY_CAMPAIGN}${SUCCESS_SUFFIX}`:
+      return { ...state, campaignPosts: action.payload }
     default:
       return state;
   }

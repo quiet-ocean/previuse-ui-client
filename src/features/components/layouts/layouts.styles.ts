@@ -31,4 +31,13 @@ const StyledContainer = styled.div`
   }
 `;
 
+const StyledMenuItemContainer = styled.div<{ $logo: string }>`
+  & > li {
+    background-image: url('${props => props.$logo}');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+`
+
 export default StyledContainer;
+export { StyledMenuItemContainer }
