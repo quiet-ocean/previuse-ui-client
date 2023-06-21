@@ -10,6 +10,7 @@ import PostLayoutMobileComponent from './layouts/post-layout-mobile/post-layout-
 import TiktokPreviewComponent from './layouts/post-layout-tiktok/post-layout-tiktok.component';
 import PostLayoutVideoComponent from './layouts/post-layout-video/post-layout-video.component';
 import TwitterPreviewComponent from './layouts/post-layout-twitter/post-layout-twitter.component';
+import LinkedInPreviewComponent from './layouts/post-layout-linkedin/post-layout-linkedin-1.component';
 import StyledContainer from './post-preview.styles';
 
 export interface PostPreviewComponentProps {
@@ -25,6 +26,7 @@ const layoutBySpread: Record<PostLayout, any> = {
   [PostLayout.tiktok1]: TiktokPreviewComponent,
   [PostLayout.instagram1]: InstragramPreviewComponent,
   [PostLayout.twitter1]: TwitterPreviewComponent,
+  [PostLayout.linkedin1]: LinkedInPreviewComponent,
 }
 
 const PostPreviewComponent: React.FC<PostPreviewComponentProps> = (props) => {

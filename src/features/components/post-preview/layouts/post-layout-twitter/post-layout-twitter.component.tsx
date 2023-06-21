@@ -62,8 +62,8 @@ const TwitterPreviewComponent: React.FC<TwitterPreviewComponentProps> = (props) 
         <div className='avatar'>
           <div></div>
         </div>
-        <div>
-          <div className='lines'>
+        <div className='lines'>
+          <div>
             <StyledBlankLine $width={`70%`} />
             <StyledBlankLine $width={`50%`} />
             <StyledBlankLine $width={`100%`} />

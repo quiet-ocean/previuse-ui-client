@@ -34,6 +34,8 @@ export enum PostLayout {
   tiktok1 = 'tiktok1',
   instagram1 = 'instagram1',
   twitter1 = 'twitter1',
+  linkedin1 = 'linkedin1',
+  // google_ad1 = 'google_ad1',
 }
 
 export interface WebSocketMessage {
