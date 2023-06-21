@@ -1,10 +1,6 @@
 import React from 'react';
 
-import { Avatar } from '@material-ui/core';
 import { PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
-import PostContentComponent from '../../post-content/post-content.component';
-import PostFooterComponent from '../../post-footer/post-footer.component';
-import PostTitleComponent from '../../post-title/post-title.component';
 
 import StyledContainer, {
   StyledPostContent,

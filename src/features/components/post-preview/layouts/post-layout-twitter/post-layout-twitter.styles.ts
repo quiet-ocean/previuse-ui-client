@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Avatar } from '@material-ui/core';
-import theme from '../../../../../assets/themes/theme.default';
 
 const StyledContainer = styled.div`
   height: 100%;
