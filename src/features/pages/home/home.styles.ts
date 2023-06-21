@@ -31,6 +31,9 @@ export const StyledContainer: AnyStyledComponent = styled.div`
   
   .layout {
     grid-area: layout;
+    > .MuiPaper-root {
+      padding: 8px 8px 8px 0px;
+    }
   }
   
   .navigation {
