@@ -98,11 +98,12 @@ const StyledPostFooter = styled.div`
     }
   }
   .icons {
+    margin-top: 18px;
     display: flex;
     justify-content: space-between;
   }
   .lines {
-    margin-bottom: 18px;
+    width: 100%;
   }
 `
 const StyledBlankLine = styled.div<{$width: string}>`

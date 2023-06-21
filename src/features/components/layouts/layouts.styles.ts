@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import MockupImage from '../../../assets/images/post-image3.png'
 const StyledContainer = styled.div`
   padding: 24px;
   height: calc(100% - 48px);
@@ -35,7 +35,7 @@ const StyledContainer = styled.div`
 
 const StyledMenuItemContainer = styled.div<{ $logo: string }>`
   & > li {
-    background-image: url('${props => props.$logo}');
+    background-image: url('${props => props.$logo || MockupImage }');
     background-size: cover;
     background-repeat: no-repeat;
   }
