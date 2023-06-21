@@ -9,13 +9,14 @@ import PostLayoutMainComponent from './layouts/post-layout-main/post-layout-main
 import PostLayoutMobileComponent from './layouts/post-layout-mobile/post-layout-mobile.component';
 import TiktokPreviewComponent from './layouts/post-layout-tiktok/post-layout-tiktok.component';
 import PostLayoutVideoComponent from './layouts/post-layout-video/post-layout-video.component';
+import TwitterPreviewComponent from './layouts/post-layout-twitter/post-layout-twitter.component';
 import StyledContainer from './post-preview.styles';
 
 export interface PostPreviewComponentProps {
   post: PlatformPostSerializerMaster;
   selectedSpread: Spread;
 }
-
+/* eslint-disable no-console*/
 const layoutBySpread: Record<PostLayout, any> = {
   [PostLayout.facebook1]: PostLayoutMainComponent,
   [PostLayout.facebook2]: PostLayoutCarouselComponent,
@@ -23,10 +24,12 @@ const layoutBySpread: Record<PostLayout, any> = {
   [PostLayout.facebook4]: PostLayoutMobileComponent,
   [PostLayout.tiktok1]: TiktokPreviewComponent,
   [PostLayout.instagram1]: InstragramPreviewComponent,
+  [PostLayout.twitter1]: TwitterPreviewComponent,
 }
 
 const PostPreviewComponent: React.FC<PostPreviewComponentProps> = (props) => {
   const Component = layoutBySpread[props.selectedSpread.spread as PostLayout];
+  console.log('post data in post preview', props.post, props.selectedSpread)
 
   if (!Component) return null;
   

@@ -110,7 +110,9 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     setSelectedPost(post);
     const postSpreadings = await props.listSpreadings(post?.related_platform.platform);
     const media = await props.listPostMedia(post?.id as number);
-    setPostMedia(media.file_in_media);
+    setPostMedia(media.file_in_media || []);
+    /* eslint-disable no-console */
+    console.log(media, postSpreadings)
     setSpreadings(postSpreadings);
   }
 

@@ -77,7 +77,9 @@ const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) =>
 
       <StyledFileList container>
         {props.postMedia && props.postMedia.map((f: any) => {
-          const fileRoutes = f.file_in.split('/');
+          if (!f?.file_in) return null;
+          const fileRoutes = f?.file_in.split('/');
+          
           const filename = fileRoutes[fileRoutes.length - 1];
           return (
             <Grid key={filename} item xs={6} title={filename}>

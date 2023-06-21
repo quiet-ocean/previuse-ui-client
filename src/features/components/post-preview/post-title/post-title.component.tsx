@@ -20,8 +20,8 @@ const PostTitleComponent: React.FC<PostTitleComponentProps> = (props) => {
       <div>
         <Avatar src={props.logo || MockClientImage} />
         <StyledPageTitle>
-          <span>{props.title || 'Page Title'}</span>
-          <StyledSubTitle>subtitle</StyledSubTitle>
+          <span>{props.title || 'Your Page Title'}</span>
+          <StyledSubTitle>Sponsored</StyledSubTitle>
         </StyledPageTitle>
       </div>
       <div>
