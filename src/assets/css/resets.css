@@ -68,3 +68,8 @@ th, td{
 a{
 	text-decoration: none;
 }
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 5px;
+    background-color: #fff;
+}
