@@ -7,7 +7,8 @@ const StyledContainer = styled.div`
 export const StyledImage = styled.div`
   margin: 0 -32px;
   padding-top: 24px;
-  height: 58%;
+  // height: 58%;
+  height: 250px;
 
   img {
     height: 100%;
@@ -37,6 +38,20 @@ export const StyledAction = styled.div`
     text-transform: capitalize;
     font-size: 18px;
     font-weight: normal !important;
+    padding: 0px !important;
+
+    span.MuiButton-label {
+      font-family: 'Rubik';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 21px;
+
+      /* RICH BLACK */
+
+      color: #0D0000;
+
+    }
   }
 `;
 
@@ -56,7 +71,8 @@ export const StyledIcons = styled.div`
 `;
 
 export const StyledDescription = styled.div`
-  height: 150px;
+  // height: 150px;
+  color: black;
 `;
 
 export default StyledContainer;

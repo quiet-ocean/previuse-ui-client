@@ -49,7 +49,7 @@ const InstragramPreviewComponent: React.FC<InstragramPreviewComponentProps> = (p
         <div><Bookmark /></div>
       </StyledIcons>
 
-      <StyledDescription>{props.post.description || 'post description'}</StyledDescription>
+      <StyledDescription className='post-subtitle'>{props.post.description || 'post description'}</StyledDescription>
     </StyledContainer>
   );
 }

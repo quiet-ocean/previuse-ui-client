@@ -73,3 +73,7 @@ a{
     height: 5px;
     background-color: #fff;
 }
+*::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #5831e9;
+}
