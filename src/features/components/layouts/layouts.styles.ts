@@ -3,6 +3,7 @@ import styled from 'styled-components';
 const StyledContainer = styled.div`
   padding: 24px;
   height: calc(100% - 48px);
+  overflow-y: scroll;
 
   > div {
     padding-bottom: 24px;

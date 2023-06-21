@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 
 import './assets/css/resets.css';
 import './assets/css/fonts.css';
+import './assets/css/custom.css';
 
 import Root from './common/routes';
 import rootReducer, { RootState } from './common/reducers';
