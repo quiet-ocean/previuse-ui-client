@@ -28,6 +28,7 @@ const StyledContainer = styled.div`
     color: #000;
     font-size: 14px;
     padding-bottom: 12px;
+    text-transform: capitalize;
   }
 `;
 

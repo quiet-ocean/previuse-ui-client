@@ -33,6 +33,7 @@ export enum PostLayout {
   facebook4 = 'facebook4',
   tiktok1 = 'tiktok1',
   instagram1 = 'instagram1',
+  twitter1 = 'twitter1',
 }
 
 export interface WebSocketMessage {
