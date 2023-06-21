@@ -77,3 +77,23 @@ export const StyledPostButton: AnyStyledComponent = styled(ButtonComponent)`
   color: ${(props: any) => props.selected ? '#fff' : 'inherit'} !important;
   font-weight: ${(props: any) => props.selected ? '500' : 'normal'} !important;
 `;
+
+export const StyledButtonContainer = styled.div<{ $show: boolean }>`
+  padding: 0px 0px 12px 0px;
+  display: flex;
+  visibility: ${(props) => props.$show ? 'visible' : 'hidden'};
+  gap: 24px;
+
+  button.MuiButtonBase-root  {
+    padding: 7px 16px;
+    > .MuiButton-label {
+      text-transform: capitalize;
+      font-family: Rubik;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 17px;
+      letter-spacing: 0em;
+      text-align: center;
+    }
+  }
+`

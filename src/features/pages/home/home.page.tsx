@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Grid } from '@material-ui/core';
+import { Card, Grid, Button } from '@material-ui/core';
 import { groupBy } from 'lodash';
 import { connect } from 'react-redux';
 import { RouteChildrenProps, useHistory, useParams } from 'react-router';
@@ -35,10 +35,12 @@ import {
   StyledContainer,
   StyledPostNavigation,
   StyledPostButton,
+  StyledButtonContainer,
 } from './home.styles';
 import PostSummaryComponent from '../../components/post-summary/post-summary.component';
 import { CloseWebSocketAction, InitiateWebSocketAction, ListChatMessagesAction } from '../../../common/state/websocket/websocket.actions';
 import ChatComponent from '../../components/chat/chat.component';
+import ButtonComponent from '../../components/button/button.component';
 
 interface HomePageProps {
   isDrawerRender: boolean;
@@ -66,6 +68,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
 
   const [spreadings, setSpreadings] = useState<Spread[]>();
 
+  const [show, setShow] = useState<boolean>(false)
   const { campaignId } = useParams() as { campaignId: string };
 
   const history = useHistory();
@@ -108,11 +111,14 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
 
   const onSelectPost = async (post: PlatformPostSerializerMaster) => {
     setSelectedPost(post);
-    const postSpreadings = await props.listSpreadings(post?.related_platform.platform);
+    const platform = post?.related_platform.platform;
+
+    if (platform === 'facebook') setShow(true)
+    else setShow(false)
+
+    const postSpreadings = await props.listSpreadings(platform);
     const media = await props.listPostMedia(post?.id as number);
     setPostMedia(media.file_in_media || []);
-    /* eslint-disable no-console */
-    console.log(media, postSpreadings)
     setSpreadings(postSpreadings);
   }
 
@@ -148,6 +154,11 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
           <EmptyStateComponent title='No Posts Yet' />
         )}
 
+        <StyledButtonContainer $show={show}>
+          <Button variant='outlined'>News Feed</Button>
+          <Button variant='outlined'>Right Side</Button>
+          <Button variant='outlined'>Mobile</Button>
+        </StyledButtonContainer>
         <Grid container spacing={3}>
           <Grid item xs={6}>
             <div className="left">
