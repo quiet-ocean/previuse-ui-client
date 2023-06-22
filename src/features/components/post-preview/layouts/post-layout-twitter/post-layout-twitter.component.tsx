@@ -42,7 +42,7 @@ const TwitterPreviewComponent: React.FC<Props> = (props) => {
           </div>
           <div className='title'>
             <div>
-              <h3 className='post-title'>{props.post.page_name || 'Twitter Title'}</h3>
+              <h3 className='post-title'>{props.post.page_name}</h3>
               <p className='post-title'>{`@user_name`}</p>
             </div>
             <div className='description'>

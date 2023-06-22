@@ -13,6 +13,7 @@ import StyledContainer, {
 export interface ActionBarComponentProps {
   hasDrawer: boolean;
   clientName?: string;
+  campaignName?: string;
   postStatus?: number;
   onSetPostStatus: (approved: boolean) => void;
 }
@@ -21,7 +22,7 @@ const ActionBarComponent: React.FC<ActionBarComponentProps> = (props) => {
   return (
     <StyledContainer hasDrawer={props.hasDrawer}>
       <div>{props.clientName}</div>
-
+      <div>{props.campaignName}</div>
       <StyledActions>
         <ButtonComponent type='icon' theme='natural' iconElement={<Link />} />
         <ButtonComponent type='button' theme='natural' text={

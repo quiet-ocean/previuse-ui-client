@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Card, Grid, Button } from '@material-ui/core';
 import { groupBy } from 'lodash';
 import { connect } from 'react-redux';
@@ -25,6 +25,9 @@ import {
   UserCreation
 } from '../../../swagger2Ts/interfaces';
 
+import { ServicesContext } from '../../../common/contexts';
+import { IServices } from '../../../common/services/initiate';
+
 import { PostLayout, RootState, ThunkAction, WebSocketMessage } from '../../../common/models';
 import { ApproveStatus, Platform } from '../../../swagger2Ts/enums';
 import ActionBarComponent from '../../components/action-bar/action-bar.component';
@@ -47,6 +50,7 @@ import ChatComponent from '../../components/chat/chat.component';
 interface HomePageProps {
   isDrawerRender: boolean;
   user?: UserCreation;
+  posts?: PlatformPostSerializerMaster[];
   campaings?: Campaigns[];
   campaignPosts?: PlatformPostSerializerMaster[]; 
   websocket?: WebSocket;
@@ -63,9 +67,9 @@ interface HomePageProps {
 }
 /* eslint-disable no-console */
 const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
-  const { campaignPosts } = props;
+  // const { campaignPosts } = props;
   const [selectedCampaign, setSelectedCampaign] = useState<Campaigns>();
-  // const [campaignPosts, setCampaignPosts] = useState<PlatformPostSerializerMaster[]>();
+  const [campaignPosts, setCampaignPosts] = useState<PlatformPostSerializerMaster[]>();
   const [selectedPost, setSelectedPost] = useState<PlatformPostSerializerMaster>();
   const [postMedia, setPostMedia] = useState<MediaFiles[]>();
   const [platformPosts, setPlatformPosts] = useState<Record<Platform, PlatformPostSerializerMaster[]>>();
@@ -76,6 +80,8 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   const { campaignId } = useParams() as { campaignId: string };
 
   const history = useHistory();
+
+  const services: IServices | undefined = useContext(ServicesContext);
 
   useEffect(() => {
     if (props.campaings && props.campaings.length) {
@@ -89,7 +95,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
       }
       setWebSocket(id as number, props.user?.id as number);
     }
-    props.listPostsByCampaign(Number(campaignId))
+    // props.listPostsByCampaign(Number(campaignId))
   }, [campaignId, props.campaings])
 
   useEffect(() => {
@@ -103,11 +109,15 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   }, [selectedCampaign])
 
   useEffect(() => {
-    if (campaignPosts&& selectedCampaign) {
-      setPlatformPosts(groupBy(campaignPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
-      onSelectPost(campaignPosts[0]);
+    if (props.posts && selectedCampaign) {
+      const filteredPosts = props.posts?.filter((post) => post.related_platform.related_campaign.id === selectedCampaign.id);
+      setPlatformPosts(groupBy(filteredPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
+      setCampaignPosts(props.posts?.filter((post) => post.related_platform.related_campaign.id === selectedCampaign.id));
+      if (filteredPosts && filteredPosts?.length > 0) onSelectPost(filteredPosts[0]);
+      // setPlatformPosts(groupBy(campaignPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
+      // onSelectPost(campaignPosts[0]);
     }
-  }, [selectedCampaign, campaignPosts])
+  }, [selectedCampaign, props.posts])
 
   useEffect(() => {
     console.log('changed campaignPosts', campaignPosts, selectedPost)
@@ -124,10 +134,15 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     if (platform === 'facebook') setShow(true)
     else setShow(false)
 
+    services?.loading.actions.start();
+
     const postSpreadings = await props.listSpreadings(platform);
     const media = await props.listPostMedia(post?.id as number);
+
     setPostMedia(media.file_in_media || []);
     setSpreadings(postSpreadings);
+
+    services?.loading.actions.stop();
   }
 
   const onSetPostStatus = (approved: boolean) => {
@@ -164,6 +179,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     <LayoutComponent hasDrawer={props.isDrawerRender}>
       {selectedPost && (
         <ActionBarComponent
+          campaignName={selectedCampaign?.campaign_name}
           hasDrawer={props.isDrawerRender}
           clientName={selectedCampaign && selectedCampaign.related_client.client_name}
           onSetPostStatus={onSetPostStatus}
@@ -175,29 +191,29 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
         {campaignPosts && !campaignPosts.length && (
           <EmptyStateComponent title='No Posts Yet' />
         )}
-
-        <StyledButtonContainer $show={show}>
-          {/* <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.NEWS_FEED)}>News Feed</Button>
-          <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.RIGHT_SIDE)}>Right Side</Button>
-          <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.MOBILE)}>Mobile</Button> */}
-          <Button
-            variant='outlined' 
-            onClick={() => onSetPostLayout(PostLayout.facebook1)}
-            className={selectedSpread?.spread === PostLayout.facebook1 ? 'active' : ''}
-          >News Feed</Button>
-          <Button 
-            variant='outlined' 
-            onClick={() => onSetPostLayout(PostLayout.facebook2)}
-            className={selectedSpread?.spread === PostLayout.facebook2 ? 'active' : ''}
-          >Right Side</Button>
-          <Button 
-            variant='outlined' 
-            onClick={() => onSetPostLayout(PostLayout.facebook4)}
-            className={selectedSpread?.spread === PostLayout.facebook4 ? 'active' : ''}
-          >Mobile</Button>
-        </StyledButtonContainer>
         <Grid container spacing={3}>
           <Grid item xs={6}>
+
+            <StyledButtonContainer $show={show}>
+              {/* <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.NEWS_FEED)}>News Feed</Button>
+              <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.RIGHT_SIDE)}>Right Side</Button>
+              <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.MOBILE)}>Mobile</Button> */}
+              <Button
+                variant='outlined' 
+                onClick={() => onSetPostLayout(PostLayout.facebook1)}
+                className={selectedSpread?.spread === PostLayout.facebook1 ? 'active' : ''}
+              >News Feed</Button>
+              <Button 
+                variant='outlined' 
+                onClick={() => onSetPostLayout(PostLayout.facebook2)}
+                className={selectedSpread?.spread === PostLayout.facebook2 ? 'active' : ''}
+              >Right Side</Button>
+              <Button 
+                variant='outlined' 
+                onClick={() => onSetPostLayout(PostLayout.facebook4)}
+                className={selectedSpread?.spread === PostLayout.facebook4 ? 'active' : ''}
+              >Mobile</Button>
+            </StyledButtonContainer>
             <div className="left">
               <div className="preview">
                 <Card>
@@ -240,6 +256,9 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
           <Grid item xs={6}>
             <div className="right">
               <div className="panel1">
+                <Card>
+                  <h3 className='post-title'>{selectedSpread?.related_platform_type}</h3>
+                </Card>
                 <Card>
                   {selectedPost && selectedCampaign && postMedia && (
                     <CampaignPanelComponent
@@ -284,6 +303,7 @@ const mapStateToProps = (state: RootState) => ({
   isDrawerRender: state.view.drawer.isRender,
   user: state.app.auth.user,
   campaings: state.app.campaign.campaings,
+  posts: state.app.post.posts,
   campaignPosts: state.app.post.campaignPosts,
   websocket: state.app.websocket.instance,
   websocketMessages: state.app.websocket.messages

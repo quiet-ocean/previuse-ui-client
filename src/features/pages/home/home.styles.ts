@@ -52,6 +52,19 @@ export const StyledContainer: AnyStyledComponent = styled.div`
 
   .panel1 {
     grid-area: panel1;
+
+    > div.MuiCard-root:first-child {
+      
+      height: auto;
+      padding: 12px;
+      margin: 0px 0px 24px 0px;
+
+      .post-title {
+        color: #828282;
+        font-weight: 400;
+        text-transform: capitalize;
+      }
+    }
   }
   
   .panel2 {
