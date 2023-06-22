@@ -1,9 +1,12 @@
 import React from 'react';
 import { PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
-import PostContentComponent from '../../post-content/post-content.component';
-import PostFooterComponent from '../../post-footer/post-footer.component';
-import PostTitleComponent from '../../post-title/post-title.component';
-import StyledContainer from './post-layout-carousel.styles';
+import StyledContainer, {
+  StyledPostContent,
+  StyledPostBody,
+  StyledImageWrapper,
+} from './post-layout-carousel.styles';
+
+import MockImage from '../../mock/post-image.png';
 
 export interface PostLayoutCarouselComponentProps {
   post: PlatformPostSerializerMaster;
@@ -12,19 +15,16 @@ export interface PostLayoutCarouselComponentProps {
 const PostLayoutCarouselComponent: React.FC<PostLayoutCarouselComponentProps> = (props) => {
   return (
     <StyledContainer>
-      <div>
-        <PostTitleComponent
-          title={props.post.page_name}
-          logo={props.post.logo}
-        />
-        <PostContentComponent
-          carousel
-          headline={props.post.headline}
-          description={props.post.description}
-          callToAction={props.post.call_to_action}
-        />
-      </div>
-      <PostFooterComponent />
+      <h3 className='post-title'>Sponsored</h3>
+      <StyledPostContent>
+        <StyledImageWrapper>
+          <img src={MockImage} alt='' />
+        </StyledImageWrapper>
+        <StyledPostBody>
+          <h3 className='post-title'>{props.post.page_name}</h3>
+          <p className='post-subtitle'>{props.post.headline}</p>
+        </StyledPostBody>
+      </StyledPostContent>
     </StyledContainer>
   );
 }

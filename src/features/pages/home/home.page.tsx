@@ -6,10 +6,13 @@ import { RouteChildrenProps, useHistory, useParams } from 'react-router';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 
 import {
+  FbPostStatus,
   ListPostMediaAction,
   ListPostsByCampaignAction,
   ListSpreadingsAction,
-  SetPostStatusAction
+  SetPostStatusAction,
+  SetFbPostStatusAction,
+  UpdatePostSpreadAction,
 } from '../../../common/state/post/post.actions';
 
 import {
@@ -22,7 +25,7 @@ import {
   UserCreation
 } from '../../../swagger2Ts/interfaces';
 
-import { RootState, ThunkAction, WebSocketMessage } from '../../../common/models';
+import { PostLayout, RootState, ThunkAction, WebSocketMessage } from '../../../common/models';
 import { ApproveStatus, Platform } from '../../../swagger2Ts/enums';
 import ActionBarComponent from '../../components/action-bar/action-bar.component';
 import EmptyStateComponent from '../../components/empty-state/empty-state.component';
@@ -55,8 +58,10 @@ interface HomePageProps {
   initiateWebSocket: ThunkAction;
   closeWebSocket: ThunkAction;
   listPostsByCampaign: (campaignId: number) => Promise<PlatformPostSerializerMaster[]>;
+  setFbPostStatus: (status: FbPostStatus) => void;
+  updatePostSpread: (id: number, spread: number) => void;
 }
-
+/* eslint-disable no-console */
 const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   const { campaignPosts } = props;
   const [selectedCampaign, setSelectedCampaign] = useState<Campaigns>();
@@ -104,6 +109,10 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     }
   }, [selectedCampaign, campaignPosts])
 
+  useEffect(() => {
+    console.log('changed campaignPosts', campaignPosts, selectedPost)
+  }, [campaignPosts])
+
   const setWebSocket = (campaign: number, userId: number) => {
     props.initiateWebSocket(`ws/chat/${campaign}/${userId}`);
   }
@@ -130,6 +139,20 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     });
   }
 
+  // const onSetFbPostStatus = (status: FbPostStatus) => {
+  //   props.setFbPostStatus(status);
+  // }
+  const onSetPostLayout = (layout: PostLayout) => {
+    const spread = spreadings && selectedPost &&
+    spreadings.find((spread) => spread.spread === layout)?.id as number
+
+    console.log(spreadings, spread, layout)
+    
+    if (spread)
+      // props.updatePostSpread(selectedPost?.id as number, spread)
+      setSelectedPost({ ...selectedPost, spread } as PlatformPostSerializerMaster)
+  }
+
   if (platformPosts && !Object.keys(platformPosts).length) {
     return <EmptyStateComponent title='No Posts Yet' />
   }
@@ -154,9 +177,24 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
         )}
 
         <StyledButtonContainer $show={show}>
-          <Button variant='outlined'>News Feed</Button>
-          <Button variant='outlined'>Right Side</Button>
-          <Button variant='outlined'>Mobile</Button>
+          {/* <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.NEWS_FEED)}>News Feed</Button>
+          <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.RIGHT_SIDE)}>Right Side</Button>
+          <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.MOBILE)}>Mobile</Button> */}
+          <Button
+            variant='outlined' 
+            onClick={() => onSetPostLayout(PostLayout.facebook1)}
+            className={selectedSpread?.spread === PostLayout.facebook1 ? 'active' : ''}
+          >News Feed</Button>
+          <Button 
+            variant='outlined' 
+            onClick={() => onSetPostLayout(PostLayout.facebook2)}
+            className={selectedSpread?.spread === PostLayout.facebook2 ? 'active' : ''}
+          >Right Side</Button>
+          <Button 
+            variant='outlined' 
+            onClick={() => onSetPostLayout(PostLayout.facebook4)}
+            className={selectedSpread?.spread === PostLayout.facebook4 ? 'active' : ''}
+          >Mobile</Button>
         </StyledButtonContainer>
         <Grid container spacing={3}>
           <Grid item xs={6}>
@@ -258,7 +296,9 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => ({
   initiateWebSocket: bindActionCreators(InitiateWebSocketAction, dispatch),
   closeWebSocket: bindActionCreators(CloseWebSocketAction, dispatch),
   listWebSocketMessage: bindActionCreators(ListChatMessagesAction, dispatch),
-  listPostsByCampaign: bindActionCreators(ListPostsByCampaignAction, dispatch)
+  listPostsByCampaign: bindActionCreators(ListPostsByCampaignAction, dispatch),
+  setFbPostStatus: bindActionCreators(SetFbPostStatusAction, dispatch),
+  updatePostSpread: bindActionCreators(UpdatePostSpreadAction, dispatch),
 });
 
 export default connect(

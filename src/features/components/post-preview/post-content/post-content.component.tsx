@@ -42,7 +42,7 @@ const PostContentComponent: React.FC<PostContentComponentProps> = (props) => {
 
   return (
     <StyledContainer>
-      <StyledImageDescription>Write something here ...</StyledImageDescription>
+      <StyledImageDescription className='img-description'>Write something here ...</StyledImageDescription>
       <StyledWrapper>
         {props.carousel ? (
           <Carousel>

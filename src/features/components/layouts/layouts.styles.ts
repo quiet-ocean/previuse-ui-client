@@ -4,6 +4,7 @@ const StyledContainer = styled.div`
   padding: 24px;
   height: calc(100% - 48px);
   overflow-y: scroll;
+  margin: 8px 8px 8px 0px;
 
   > div {
     padding-bottom: 24px;

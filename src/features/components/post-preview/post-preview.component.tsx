@@ -31,7 +31,8 @@ const layoutBySpread: Record<PostLayout, any> = {
 
 const PostPreviewComponent: React.FC<PostPreviewComponentProps> = (props) => {
   const Component = layoutBySpread[props.selectedSpread.spread as PostLayout];
-
+  /* eslint-disable no-console */
+  console.log('props in post layout main: ', props)
   if (!Component) return null;
   
   return (

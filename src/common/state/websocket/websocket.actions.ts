@@ -13,16 +13,23 @@ export enum WebsocketActionTypes {
 
 export const InitiateWebSocketAction: ThunkAction = (address: string) => (dispatch: Dispatch<AnyAction, RootState>, getState: () => RootState) => {
   const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-  const host = process.env.NODE_ENV === 'production' ? window.location.host : 'localhost:8000';
+  const host = process.env.NODE_ENV === 'production' ? window.location.host : 'dev.previuse.com:8000';
+  // const host = process.env.NODE_ENV === 'production' ? window.location.host : '127.0.0.1:8000';
 
   const user = getState().app.auth.user;
 
   if (user) {
     const websocket = new WebSocket(`${protocol}://${host}/${address}`);
-    websocket.onopen = () => dispatch(SetWebSocketAction(websocket));
+    /* eslint-disable no-console */
+    console.log(websocket)
+    websocket.onopen = () => {
+      console.log('websocket is opened')
+      dispatch(SetWebSocketAction(websocket))
+    };
 
     websocket.onmessage = (e) => {
       const message = JSON.parse(e.data);
+      console.log('onmessage websocket:', e.data)
       if (!message.error) {
         dispatch(ReceiveWebSocketMessageAction(message));
       }

@@ -11,6 +11,14 @@ export enum PostActionTypes {
   LIST_POST_MEDIA = '@@post/LIST_POST_MEDIA',
   SET_POST_STATUS = '@@post/SET_POST_STATUS',
   LIST_POSTS_BY_CAMPAIGN = '@@post/LIST_POSTS_BY_CAMPAIGN',
+  SET_FB_POST_STATUS = '@@post/SET_FB_POST_STATUS',
+  UPDATE_POST_SPREAD = '@@post/UPDATE_POST_SPREAD',
+}
+
+export enum FbPostStatus {
+  NEWS_FEED,
+  RIGHT_SIDE,
+  MOBILE,
 }
 
 export const ListPostsAction: () => Promise<
@@ -50,3 +58,13 @@ void
     contentType: undefined
   });
 });
+
+export const SetFbPostStatusAction = (status: FbPostStatus) => ({
+  type: PostActionTypes.SET_FB_POST_STATUS,
+  payload: status,
+})
+
+export const UpdatePostSpreadAction = (id: number, spread: number) => ({
+  type: PostActionTypes.UPDATE_POST_SPREAD,
+  payload: { id, spread }
+})

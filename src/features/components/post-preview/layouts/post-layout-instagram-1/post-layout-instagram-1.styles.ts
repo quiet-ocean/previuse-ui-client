@@ -19,7 +19,7 @@ export const StyledImage = styled.div`
 export const StyledHeader = styled.div`
   border-bottom: 1px solid #E0E0E0;
   height: 50px;
-  margin: -24px 0 24px -24px;;
+  margin: -24px 0 24px -24px;
   padding: 0 24px;
   width: 100%;
   display: flex;

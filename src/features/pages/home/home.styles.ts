@@ -31,9 +31,6 @@ export const StyledContainer: AnyStyledComponent = styled.div`
   
   .layout {
     grid-area: layout;
-    > .MuiPaper-root {
-      padding: 8px 8px 8px 0px;
-    }
   }
   
   .navigation {
@@ -95,5 +92,9 @@ export const StyledButtonContainer = styled.div<{ $show: boolean }>`
       letter-spacing: 0em;
       text-align: center;
     }
+  }
+  button.active {
+    border: 1px solid transparent !important;
+    background-color: #E0E0E0 !important;
   }
 `

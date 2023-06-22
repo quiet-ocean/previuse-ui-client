@@ -80,15 +80,9 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
   useEffect(() => {
     init();
     window.addEventListener('resize', props.onScreenResize);
-    const interval = setInterval(async () => {
-      /* eslint-disable no-console */
-      props.getNotifications();
-      console.log('notifications', props.notifications);
-    }, 1000)
 
     return () => {
       window.removeEventListener('resize', props.onScreenResize);
-      clearInterval(interval)
     };
   }, []);
 

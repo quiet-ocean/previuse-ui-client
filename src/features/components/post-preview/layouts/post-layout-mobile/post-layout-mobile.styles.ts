@@ -3,6 +3,10 @@ import styled from 'styled-components';
 
 const StyledContainer = styled.div`
   height: 100%;
+
+  .img-description {
+    visibility: hidden;
+  }
 `;
 
 export const StyledImage = styled.div`
@@ -42,5 +46,36 @@ export const StyledMoreButton = styled(Button)`
     font-weight: normal;
   }
 `;
+
+export const StyledActions = styled.div`
+  margin: 0 -24px;
+  border-top: 1px solid #E0E0E0;
+  padding: 12px 24px 0px 24px;
+  height: 42px;
+
+  display: flex;
+  justify-content: space-between;
+
+  button.MuiButton-root {
+    > span {
+      text-transform: capitalize;
+      font-weight: 400;
+      font-family: Rubik;
+      font-size: 13px;
+    }
+  }
+`
+export const StyledPostFooterWrapper = styled.div`
+  padding: 16px 0px;
+`
+
+export const StyledIconWrapper = styled.div`
+  width: 18px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+`
 
 export default StyledContainer;
