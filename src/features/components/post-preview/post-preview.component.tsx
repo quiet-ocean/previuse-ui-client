@@ -17,7 +17,7 @@ export interface PostPreviewComponentProps {
   post: PlatformPostSerializerMaster;
   selectedSpread: Spread;
 }
-/* eslint-disable no-console*/
+
 const layoutBySpread: Record<PostLayout, any> = {
   [PostLayout.facebook1]: PostLayoutMainComponent,
   [PostLayout.facebook2]: PostLayoutCarouselComponent,
@@ -31,7 +31,6 @@ const layoutBySpread: Record<PostLayout, any> = {
 
 const PostPreviewComponent: React.FC<PostPreviewComponentProps> = (props) => {
   const Component = layoutBySpread[props.selectedSpread.spread as PostLayout];
-  console.log('post data in post preview', props.post, props.selectedSpread)
 
   if (!Component) return null;
   

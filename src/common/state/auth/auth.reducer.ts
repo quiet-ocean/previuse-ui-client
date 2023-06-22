@@ -10,7 +10,8 @@ const authReducer: Reducer<AuthState> = (
   switch (action.type) {
     case `${AuthActionTypes.GET_LOGGED_IN_USER}${SUCCESS_SUFFIX}`:
       return { ...state, user: action.payload };
-
+    case `${AuthActionTypes.LIST_USERS}${SUCCESS_SUFFIX}`:
+      return { ...state, users: action.payload };
     default:
       return state;
   }

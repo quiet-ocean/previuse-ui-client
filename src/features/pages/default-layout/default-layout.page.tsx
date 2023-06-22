@@ -21,11 +21,13 @@ import HeaderComponent from '../../components/header/header.component';
 import DialogComponent from '../../components/dialog/dialog.component';
 import { DialogTypes } from '../../../common/state/dialog/dialog.state';
 import SnackBarComponent from '../../components/snackbar/snackbar.component';
-import { Campaigns, PlatformPostSerializerMaster, UserCreation } from '../../../swagger2Ts/interfaces';
+import { Campaigns, PlatformPostSerializerMaster, UserCreation, UserNotifications } from '../../../swagger2Ts/interfaces';
 import { GetLoggedInUserAction } from '../../../common/state/auth/auth.actions';
 import DrawerComponent from '../../components/drawer/drawer.component';
 import { ListCampaignsAction } from '../../../common/state/campaign/campaign.actions';
 import { ListPostsAction } from '../../../common/state/post/post.actions';
+import { GetNotificationsAction } from '../../../common/state/notification/notification.actions';
+import { ListUsersAction } from '../../../common/state/auth/auth.actions';
 import EmptyStateComponent from '../../components/empty-state/empty-state.component';
 import { LinearProgress } from '@material-ui/core';
 
@@ -50,6 +52,7 @@ interface AppProps {
   snackbarType?: SnackBarType;
   isSnackbarOpen: boolean;
   campaigns?: Campaigns[];
+  notifications?: UserNotifications[];
 }
 
 interface DispatchProps {
@@ -60,6 +63,8 @@ interface DispatchProps {
   getLoggedInUser: () => Promise<UserCreation>;
   listCampaigns: (clientId: number) => Promise<Campaigns[]>;
   listPosts: () => Promise<PlatformPostSerializerMaster[]>;
+  getNotifications: () => Promise<UserNotifications[]>;
+  listUsers: () => Promise<UserCreation[]>;
 }
 
 const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
@@ -75,9 +80,15 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
   useEffect(() => {
     init();
     window.addEventListener('resize', props.onScreenResize);
+    const interval = setInterval(async () => {
+      /* eslint-disable no-console */
+      props.getNotifications();
+      console.log('notifications', props.notifications);
+    }, 1000)
 
     return () => {
       window.removeEventListener('resize', props.onScreenResize);
+      clearInterval(interval)
     };
   }, []);
 
@@ -91,6 +102,7 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
       const user = await props.getLoggedInUser();
       props.listCampaigns(user.id as number);
       props.listPosts();
+      props.listUsers();
     } finally {
       services.loading.actions.stop();
     }
@@ -181,12 +193,14 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => {
     getLoggedInUser: bindActionCreators(GetLoggedInUserAction, dispatch),
     listCampaigns: bindActionCreators(ListCampaignsAction, dispatch),
     listPosts: bindActionCreators(ListPostsAction, dispatch),
+    getNotifications: bindActionCreators(GetNotificationsAction, dispatch),
+    listUsers: bindActionCreators(ListUsersAction, dispatch)
   };
 };
 
 const mapStateToProps = (state: RootState) => {
   const { general, dialog, drawer, snackbar } = state.view;
-  const { auth, campaign } = state.app;
+  const { auth, campaign, notification } = state.app;
   return {
     user: auth.user,
     isDialogRender: dialog.isRender,
@@ -200,7 +214,8 @@ const mapStateToProps = (state: RootState) => {
     snackbackContent: snackbar.content,
     snackbarType: snackbar.type,
     isSnackbarOpen: snackbar.open,
-    campaigns: campaign.campaings
+    campaigns: campaign.campaings,
+    notifications: notification.notifications,
   };
 };
 

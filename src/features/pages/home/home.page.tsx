@@ -40,7 +40,6 @@ import {
 import PostSummaryComponent from '../../components/post-summary/post-summary.component';
 import { CloseWebSocketAction, InitiateWebSocketAction, ListChatMessagesAction } from '../../../common/state/websocket/websocket.actions';
 import ChatComponent from '../../components/chat/chat.component';
-import ButtonComponent from '../../components/button/button.component';
 
 interface HomePageProps {
   isDrawerRender: boolean;

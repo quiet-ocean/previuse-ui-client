@@ -1,6 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-import { PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
+import { PlatformPostSerializerMaster, UserCreation } from '../../../../../swagger2Ts/interfaces';
 
 import StyledContainer, {
   StyledPostContent,
@@ -20,12 +21,18 @@ import { ReactComponent as Comment} from '../../../../../assets/images/comment-1
 import { ReactComponent as Heart} from '../../../../../assets/images/heart-1.svg'
 import { ReactComponent as Share} from '../../../../../assets/images/share-1.svg'
 import { ReactComponent as Upload} from '../../../../../assets/images/upload.svg'
+import { RootState } from '../../../../../common/models';
 
 export interface TwitterPreviewComponentProps {
   post: PlatformPostSerializerMaster;
 }
+export interface TwitterPreviewStateProps {
+  users?: UserCreation[];
+}
 
-const TwitterPreviewComponent: React.FC<TwitterPreviewComponentProps> = (props) => {
+type Props = TwitterPreviewStateProps & TwitterPreviewComponentProps
+
+const TwitterPreviewComponent: React.FC<Props> = (props) => {
   return (
     <StyledContainer>
       <div>
@@ -36,7 +43,7 @@ const TwitterPreviewComponent: React.FC<TwitterPreviewComponentProps> = (props) 
           <div className='title'>
             <div>
               <h3 className='post-title'>{props.post.page_name || 'Twitter Title'}</h3>
-              <p className='post-title'>@user_name</p>
+              <p className='post-title'>{`@user_name`}</p>
             </div>
             <div className='description'>
               <p>Write something here...</p>
@@ -81,4 +88,8 @@ const TwitterPreviewComponent: React.FC<TwitterPreviewComponentProps> = (props) 
   )
 }
 
-export default TwitterPreviewComponent;
+const mapStateToProps = (state: RootState): TwitterPreviewStateProps =>({
+  users: state.app.auth.users,
+})
+
+export default connect(mapStateToProps)(TwitterPreviewComponent);

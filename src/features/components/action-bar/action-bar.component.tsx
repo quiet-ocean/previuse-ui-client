@@ -1,13 +1,13 @@
 import React from 'react';
 
 import ButtonComponent from '../button/button.component';
-import SwitchComponent from '../switch/switch.component';
+// import SwitchComponent from '../switch/switch.component';
 import { ReactComponent as Link } from '../../../assets/images/link.svg';
-import { ReactComponent as Comment } from '../../../assets/images/comment.svg';
+// import { ReactComponent as Comment } from '../../../assets/images/comment.svg';
 
 import StyledContainer, {
   StyledActions,
-  StyledSwitchButton
+  // StyledSwitchButton
 } from './action-bar.styles';
 
 export interface ActionBarComponentProps {
@@ -24,7 +24,13 @@ const ActionBarComponent: React.FC<ActionBarComponentProps> = (props) => {
 
       <StyledActions>
         <ButtonComponent type='icon' theme='natural' iconElement={<Link />} />
-        <ButtonComponent type='icon' theme='natural' iconElement={<Comment />} />
+        <ButtonComponent type='button' theme='natural' text={
+          <>
+            <Link />
+            <div>invite members</div>
+          </>
+        } />
+        {/* <ButtonComponent type='icon' theme='natural' iconElement={<Comment />} />
 
         <SwitchComponent
           checkedButtonColor='#BDBDBD'
@@ -36,7 +42,7 @@ const ActionBarComponent: React.FC<ActionBarComponentProps> = (props) => {
           icon={<StyledSwitchButton className='off'>Off</StyledSwitchButton>}
           onChange={props.onSetPostStatus}
           checked={props.postStatus === -1 || props.postStatus === 0 ? false : true}
-        />
+        /> */}
       </StyledActions>
     </StyledContainer>
   );

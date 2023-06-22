@@ -44,6 +44,12 @@ export const StyledActions = styled.div`
 
   button {
     margin-left: 12px;
+    width: auto !important;
+
+    div {
+      margin-left: 8px;
+      text-transform: capitalize;
+    }
   }
 
   .MuiIconButton-label svg {

@@ -7,6 +7,7 @@ import snackbar from './state/snackbar/snackbar.reducer';
 import campaign from './state/campaign/campaign.reducer';
 import post from './state/post/post.reducer';
 import websocket from './state/websocket/websocket.reducer';
+import notification from './state/notification/notification.reducer';
 
 import { AuthState } from './state/auth/auth.state';
 import { DialogState } from './state/dialog/dialog.state';
@@ -16,12 +17,14 @@ import { SnackbarState } from './state/snackbar/snackbar.state';
 import { CampaignState } from './state/campaign/campaign.state';
 import { PostState } from './state/post/post.state';
 import { WebsocketState } from './state/websocket/websocket.state';
+import { NotificationState } from './state/notification/notification.state';
 
 export interface AppState {
   auth: AuthState;
   campaign: CampaignState;
   post: PostState;
   websocket: WebsocketState;
+  notification: NotificationState;
 }
 
 export interface ViewState {
@@ -41,7 +44,8 @@ const rootReducer = combineReducers<RootState>({
     auth,
     campaign,
     post,
-    websocket
+    websocket,
+    notification,
   }),
   view: combineReducers({
     dialog,
