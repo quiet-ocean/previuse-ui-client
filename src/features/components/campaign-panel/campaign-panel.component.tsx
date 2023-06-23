@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 
 import {
@@ -8,7 +8,7 @@ import {
   InputLabel,
 } from '@material-ui/core';
 
-import { Campaigns, MediaFiles, Platform } from '../../../swagger2Ts/interfaces';
+import { Campaigns, MediaFiles, Platform, PlatformTypes } from '../../../swagger2Ts/interfaces';
 import { ReactComponent as File } from '../../../assets/images/file.svg';
 
 import StyledContainer, {
@@ -17,6 +17,9 @@ import StyledContainer, {
   StyledFileList
 } from './campaign-panel.styles';
 import { BudgetType } from '../../../swagger2Ts/enums';
+import HttpService from '../../../common/services/http.service';
+
+import TagsInputComponent from '../tags-input/tags-input.component'
 
 export interface CampaignPanelComponentProps {
   campaign: Campaigns;
@@ -25,6 +28,20 @@ export interface CampaignPanelComponentProps {
 }
 
 const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) => {
+  const [tags, setTags] = useState<PlatformTypes[]>([])
+  useEffect(() => {
+    (async () => await getPlatformTags())();
+  }, [])
+  const getPlatformTags = async () => {
+    const result = await HttpService.fetch({
+      method: 'get',
+      url: `/Platform/tags/${props.platform.id}`,
+    })
+    /* eslint-disable no-console */
+    console.log('tags of platform: ', result)
+    setTags(result)
+
+  }
   return (
     <StyledContainer>
       <Box>
@@ -58,7 +75,7 @@ const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) =>
 
       <Box className='column'>
         <InputLabel>Campaign type</InputLabel>
-        {/* <TagsInputComponent tags={[]} name='campaign-type' errors={{}} /> */}
+        <TagsInputComponent tags={tags} name='campaign-type' errors={{}} />
       </Box>
 
       <Box className='clean column'>
