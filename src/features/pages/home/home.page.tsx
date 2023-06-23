@@ -142,6 +142,8 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     setPostMedia(media.file_in_media || []);
     setSpreadings(postSpreadings);
 
+    console.log(selectedPost, postSpreadings, media)
+
     services?.loading.actions.stop();
   }
 
@@ -221,6 +223,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
                     <PostPreviewComponent
                       post={selectedPost}
                       selectedSpread={selectedSpread}
+                      media={postMedia}
                     />
                   )}
                 </Card>

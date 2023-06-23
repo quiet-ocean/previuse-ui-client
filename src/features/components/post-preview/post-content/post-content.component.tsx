@@ -5,7 +5,7 @@ import { CallToAction } from '../../../../swagger2Ts/enums';
 import { camelCaseToWords } from '../../../../utils/general-utils';
 
 import ButtonComponent from '../../button/button.component';
-import MockPostImage from '../mock/post-image.png';
+import MockPostImage3 from '../mock/post-image3.png';
 import MockPostImage2 from '../mock/post-image2.png';
 
 import StyledContainer, {
@@ -17,6 +17,7 @@ import StyledContainer, {
   StyledPostImage,
   StyledWrapper
 } from './post-content.styles';
+import { MediaFiles, PlatformPostSerializerMaster } from '../../../../swagger2Ts/interfaces';
 
 export interface PostContentComponentProps {
   video?: boolean;
@@ -24,12 +25,15 @@ export interface PostContentComponentProps {
   headline?: string;
   description?: string;
   callToAction?: CallToAction;
+  media?: MediaFiles[];
+  post?: PlatformPostSerializerMaster;
+  mobile?: boolean;
 }
 
 const PostContentComponent: React.FC<PostContentComponentProps> = (props) => {
   const image = (
     <StyledPostImage>
-      <img src={MockPostImage} />
+      <img src={props.media && props?.media[0].file_in || MockPostImage3} />
       {props.video && (
         <ButtonComponent
           type='icon'
@@ -42,24 +46,24 @@ const PostContentComponent: React.FC<PostContentComponentProps> = (props) => {
 
   return (
     <StyledContainer>
-      <StyledImageDescription className='img-description'>Write something here ...</StyledImageDescription>
+      <StyledImageDescription className='img-description'>{props.post?.primary_text}</StyledImageDescription>
       <StyledWrapper>
         {props.carousel ? (
           <Carousel>
             {image}
-            <StyledPostImage><img src={MockPostImage2} /></StyledPostImage>
+            <StyledPostImage><img src={props.media && props?.media[0].file_in || MockPostImage2} /></StyledPostImage>
           </Carousel>
         ) : (
           image
         )}
 
         <div className='bottom'>
-          <StyledHeadline>{props.headline || 'Headline'}</StyledHeadline>
+          <StyledHeadline>{props.media && props.media[0].headline}</StyledHeadline>
 
-          <StyledPostDescription>{props.description || 'Description'}</StyledPostDescription>
+          <StyledPostDescription>{props.media && props.media[0].description}</StyledPostDescription>
 
           <div className="flex">
-            <StyledCaption>Caption</StyledCaption>
+            <StyledCaption $show={!props.mobile}>{props.media && props.media[0].caption}</StyledCaption>
             <StyledLikeButton>{props.callToAction ? camelCaseToWords(props.callToAction) : 'Learn more'}</StyledLikeButton>
           </div>
         </div>

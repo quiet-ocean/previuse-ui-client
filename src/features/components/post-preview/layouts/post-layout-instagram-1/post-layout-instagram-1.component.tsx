@@ -1,8 +1,8 @@
 import React from 'react';
 import { KeyboardArrowRight, MoreHoriz } from '@material-ui/icons';
 
-import MockPostImage from '../../mock/post-image.png';
-import { PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
+import MockPostImage from '../../mock/post-image3.png';
+import { MediaFiles, PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
 import ButtonComponent from '../../../button/button.component';
 import PostTitleComponent from '../../post-title/post-title.component';
 
@@ -20,6 +20,7 @@ import StyledContainer, {
 
 export interface InstragramPreviewComponentProps {
   post: PlatformPostSerializerMaster;
+  media: MediaFiles[];
 }
 
 const InstragramPreviewComponent: React.FC<InstragramPreviewComponentProps> = (props) => {
@@ -33,11 +34,11 @@ const InstragramPreviewComponent: React.FC<InstragramPreviewComponentProps> = (p
       />
 
       <StyledImage>
-        <img src={MockPostImage} />
+        <img src={props.media && props.media[0].file_in || MockPostImage} />
       </StyledImage>
 
       <StyledAction>
-        <ButtonComponent text={props.post.call_to_action ? camelCaseToWords(props.post.call_to_action) : 'Learn More'} />
+        <ButtonComponent text={props.media && props.media[0].call_to_action ? camelCaseToWords(props.media[0].call_to_action) : 'Learn More'} />
         <KeyboardArrowRight />
       </StyledAction>
 
@@ -49,7 +50,7 @@ const InstragramPreviewComponent: React.FC<InstragramPreviewComponentProps> = (p
         <div><Bookmark /></div>
       </StyledIcons>
 
-      <StyledDescription className='post-subtitle'>{props.post.description || 'post description'}</StyledDescription>
+      <StyledDescription className='post-subtitle'>{props.media && props.media[0].description}</StyledDescription>
     </StyledContainer>
   );
 }

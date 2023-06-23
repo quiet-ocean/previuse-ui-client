@@ -2,8 +2,8 @@ import React from 'react';
 import { Button } from '@material-ui/core'
 import { MoreHoriz } from '@material-ui/icons';
 
-import MockPostImage from '../../mock/post-image.png';
-import { PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
+import MockPostImage from '../../mock/post-image3.png';
+import { MediaFiles, PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
 import ButtonComponent from '../../../button/button.component';
 import PostTitleComponent from '../../post-title/post-title.component';
 
@@ -22,6 +22,7 @@ import StyledContainer, {
 
 export interface LinkedInPreviewComponentProps {
   post: PlatformPostSerializerMaster;
+  media: MediaFiles[];
 }
 
 const LinkedInPreviewComponent: React.FC<LinkedInPreviewComponentProps> = (props) => {
@@ -33,20 +34,20 @@ const LinkedInPreviewComponent: React.FC<LinkedInPreviewComponentProps> = (props
         action={<ButtonComponent type='icon' iconElement={<MoreHoriz />} />}
       />
       <StyledPostContent>
-        <p className='post-subtitle'>Write something here...</p>
+        <p className='post-subtitle'>{props.media && props.media[0].description}</p>
         <StyledImage>
-          <img src={MockPostImage} />
+          <img src={props.media && props.media[0].file_in || MockPostImage} />
         </StyledImage>
 
         <StyledPostBody>
           <StyledTitle>
-            <h3 className='post-title'>{props.post?.post_tittle || 'Your Headline'}</h3>
+            <h3 className='post-title'>{props.media && props.media[0].headline}</h3>
             <div>
               <ButtonComponent text={<p className='post-subtitle'>Request Demo</p>} />
             </div>
           </StyledTitle>
           <div>
-            <p className='post-subtitle'>{`previuse.com`}</p>
+            <p className='post-subtitle'>{props.media && props.media[0].caption}</p>
           </div>
         </StyledPostBody>
       </StyledPostContent>

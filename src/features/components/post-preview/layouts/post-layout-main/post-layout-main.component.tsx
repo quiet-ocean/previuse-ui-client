@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
+import { MediaFiles, PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
 import PostContentComponent from '../../post-content/post-content.component';
 import PostFooterComponent from '../../post-footer/post-footer.component';
 import PostTitleComponent from '../../post-title/post-title.component';
@@ -11,6 +11,7 @@ import { RootState } from '../../../../../common/reducers';
 
 export interface PostLayoutMainComponentProps {
   post: PlatformPostSerializerMaster;
+  media: MediaFiles[];
 }
 
 interface StateProps {
@@ -29,6 +30,8 @@ const PostLayoutMainComponent: React.FC<StateProps & PostLayoutMainComponentProp
           headline={props.post.headline}
           description={props.post.description}
           callToAction={props.post.call_to_action}
+          post={props.post}
+          media={props.media}
         />
       </div>
 

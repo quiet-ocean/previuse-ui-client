@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@material-ui/core'
-import { PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
+import { PlatformPostSerializerMaster, MediaFiles } from '../../../../../swagger2Ts/interfaces';
 import PostTitleComponent from '../../post-title/post-title.component';
 
 import StyledContainer, {
@@ -18,6 +18,7 @@ import { ReactComponent as Share } from '../../../../../assets/images/share-1.sv
 
 export interface PostLayoutMobileComponentProps {
   post: PlatformPostSerializerMaster;
+  media: MediaFiles[];
 }
 
 const PostLayoutMobileComponent: React.FC<PostLayoutMobileComponentProps> = (props) => {
@@ -31,6 +32,9 @@ const PostLayoutMobileComponent: React.FC<PostLayoutMobileComponentProps> = (pro
         headline={props.post.headline}
         description={props.post.description}
         callToAction={props.post.call_to_action}
+        post={props.post}
+        media={props.media}
+        mobile={true}
       />
       <StyledPostFooterWrapper>
         <PostFooterComponent />

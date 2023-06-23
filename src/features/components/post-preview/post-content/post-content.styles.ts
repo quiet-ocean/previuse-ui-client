@@ -38,6 +38,8 @@ export const StyledPostImage = styled.div`
   img {
     width: 100%;
     height: 200px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
   }
 
   .video-button {
@@ -60,9 +62,10 @@ export const StyledHeadline = styled.div`
 export const StyledPostDescription = styled.div`
 `;
 
-export const StyledCaption = styled.div`
+export const StyledCaption = styled.div<{ $show: boolean }>`
   color: ${({ theme }) => theme.colors.additionalTextColor4};
   font-size: 14px;
+  visibility: ${props => props.$show ? "visible" : "hidden"}
 `;
 
 export const StyledLikeButton = styled(Button)`

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PostLayout } from '../../../common/models';
 
-import { PlatformPostSerializerMaster, Spread } from '../../../swagger2Ts/interfaces';
+import { PlatformPostSerializerMaster, Spread, MediaFiles } from '../../../swagger2Ts/interfaces';
 
 import PostLayoutCarouselComponent from './layouts/post-layout-carousel/post-layout-carousel.component';
 import InstragramPreviewComponent from './layouts/post-layout-instagram-1/post-layout-instagram-1.component';
@@ -16,6 +16,7 @@ import StyledContainer from './post-preview.styles';
 export interface PostPreviewComponentProps {
   post: PlatformPostSerializerMaster;
   selectedSpread: Spread;
+  media?: MediaFiles[]
 }
 
 const layoutBySpread: Record<PostLayout, any> = {
@@ -31,13 +32,12 @@ const layoutBySpread: Record<PostLayout, any> = {
 
 const PostPreviewComponent: React.FC<PostPreviewComponentProps> = (props) => {
   const Component = layoutBySpread[props.selectedSpread.spread as PostLayout];
-  /* eslint-disable no-console */
-  console.log('props in post layout main: ', props)
+
   if (!Component) return null;
   
   return (
     <StyledContainer>
-      <Component post={props.post} />
+      <Component post={props.post} media={props.media} />
     </StyledContainer>
   );
 }

@@ -4209,6 +4209,30 @@
         "media_box": {
           "title": "Media box",
           "type": "integer"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "headline": {
+          "title": "Headline",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "caption": {
+          "title": "Caption",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
+        },
+        "call_to_action": {
+          "title": "Call To Action",
+          "type": "string",
+          "maxLength": 256,
+          "x-nullable": true
         }
       }
     },
@@ -5642,6 +5666,11 @@
         "related_platform_post": {
           "title": "Related platform post",
           "type": "integer",
+          "x-nullable": true
+        },
+        "user_name": {
+          "title": "User Name",
+          "type": "string",
           "x-nullable": true
         }
       }

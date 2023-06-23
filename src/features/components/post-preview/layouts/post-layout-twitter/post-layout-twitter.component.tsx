@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { PlatformPostSerializerMaster, UserCreation } from '../../../../../swagger2Ts/interfaces';
+import { PlatformPostSerializerMaster, UserCreation, MediaFiles } from '../../../../../swagger2Ts/interfaces';
 
 import StyledContainer, {
   StyledPostContent,
@@ -13,7 +13,7 @@ import StyledContainer, {
   StyledBlankLine,
   StyledBlankIcon,
 } from './post-layout-twitter.styles';
-import MockPostImage from '../../mock/post-image.png';
+import MockPostImage from '../../mock/post-image3.png';
 import MockClientImage from '../../mock/client.png';
 import ButtonComponent from '../../../button/button.component';
 
@@ -25,6 +25,7 @@ import { RootState } from '../../../../../common/models';
 
 export interface TwitterPreviewComponentProps {
   post: PlatformPostSerializerMaster;
+  media?: MediaFiles[]
 }
 export interface TwitterPreviewStateProps {
   users?: UserCreation[];
@@ -43,16 +44,16 @@ const TwitterPreviewComponent: React.FC<Props> = (props) => {
           <div className='title'>
             <div>
               <h3 className='post-title'>{props.post.page_name}</h3>
-              <p className='post-title'>{`@user_name`}</p>
+              <p className='post-title'>@{props.post.user_name}</p>
             </div>
             <div className='description'>
-              <p>Write something here...</p>
+              <p>{props?.media && props?.media[0].description}</p>
             </div>
           </div>
         </StyledPostTitle>
         <StyledPostContent>
           <StyledPostImage>
-            <img src={MockPostImage} alt='' />
+            <img src={props?.media && props?.media[0].file_in || MockPostImage} alt='' />
           </StyledPostImage>
           <StyledActions>
             <div>
