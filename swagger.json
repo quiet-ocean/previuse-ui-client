@@ -4154,6 +4154,12 @@
           "maxLength": 200,
           "x-nullable": true
         },
+        "business_account": {
+          "type": "string",
+          "title": "Business account",
+          "maxLength": 256,
+          "x-nullable": true
+        },
         "active": {
           "title": "Active",
           "type": "boolean"
@@ -4167,6 +4173,31 @@
           "type": "string",
           "format": "date-time",
           "readOnly": true,
+          "x-nullable": true
+        },
+        "audience_size_from": {
+          "title": "Audience Size from",
+          "type": "number",
+          "x-nullable": true
+        },
+        "audience_size_to": {
+          "title": "Audience Size to",
+          "type": "number",
+          "x-nullable": true
+        },
+        "audience_size_value": {
+          "title": "Audience Size value",
+          "type": "number",
+          "x-nullable": true
+        },
+        "reach": {
+          "title": "Reach",
+          "type": "number",
+          "x-nullable": true
+        },
+        "link_clicks": {
+          "title": "Link Clicks",
+          "type": "number",
           "x-nullable": true
         }
       }

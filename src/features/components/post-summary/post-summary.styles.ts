@@ -13,8 +13,8 @@ const StyledContainer = styled.div`
   }
 `;
 
-export const StyledBox = styled(Box)`
-  display: flex;
+export const StyledBox = styled(Box)<{ $hide?: boolean }>`
+  display: ${props => props.$hide ? 'none' : 'flex'};
   flex-direction: column;
   
   &:not(:last-child) {
@@ -65,6 +65,8 @@ export const StyledAudience = styled.div`
     border-radius: 10px;
     opacity: 0.2;
 
+    margin-right: 16px;
+    
     &.selected {
       background-color: ${({ theme }) => theme.colors.pending};
       opacity: 1;

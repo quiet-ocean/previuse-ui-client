@@ -75,14 +75,24 @@ const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) =>
 
       <Box className='column'>
         <InputLabel>Campaign type</InputLabel>
-        <TagsInputComponent tags={tags} name='campaign-type' errors={{}} />
+        <div>
+
+          <TagsInputComponent tags={tags} name='campaign-type' errors={{}} />
+        </div>
       </Box>
 
       <Box className='clean column'>
-        <InputLabel>Budget type</InputLabel>
+        <InputLabel>Campaign Budget</InputLabel>
         <div className="budget">
           <div>{props.platform.budget}$</div>
           <div>/ {props.platform.budget_type || BudgetType.daily}</div>
+        </div>
+      </Box>
+
+      <Box className='clean column'>
+        <InputLabel>Business Account</InputLabel>
+        <div className="budget">
+          <div>{props.platform.business_account}</div>
         </div>
       </Box>
 

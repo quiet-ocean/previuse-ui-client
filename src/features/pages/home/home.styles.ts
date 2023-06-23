@@ -21,6 +21,7 @@ export const StyledContainer: AnyStyledComponent = styled.div`
     grid-template-areas:
       "preview layout"
       "navigation navigation"
+      "summary summary"
   }
 
   .preview {
@@ -37,6 +38,14 @@ export const StyledContainer: AnyStyledComponent = styled.div`
     grid-area: navigation;
     display: flex;
     align-items: center;
+  }
+
+  .summary {
+    grid-area: summary;
+
+    .MuiPaper-root {
+      padding: 24px;
+    }
   }
   
   .right {
@@ -69,6 +78,7 @@ export const StyledContainer: AnyStyledComponent = styled.div`
   
   .panel2 {
     grid-area: panel2;
+    margin-top: 72px;
   }
   
   .chat {

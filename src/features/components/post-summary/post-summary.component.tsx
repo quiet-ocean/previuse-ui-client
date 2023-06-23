@@ -9,33 +9,38 @@ import StyledContainer, {
   StyledDailyResult
 } from './post-summary.styles';
 
+export enum PostSummaryVariant {
+  primary, secondary
+}
 export interface PostSummaryComponentProps {
   platform: Platform;
+  variant?: PostSummaryVariant;
 }
 
-const PostSummaryComponent: React.FC<PostSummaryComponentProps> = (props) => {
+const PostSummaryComponent: React.FC<PostSummaryComponentProps> = ({ platform, variant = PostSummaryVariant.primary }) => {
   const onNavigateToBusinessPage = () => {
-    if (props.platform.business_page) {
-      window.open(`http://${props.platform.business_page}`, '_blank');
+    if (platform.business_page) {
+      window.open(`http://${platform.business_page}`, '_blank');
     }
   }
-
+  /* eslint-disable no-console */
+  console.log('variant: ', variant)
   return (
     <StyledContainer>
-      <StyledBox>
+      <StyledBox $hide={variant === PostSummaryVariant.secondary}>
         <label>External Link</label>
         <ButtonComponent
           text='Click Here'
           className='external-link-button'
           onClick={onNavigateToBusinessPage}
-          disabled={!props.platform.business_page}
+          disabled={!platform.business_page}
         />
       </StyledBox>
 
       <StyledBox>
         <label>Estimated Audience Size</label>
         <StyledAudienceInidication>
-          <div className='audience-count'>37,000 - 43,500</div>
+          <div className='audience-count'>{platform.audience_size_from || 0} - {platform.audience_size_to || 0}</div>
           <StyledAudience>
             <div />
             <div className='selected' />
@@ -49,12 +54,14 @@ const PostSummaryComponent: React.FC<PostSummaryComponentProps> = (props) => {
         <StyledDailyResult>
           <StyledBox>
             <label>Reach</label>
-            <div>651-1.9K</div>
+            {/* <div>651-1.9K</div> */}
+            <div>{platform.reach || 0}</div>
           </StyledBox>
           
           <StyledBox>
             <label>Link Clicked</label>
-            <div>4-20</div>
+            {/* <div>4-20</div> */}
+            <div>{platform.link_clicks || 0}</div>
           </StyledBox>
         </StyledDailyResult>
       </StyledBox>

@@ -43,7 +43,7 @@ import {
   StyledPostButton,
   StyledButtonContainer,
 } from './home.styles';
-import PostSummaryComponent from '../../components/post-summary/post-summary.component';
+import PostSummaryComponent, { PostSummaryVariant } from '../../components/post-summary/post-summary.component';
 import { CloseWebSocketAction, InitiateWebSocketAction, ListChatMessagesAction } from '../../../common/state/websocket/websocket.actions';
 import ChatComponent from '../../components/chat/chat.component';
 
@@ -253,6 +253,14 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
                     />
                   ))}
                 </StyledPostNavigation>
+              </div>
+
+              <div className='summary'>
+                <Card>
+                  <div>
+                    {selectedPost && <PostSummaryComponent platform={selectedPost.related_platform} variant={PostSummaryVariant.secondary} />}
+                  </div>
+                </Card>
               </div>
             </div>
           </Grid>
