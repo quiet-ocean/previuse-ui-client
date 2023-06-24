@@ -45,6 +45,10 @@ export const StyledContainer: AnyStyledComponent = styled.div`
 
     .MuiPaper-root {
       padding: 24px;
+
+      > div {
+        display: flex;
+      }
     }
   }
   

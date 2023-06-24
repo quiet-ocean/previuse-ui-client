@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import MockupImage from '../../../assets/images/post-image3.png'
 const StyledContainer = styled.div`
   padding: 24px;
-  height: calc(100% - 48px);
+  height: calc(100% - 64px);
   overflow-y: scroll;
   margin: 8px 8px 8px 0px;
 

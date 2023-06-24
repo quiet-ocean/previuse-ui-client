@@ -10,9 +10,10 @@ const StyledContainer = styled.div`
     background-color: ${({ theme }) => theme.colors.secondaryBorderColor};
   }
 
-  .budget {
+  .campaign-detail {
     display: flex;
-
+    font-size: 18px;
+    
     div {
       margin-right: 8px;
     }
@@ -104,6 +105,10 @@ export const StyledDates: AnyStyledComponent = styled.div`
 
   label {
     padding-bottom: 12px !important;
+  }
+
+  .end-date {
+    color: #EB5757;
   }
 `;
 

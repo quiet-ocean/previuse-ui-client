@@ -59,12 +59,12 @@ const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) =>
           <StyledDates>
             <div>
               <InputLabel>Campaign start</InputLabel>
-              <div>{moment(props.platform.start_date).format('DD/MM/YYYY')}</div>
+              <div className='campaign-detail start-date'>{moment(props.platform.start_date).format('DD/MM/YYYY')}</div>
             </div>
             <div>
               <InputLabel>Campaign end</InputLabel>
               {props.platform.end_date && (
-                <div>{moment(props.platform.end_date).format('DD/MM/YYYY')}</div>
+                <div className='campaign-detail end-date'>{moment(props.platform.end_date).format('DD/MM/YYYY')}</div>
               )}
             </div>
           </StyledDates>
@@ -83,7 +83,7 @@ const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) =>
 
       <Box className='clean column'>
         <InputLabel>Campaign Budget</InputLabel>
-        <div className="budget">
+        <div className="campaign-detail">
           <div>{props.platform.budget}$</div>
           <div>/ {props.platform.budget_type || BudgetType.daily}</div>
         </div>
@@ -91,7 +91,7 @@ const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) =>
 
       <Box className='clean column'>
         <InputLabel>Business Account</InputLabel>
-        <div className="budget">
+        <div className="campaign-detail">
           <div>{props.platform.business_account}</div>
         </div>
       </Box>
