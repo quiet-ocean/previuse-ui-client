@@ -4,6 +4,7 @@ import ButtonComponent from '../button/button.component';
 // import SwitchComponent from '../switch/switch.component';
 import { ReactComponent as Link } from '../../../assets/images/link.svg';
 // import { ReactComponent as Comment } from '../../../assets/images/comment.svg';
+import { Group, Close, Pause, CheckOutlined } from '@material-ui/icons';
 
 import StyledContainer, {
   StyledActions,
@@ -27,8 +28,16 @@ const ActionBarComponent: React.FC<ActionBarComponentProps> = (props) => {
         <ButtonComponent type='icon' theme='natural' iconElement={<Link />} />
         <ButtonComponent type='button' theme='natural' text={
           <>
-            <Link />
+            <Group />
             <div>invite members</div>
+          </>
+        } />
+        <ButtonComponent type='icon' theme='natural' className='close' iconElement={<Close />} />
+        <ButtonComponent type='icon' theme='natural' className='pause' iconElement={<Pause />} />
+        <ButtonComponent type='button' theme='natural' text={
+          <>
+            <CheckOutlined />
+            <div>approve campaign</div>
           </>
         } />
         {/* <ButtonComponent type='icon' theme='natural' iconElement={<Comment />} />

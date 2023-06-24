@@ -50,6 +50,18 @@ export const StyledActions = styled.div`
       margin-left: 8px;
       text-transform: capitalize;
     }
+
+    svg {
+      font-size: 18px;
+    }
+  }
+
+  button.pause {
+    background-color: #F3B001 !important;
+    
+    svg {
+      color: white !important;
+    }
   }
 
   .MuiIconButton-label svg {

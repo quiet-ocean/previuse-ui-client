@@ -64,7 +64,7 @@ const theme: DefaultTheme = {
     navigationBorder: '#e3e3e3',
     triangleColor: '#5577dd',
     green: '#6FCF97',
-    commentBackgroundColor: '#f8f8f8'
+    commentBackgroundColor: '#f8f8f8',
   },
 
   spacing: {

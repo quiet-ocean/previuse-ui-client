@@ -254,14 +254,6 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
                   ))}
                 </StyledPostNavigation>
               </div>
-
-              <div className='summary'>
-                <Card>
-                  <div>
-                    {selectedPost && <PostSummaryComponent platform={selectedPost.related_platform} variant={PostSummaryVariant.secondary} />}
-                  </div>
-                </Card>
-              </div>
             </div>
           </Grid>
           <Grid item xs={6}>

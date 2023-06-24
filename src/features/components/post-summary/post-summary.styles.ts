@@ -13,8 +13,7 @@ const StyledContainer = styled.div`
   }
 `;
 
-export const StyledBox = styled(Box)<{ $hide?: boolean }>`
-  display: ${props => props.$hide ? 'none' : 'flex'};
+export const StyledBox = styled(Box)`
   flex-direction: column;
   
   &:not(:last-child) {
@@ -22,9 +21,23 @@ export const StyledBox = styled(Box)<{ $hide?: boolean }>`
   }
 
   label {
-    padding-bottom: 8px;
+    
     color: ${({ theme }) => theme.colors.additionalTextColor4};
     font-size: 14px;
+  }
+  .label {
+    margin-bottom: 8px;
+
+  }
+  .label.external-link {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    height: 100%;
+    margin: 0;
+
+    padding-top: 6px;
   }
 `;
 
