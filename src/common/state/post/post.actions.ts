@@ -49,13 +49,13 @@ export const SetPostStatusAction: (args: PlatformPostApproval & {postId: number}
 void
 > = createAsyncAction(PostActionTypes.SET_POST_STATUS, (args) => {
   const formData = new FormData();
-  formData.append('approve_status', args.approve_status);
+  formData.append('approve_status action', args);
   
   return httpService.fetch({
     url: `/posts/approve/${args.postId}`,
     body: formData,
     method: 'POST',
-    contentType: undefined
+    contentType: 'multipart/form-data'
   });
 });
 

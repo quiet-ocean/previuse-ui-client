@@ -17,6 +17,8 @@ class HttpService {
       credentials: 'same-origin',
       body
     }).then(res => {
+      /* eslint-disable no-console */
+      console.log('http service res: ', res)
       const isJson = HttpService.isJson(res);
       if (res.ok) {
         if (isJson) {

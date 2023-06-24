@@ -64,6 +64,11 @@ export const StyledActions = styled.div`
     }
   }
 
+  button.approved {
+    background-color: ${({ theme }) => theme.colors.successColor};
+    color: ${({ theme }) => theme.colors.primaryWhite};
+  }
+
   .MuiIconButton-label svg {
     color: ${({ theme }) => theme.colors.additionalTextColor2};
   }

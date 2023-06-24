@@ -27,6 +27,14 @@ const postReducer: Reducer<PostState> = (
           post => post.id === action.payload.id? { ...post, spread: action.payload.spread }: post
         ),
       }
+    case PostActionTypes.SET_POST_STATUS:
+      console.log('set post status: ', action)
+      return {
+        ...state,
+        posts: state.posts?.map(
+          post => (post.id === action.payload.id ? { ...post, approve_status: action.payload.approve_status} : post)
+        )
+      }
     default:
       return state;
   }

@@ -24,8 +24,6 @@ const PostSummaryComponent: React.FC<PostSummaryComponentProps> = ({ platform, v
       window.open(`http://${platform.business_page}`, '_blank');
     }
   }
-  /* eslint-disable no-console */
-  console.log('variant: ', variant)
   return (
     <StyledContainer>
       <StyledBox

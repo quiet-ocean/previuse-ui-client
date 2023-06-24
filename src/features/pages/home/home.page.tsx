@@ -43,7 +43,7 @@ import {
   StyledPostButton,
   StyledButtonContainer,
 } from './home.styles';
-import PostSummaryComponent, { PostSummaryVariant } from '../../components/post-summary/post-summary.component';
+import PostSummaryComponent from '../../components/post-summary/post-summary.component';
 import { CloseWebSocketAction, InitiateWebSocketAction, ListChatMessagesAction } from '../../../common/state/websocket/websocket.actions';
 import ChatComponent from '../../components/chat/chat.component';
 
@@ -186,6 +186,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
           clientName={selectedCampaign && selectedCampaign.related_client.client_name}
           onSetPostStatus={onSetPostStatus}
           postStatus={selectedPost.approve_status}
+          postId={selectedPost.id}
         />
       )}
 
