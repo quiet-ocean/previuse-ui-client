@@ -3,7 +3,11 @@ import postInitialState, { PostState } from './post.state';
 import { PostActionTypes } from './post.actions';
 import { SUCCESS_SUFFIX } from '../../constants';
 
-
+const status: Record<string, number> = {
+  'Approve': 1,
+  'Pending': 0,
+  'Decline': -1.
+}
 const postReducer: Reducer<PostState> = (
   state: PostState = postInitialState,
   action: AnyAction
@@ -19,20 +23,17 @@ const postReducer: Reducer<PostState> = (
       return { ...state, fbPostStatus: action.payload }
 
     case PostActionTypes.UPDATE_POST_SPREAD:
-      /* eslint-disable no-console */
-      console.log(action.payload)
       return {
         ...state,
         campaignPosts: state.campaignPosts?.map(
           post => post.id === action.payload.id? { ...post, spread: action.payload.spread }: post
         ),
       }
-    case PostActionTypes.SET_POST_STATUS:
-      console.log('set post status: ', action)
+    case `${PostActionTypes.SET_POST_STATUS}${SUCCESS_SUFFIX}`:
       return {
         ...state,
         posts: state.posts?.map(
-          post => (post.id === action.payload.id ? { ...post, approve_status: action.payload.approve_status} : post)
+          post => (post.id === action.payload.id ? { ...post, approve_status: status[action.payload.approve_status]} : post)
         )
       }
     default:

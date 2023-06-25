@@ -34,11 +34,11 @@ const InstragramPreviewComponent: React.FC<InstragramPreviewComponentProps> = (p
       />
 
       <StyledImage>
-        <img src={props.media && props.media[0].file_in || MockPostImage} />
+        <img src={props.media && props.media.length > 0 && props.media[0].file_in || MockPostImage} />
       </StyledImage>
 
       <StyledAction>
-        <ButtonComponent text={props.media && props.media[0].call_to_action ? camelCaseToWords(props.media[0].call_to_action) : 'Learn More'} />
+        <ButtonComponent text={props.media && props.media.length > 0 && props.media[0].call_to_action ? camelCaseToWords(props.media[0].call_to_action) : 'Learn More'} />
         <KeyboardArrowRight />
       </StyledAction>
 
@@ -50,7 +50,7 @@ const InstragramPreviewComponent: React.FC<InstragramPreviewComponentProps> = (p
         <div><Bookmark /></div>
       </StyledIcons>
 
-      <StyledDescription className='post-subtitle'>{props.media && props.media[0].description}</StyledDescription>
+      <StyledDescription className='post-subtitle'>{props.media && props.media.length > 0 && props.media[0].description}</StyledDescription>
     </StyledContainer>
   );
 }

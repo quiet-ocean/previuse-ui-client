@@ -11,7 +11,6 @@ import { ReactComponent as Music } from '../../../../../assets/images/music.svg'
 
 import StyledContainer, {
   StyledIcons,
-  StyledTitle,
   StyledWrapper,
   StyledFooter,
   StyledAction,

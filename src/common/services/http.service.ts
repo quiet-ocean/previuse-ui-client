@@ -18,8 +18,8 @@ class HttpService {
       body
     }).then(res => {
       /* eslint-disable no-console */
-      console.log('http service res: ', res)
       const isJson = HttpService.isJson(res);
+      console.log(res)
       if (res.ok) {
         if (isJson) {
           return res.json();

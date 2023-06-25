@@ -8,6 +8,7 @@ import campaign from './state/campaign/campaign.reducer';
 import post from './state/post/post.reducer';
 import websocket from './state/websocket/websocket.reducer';
 import notification from './state/notification/notification.reducer';
+import member from './state/member/member.reducer';
 
 import { AuthState } from './state/auth/auth.state';
 import { DialogState } from './state/dialog/dialog.state';
@@ -18,6 +19,7 @@ import { CampaignState } from './state/campaign/campaign.state';
 import { PostState } from './state/post/post.state';
 import { WebsocketState } from './state/websocket/websocket.state';
 import { NotificationState } from './state/notification/notification.state';
+import { MemberState } from './state/member/member.state';
 
 export interface AppState {
   auth: AuthState;
@@ -25,6 +27,7 @@ export interface AppState {
   post: PostState;
   websocket: WebsocketState;
   notification: NotificationState;
+  member: MemberState;
 }
 
 export interface ViewState {
@@ -46,6 +49,7 @@ const rootReducer = combineReducers<RootState>({
     post,
     websocket,
     notification,
+    member,
   }),
   view: combineReducers({
     dialog,

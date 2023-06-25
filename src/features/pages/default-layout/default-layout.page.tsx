@@ -21,7 +21,7 @@ import HeaderComponent from '../../components/header/header.component';
 import DialogComponent from '../../components/dialog/dialog.component';
 import { DialogTypes } from '../../../common/state/dialog/dialog.state';
 import SnackBarComponent from '../../components/snackbar/snackbar.component';
-import { Campaigns, PlatformPostSerializerMaster, UserCreation, UserNotifications } from '../../../swagger2Ts/interfaces';
+import { Campaigns, PlatformPostSerializerMaster, UserCreation, UserNotifications, UserUpdate } from '../../../swagger2Ts/interfaces';
 import { GetLoggedInUserAction } from '../../../common/state/auth/auth.actions';
 import DrawerComponent from '../../components/drawer/drawer.component';
 import { ListCampaignsAction } from '../../../common/state/campaign/campaign.actions';
@@ -30,6 +30,7 @@ import { GetNotificationsAction } from '../../../common/state/notification/notif
 import { ListUsersAction } from '../../../common/state/auth/auth.actions';
 import EmptyStateComponent from '../../components/empty-state/empty-state.component';
 import { LinearProgress } from '@material-ui/core';
+import { ShowUserAction } from '../../../common/state/member/member.action';
 
 const mockMessage = [
   'Did you know ? our system is more convenient then chat/email',
@@ -65,6 +66,7 @@ interface DispatchProps {
   listPosts: () => Promise<PlatformPostSerializerMaster[]>;
   getNotifications: () => Promise<UserNotifications[]>;
   listUsers: () => Promise<UserCreation[]>;
+  getUser: () => Promise<UserUpdate>;
 }
 
 const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
@@ -97,6 +99,7 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
       props.listCampaigns(user.id as number);
       props.listPosts();
       props.listUsers();
+      props.getUser();
     } finally {
       services.loading.actions.stop();
     }
@@ -188,7 +191,8 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => {
     listCampaigns: bindActionCreators(ListCampaignsAction, dispatch),
     listPosts: bindActionCreators(ListPostsAction, dispatch),
     getNotifications: bindActionCreators(GetNotificationsAction, dispatch),
-    listUsers: bindActionCreators(ListUsersAction, dispatch)
+    listUsers: bindActionCreators(ListUsersAction, dispatch),
+    getUser: bindActionCreators(ShowUserAction, dispatch),
   };
 };
 

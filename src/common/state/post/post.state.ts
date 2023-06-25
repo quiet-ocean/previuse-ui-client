@@ -5,6 +5,7 @@ export interface PostState {
   posts?: PlatformPostSerializerMaster[];
   campaignPosts?: PlatformPostSerializerMaster[];
   fbPostStatus: FbPostStatus;
+  // postId
 }
 
 const postInitialState: PostState = {

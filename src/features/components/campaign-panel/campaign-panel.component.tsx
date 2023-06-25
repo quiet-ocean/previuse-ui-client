@@ -29,16 +29,16 @@ export interface CampaignPanelComponentProps {
 
 const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) => {
   const [tags, setTags] = useState<PlatformTypes[]>([])
+  
   useEffect(() => {
     (async () => await getPlatformTags())();
-  }, [])
+  }, [props.platform])
+
   const getPlatformTags = async () => {
     const result = await HttpService.fetch({
       method: 'get',
       url: `/Platform/tags/${props.platform.id}`,
     })
-    /* eslint-disable no-console */
-    console.log('tags of platform: ', result)
     setTags(result)
 
   }
