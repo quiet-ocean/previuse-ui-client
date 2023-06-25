@@ -29,7 +29,7 @@ export const StyledTitle = styled(DialogTitle)`
     color: ${({ theme }) => theme.colors.primaryTextColor};
     font-size: ${({ theme }) => theme.sizes.fontSizeLarge};
     font-weight: bold;
-    text-transform: uppercase;
+    text-transform: capitalize;
     text-align: center;
     line-height: 55px;
     height: 55px;

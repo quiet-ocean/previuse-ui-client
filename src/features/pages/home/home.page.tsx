@@ -22,7 +22,8 @@ import {
   PlatformPostApproval,
   PlatformPostSerializerMaster,
   Spread,
-  UserCreation
+  UserCreation,
+  CampaignPermission
 } from '../../../swagger2Ts/interfaces';
 
 import { ServicesContext } from '../../../common/contexts';
@@ -45,6 +46,7 @@ import {
 } from './home.styles';
 import PostSummaryComponent from '../../components/post-summary/post-summary.component';
 import { CloseWebSocketAction, InitiateWebSocketAction, ListChatMessagesAction } from '../../../common/state/websocket/websocket.actions';
+import { ListCampaignPermissionsAction } from '../../../common/state/campaign/campaign.actions';
 import ChatComponent from '../../components/chat/chat.component';
 
 interface HomePageProps {
@@ -62,15 +64,17 @@ interface HomePageProps {
   initiateWebSocket: ThunkAction;
   closeWebSocket: ThunkAction;
   listPostsByCampaign: (campaignId: number) => Promise<PlatformPostSerializerMaster[]>;
+  listCampaignPermissions: (campaignId: number) => Promise<CampaignPermission[]>;
   setFbPostStatus: (status: FbPostStatus) => void;
   updatePostSpread: (id: number, spread: number) => void;
 }
-/* eslint-disable no-console */
+
 const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
-  // const { campaignPosts } = props;
+  
   const [selectedCampaign, setSelectedCampaign] = useState<Campaigns>();
   const [campaignPosts, setCampaignPosts] = useState<PlatformPostSerializerMaster[]>();
   const [selectedPost, setSelectedPost] = useState<PlatformPostSerializerMaster>();
+  const [postId, setPostId] = useState<number>(0)
   const [postMedia, setPostMedia] = useState<MediaFiles[]>();
   const [platformPosts, setPlatformPosts] = useState<Record<Platform, PlatformPostSerializerMaster[]>>();
 
@@ -101,6 +105,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   useEffect(() => {
     if (selectedCampaign) {
       props.listWebSocketMessage(selectedCampaign.id as number);
+      props.listCampaignPermissions(selectedCampaign.id as number)
     }
 
     return () => {
@@ -113,21 +118,25 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
       const filteredPosts = props.posts?.filter((post) => post.related_platform.related_campaign.id === selectedCampaign.id);
       setPlatformPosts(groupBy(filteredPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
       setCampaignPosts(props.posts?.filter((post) => post.related_platform.related_campaign.id === selectedCampaign.id));
-      if (filteredPosts && filteredPosts?.length > 0) onSelectPost(filteredPosts[0]);
+      if (filteredPosts && filteredPosts?.length > 0) {
+        if (postId === 0) onSelectPost(filteredPosts[0]);
+        else {
+          filteredPosts.forEach((post: PlatformPostSerializerMaster) => {
+            if (post?.id === postId) onSelectPost(post);
+          })
+        }
+      }
       // setPlatformPosts(groupBy(campaignPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
       // onSelectPost(campaignPosts[0]);
     }
   }, [selectedCampaign, props.posts])
-
-  useEffect(() => {
-    console.log('changed campaignPosts', campaignPosts, selectedPost)
-  }, [campaignPosts])
 
   const setWebSocket = (campaign: number, userId: number) => {
     props.initiateWebSocket(`ws/chat/${campaign}/${userId}`);
   }
 
   const onSelectPost = async (post: PlatformPostSerializerMaster) => {
+    setPostId(post?.id as number)
     setSelectedPost(post);
     const platform = post?.related_platform.platform;
 
@@ -142,8 +151,6 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     setPostMedia(media.file_in_media || []);
     setSpreadings(postSpreadings);
 
-    console.log(selectedPost, postSpreadings, media)
-
     services?.loading.actions.stop();
   }
 
@@ -156,17 +163,12 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     });
   }
 
-  // const onSetFbPostStatus = (status: FbPostStatus) => {
-  //   props.setFbPostStatus(status);
-  // }
   const onSetPostLayout = (layout: PostLayout) => {
     const spread = spreadings && selectedPost &&
     spreadings.find((spread) => spread.spread === layout)?.id as number
 
-    console.log(spreadings, spread, layout)
     
     if (spread)
-      // props.updatePostSpread(selectedPost?.id as number, spread)
       setSelectedPost({ ...selectedPost, spread } as PlatformPostSerializerMaster)
   }
 
@@ -181,12 +183,10 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     <LayoutComponent hasDrawer={props.isDrawerRender}>
       {selectedPost && (
         <ActionBarComponent
-          campaignName={selectedCampaign?.campaign_name}
+          campaign={selectedCampaign}
+          post={selectedPost}
           hasDrawer={props.isDrawerRender}
-          clientName={selectedCampaign && selectedCampaign.related_client.client_name}
           onSetPostStatus={onSetPostStatus}
-          postStatus={selectedPost.approve_status}
-          postId={selectedPost.id}
         />
       )}
 
@@ -323,6 +323,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => ({
   listPostsByCampaign: bindActionCreators(ListPostsByCampaignAction, dispatch),
   setFbPostStatus: bindActionCreators(SetFbPostStatusAction, dispatch),
   updatePostSpread: bindActionCreators(UpdatePostSpreadAction, dispatch),
+  listCampaignPermissions: bindActionCreators(ListCampaignPermissionsAction, dispatch),
 });
 
 export default connect(

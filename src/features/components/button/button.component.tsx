@@ -24,7 +24,7 @@ const ICON_DICT: Partial<{ [k in ButtonThemeType]: ComponentType }> = {
 };
 
 export interface IButtonProps {
-  /** set this to true in order to disable the button */
+/** set this to true in order to disable the button */
   disabled?: boolean;
   /** Which theme to enforce. if not provided none is used */
   theme?: ButtonThemeType;

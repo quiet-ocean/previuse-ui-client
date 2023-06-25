@@ -45,6 +45,8 @@ export const StyledActions = styled.div`
   button {
     margin-left: 12px;
     width: auto !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
 
     div {
       margin-left: 8px;
@@ -65,8 +67,8 @@ export const StyledActions = styled.div`
   }
 
   button.approved {
-    background-color: ${({ theme }) => theme.colors.successColor};
-    color: ${({ theme }) => theme.colors.primaryWhite};
+    background-color: ${({ theme }) => theme.colors.successColor} !important;
+    color: ${({ theme }) => theme.colors.primaryWhite} !important;
   }
 
   .MuiIconButton-label svg {

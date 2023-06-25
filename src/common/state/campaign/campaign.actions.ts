@@ -1,9 +1,13 @@
 import createAsyncAction from "../../../utils/createAsyncAction";
-import { Campaigns } from "../../../swagger2Ts/interfaces";
+import { Campaigns, CampaignPermission } from "../../../swagger2Ts/interfaces";
 import httpService from "../../services/http.service";
+import endpoints from "../../../swagger2Ts/endpoints";
 
 export enum CampaignActionTypes {
   LIST_CAMPAIGNS = "@@campaign/LIST_CAMPAIGNS",
+  LIST_CAMPAIGN_PERMISSIONS = "@@campaign/LIST_CAMPAIGN_PERMISSIONS",
+  CREATE_CAMPAIGN_PERMISSIONS = "@@campaign/CREATE_CAMPAIGN_PERMISSIONS",
+  DELETE_CAMPAIGN_PERMISSIONS = "@@campaign/DELETE_CAMPAIGN_PERMISSIONS",
 }
 
 export const ListCampaignsAction: () => Promise<Campaigns[]> = createAsyncAction(
@@ -12,3 +16,42 @@ export const ListCampaignsAction: () => Promise<Campaigns[]> = createAsyncAction
     return httpService.fetch({ url: `/campaigns/` });
   }
 );
+
+export const ListCampaignPermissionsAction: (campaignId: number) => Promise<CampaignPermission[]> = createAsyncAction(
+  CampaignActionTypes.LIST_CAMPAIGN_PERMISSIONS,
+  (campaignId) => {
+    return httpService.fetch({ url: `/campaigns/permission/${campaignId}` });
+  }
+);
+
+export const CreateCampaignPermissionAction: (args: CampaignPermission) => Promise<CampaignPermission> = createAsyncAction(
+  CampaignActionTypes.CREATE_CAMPAIGN_PERMISSIONS,
+  
+  (args) => {
+    return httpService.fetch({
+      ...endpoints.campaigns_permission_create,
+      body: JSON.stringify(args),
+      contentType: 'application/json'
+    })
+  }
+)
+
+export const DeleteCampaignPermissionAction: (args: { id: number }) => Promise<CampaignPermission> = createAsyncAction(
+  CampaignActionTypes.DELETE_CAMPAIGN_PERMISSIONS,
+  (args) => {
+    return new Promise(async (resolve) => {
+      
+      try {
+        await httpService.fetch({
+          method: 'delete',
+          url: `/campaigns/CampaignUserPermission/${args.id}`
+        })
+        resolve({
+          id: args.id,
+        } as CampaignPermission)
+      } catch (e) {
+        throw e;
+      }
+    })
+  }
+)
