@@ -1,7 +1,7 @@
 import { AnyAction, Reducer } from 'redux';
 import postInitialState, { PostState } from './post.state';
 import { PostActionTypes } from './post.actions';
-import { SUCCESS_SUFFIX } from '../../constants';
+import { FAILED_SUFFIX, SUCCESS_SUFFIX } from '../../constants';
 
 const status: Record<string, number> = {
   'Approve': 1,
@@ -36,6 +36,10 @@ const postReducer: Reducer<PostState> = (
           post => (post.id === action.payload.id ? { ...post, approve_status: status[action.payload.approve_status]} : post)
         )
       }
+    case `${PostActionTypes.SET_POST_STATUS}${FAILED_SUFFIX}`:
+      /* eslint-disable no-console */
+      console.log('set post status failed')
+      return state
     default:
       return state;
   }

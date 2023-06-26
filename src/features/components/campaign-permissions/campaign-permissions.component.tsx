@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, useContext } from "react";
+import React, { useState, useEffect, ChangeEvent, useContext, useRef } from "react";
 import { TextField, IconButton, Chip, Divider, FormControl } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { Add, Delete } from "@material-ui/icons";
@@ -59,15 +59,27 @@ const CampaignPermissionComponent: React.FC<CampaignMemberComponentProps> = (pro
 const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { campaignId?: number }> = (props) => {
   /* eslint-disable no-console */
   console.log(props)
+  const autocompleteRef = useRef<HTMLInputElement>(null)
   const services: IServices | undefined = useContext(ServicesContext);
 
-  const [userId, setUserId] = useState<number>()
+  const [userId, setUserId] = useState<number | null>()
+  const [value, setValue] = useState<string>()
   const [options, setOptions] = useState<string[]>([])
   const [permission, setPermission] = useState<CampaignUserPermission>(CampaignUserPermission.owner)
 
   useEffect(() => {
     console.log(userId, permission)
   }, [userId, permission])
+
+  useEffect(() => {
+    if (userId)
+      setValue(props.users?.find((user) => user.id === userId)?.email)
+    // else setValue('')
+  }, [userId])
+
+  useEffect(() => {
+    setValue(options[0])
+  }, [options])
 
   useEffect(() => {
     console.log('updated data')
@@ -84,6 +96,7 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
   }
 
   const onCreatePermission = async () => {
+    
     if (userId && permission && props.campaignId) {
       services?.loading.actions.start()
       console.log('create permission: ', userId, permission, props.campaignId)
@@ -93,6 +106,13 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
         related_user: userId,
       })
       services?.loading.actions.stop()
+    }
+    if (autocompleteRef?.current !== null) {
+      console.log(autocompleteRef?.current)
+      // autocompleteRef?.current?.querySelector('input')?.focus()
+      const el: HTMLButtonElement = autocompleteRef?.current?.getElementsByClassName('MuiAutocomplete-clearIndicator')[0] as HTMLButtonElement;
+      console.log(el)
+      if (el) el.click()
     }
   }
 
@@ -113,11 +133,13 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
             <FormControl fullWidth>
               <Autocomplete<string>
                 disablePortal
+                // value={value}
+                ref={autocompleteRef}
                 id="combo-box-demo"
                 options={options}
                 onChange={handleEmailChange}
                 renderInput={(params: any) => (
-                  <TextField {...params} onChange={handleEmailChange} />
+                  <TextField {...params} value={value} onChange={handleEmailChange} />
                 )}
               />
             </FormControl>
