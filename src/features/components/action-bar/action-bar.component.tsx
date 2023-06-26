@@ -55,7 +55,7 @@ const ActionBarComponent: React.FC<ActionBarComponentProps & ActionBarDispatchPr
   }
   const onInvite = () => {
     services?.dialog.actions.open({
-      title: 'Publish Client Itay',
+      title: 'Publish Client',
       content: <CampaignPermissionsComponent campaignId={props.campaign?.id} />
     })
   }

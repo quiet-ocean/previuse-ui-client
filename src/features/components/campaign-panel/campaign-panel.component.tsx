@@ -29,7 +29,7 @@ export interface CampaignPanelComponentProps {
 
 const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) => {
   const [tags, setTags] = useState<PlatformTypes[]>([])
-  
+
   useEffect(() => {
     (async () => await getPlatformTags())();
   }, [props.platform])
@@ -40,8 +40,8 @@ const CampaignPanelComponent: React.FC<CampaignPanelComponentProps> = (props) =>
       url: `/Platform/tags/${props.platform.id}`,
     })
     setTags(result)
-
   }
+
   return (
     <StyledContainer>
       <Box>

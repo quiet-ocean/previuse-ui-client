@@ -100,6 +100,7 @@ const DefaultLayout: React.FC<AppProps & DispatchProps> = ({ ...props }) => {
       props.listPosts();
       props.listUsers();
       props.getUser();
+      props.getNotifications();
     } finally {
       services.loading.actions.stop();
     }

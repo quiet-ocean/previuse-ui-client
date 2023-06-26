@@ -63,23 +63,12 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
   const services: IServices | undefined = useContext(ServicesContext);
 
   const [userId, setUserId] = useState<number | null>()
-  const [value, setValue] = useState<string>()
   const [options, setOptions] = useState<string[]>([])
   const [permission, setPermission] = useState<CampaignUserPermission>(CampaignUserPermission.owner)
 
   useEffect(() => {
     console.log(userId, permission)
   }, [userId, permission])
-
-  useEffect(() => {
-    if (userId)
-      setValue(props.users?.find((user) => user.id === userId)?.email)
-    // else setValue('')
-  }, [userId])
-
-  useEffect(() => {
-    setValue(options[0])
-  }, [options])
 
   useEffect(() => {
     console.log('updated data')
@@ -108,10 +97,7 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
       services?.loading.actions.stop()
     }
     if (autocompleteRef?.current !== null) {
-      console.log(autocompleteRef?.current)
-      // autocompleteRef?.current?.querySelector('input')?.focus()
       const el: HTMLButtonElement = autocompleteRef?.current?.getElementsByClassName('MuiAutocomplete-clearIndicator')[0] as HTMLButtonElement;
-      console.log(el)
       if (el) el.click()
     }
   }
@@ -133,13 +119,12 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
             <FormControl fullWidth>
               <Autocomplete<string>
                 disablePortal
-                // value={value}
                 ref={autocompleteRef}
                 id="combo-box-demo"
                 options={options}
                 onChange={handleEmailChange}
                 renderInput={(params: any) => (
-                  <TextField {...params} value={value} onChange={handleEmailChange} />
+                  <TextField {...params} onChange={handleEmailChange} />
                 )}
               />
             </FormControl>
@@ -155,10 +140,9 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
                   }}
                   onChange={handleChange}
                 >
-                  <option value={CampaignUserPermission.owner}>owner</option>
-                  <option value={CampaignUserPermission.edit}>edit</option>
-                  <option value={CampaignUserPermission.comment}>comment</option>
-                  <option value={CampaignUserPermission.view}>view</option>
+                  {['owner', 'edit', 'comment', 'view'].map((item: string, key: number) => (
+                    <option key={key} value={item as CampaignUserPermission}>{item}</option>
+                  ))}
                 </TextField>
               </FormControl>
             </StyledVerticalCenter>
