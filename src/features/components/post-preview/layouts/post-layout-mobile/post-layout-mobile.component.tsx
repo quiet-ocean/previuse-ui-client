@@ -1,16 +1,8 @@
 import React from 'react';
-import { KeyboardArrowRight } from '@material-ui/icons';
-
 import MockImage from './mock/tiktok.png';
 import { MediaFiles, PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
 
-import { ReactComponent as Favorites } from '../../../../../assets/images/heart.svg';
-import { ReactComponent as Comment } from '../../../../../assets/images/comment.svg';
-import { ReactComponent as Share } from '../../../../../assets/images/share.svg';
-import { ReactComponent as Music } from '../../../../../assets/images/music.svg';
-
 import StyledContainer, {
-  StyledIcons,
   StyledWrapper,
   StyledFooter,
   StyledAction,

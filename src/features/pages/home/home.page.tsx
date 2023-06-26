@@ -29,7 +29,7 @@ import {
 import { ServicesContext } from '../../../common/contexts';
 import { IServices } from '../../../common/services/initiate';
 
-import { PostAlignment, PostLayout, RootState, ThunkAction, WebSocketMessage } from '../../../common/models';
+import { PostAlignment, RootState, ThunkAction, WebSocketMessage } from '../../../common/models';
 import { ApproveStatus, Platform } from '../../../swagger2Ts/enums';
 import ActionBarComponent from '../../components/action-bar/action-bar.component';
 import EmptyStateComponent from '../../components/empty-state/empty-state.component';
@@ -127,8 +127,6 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
           })
         }
       }
-      // setPlatformPosts(groupBy(campaignPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
-      // onSelectPost(campaignPosts[0]);
     }
   }, [selectedCampaign, props.posts])
 
