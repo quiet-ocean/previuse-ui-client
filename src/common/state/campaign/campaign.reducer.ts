@@ -1,9 +1,8 @@
 import { AnyAction, Reducer } from 'redux';
 import campaignInitialState, { CampaignState } from './campaign.state';
 import { CampaignActionTypes } from './campaign.actions';
-import { SUCCESS_SUFFIX } from '../../constants';
+import { SUCCESS_SUFFIX, FAILED_SUFFIX } from '../../constants';
 import { CampaignPermission } from '../../../swagger2Ts/interfaces';
-
 
 const campaignReducer: Reducer<CampaignState> = (
   state: CampaignState = campaignInitialState,
@@ -18,7 +17,11 @@ const campaignReducer: Reducer<CampaignState> = (
 
     case `${CampaignActionTypes.CREATE_CAMPAIGN_PERMISSIONS}${SUCCESS_SUFFIX}`:
       return { ...state, campaignPermissions: state.campaignPermissions ? [ ...state.campaignPermissions, action.payload] : [action.payload] }
-
+    case `${CampaignActionTypes.CREATE_CAMPAIGN_PERMISSIONS}${FAILED_SUFFIX}`:
+      /* eslint-disable */
+      console.log('failed to create campaign permission')
+      return state
+  
     case `${CampaignActionTypes.DELETE_CAMPAIGN_PERMISSIONS}${SUCCESS_SUFFIX}`:
       return {
         ...state,
@@ -27,6 +30,10 @@ const campaignReducer: Reducer<CampaignState> = (
           permission.id !== action.payload.id
         ))
       }
+    case `${CampaignActionTypes.DELETE_CAMPAIGN_PERMISSIONS}${FAILED_SUFFIX}`:
+      console.log('failed to delete campaign permission')
+      // dispatch
+      return state
 
     default:
       return state;
