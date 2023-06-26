@@ -29,7 +29,7 @@ import {
 import { ServicesContext } from '../../../common/contexts';
 import { IServices } from '../../../common/services/initiate';
 
-import { PostLayout, RootState, ThunkAction, WebSocketMessage } from '../../../common/models';
+import { PostAlignment, PostLayout, RootState, ThunkAction, WebSocketMessage } from '../../../common/models';
 import { ApproveStatus, Platform } from '../../../swagger2Ts/enums';
 import ActionBarComponent from '../../components/action-bar/action-bar.component';
 import EmptyStateComponent from '../../components/empty-state/empty-state.component';
@@ -80,7 +80,8 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
 
   const [spreadings, setSpreadings] = useState<Spread[]>();
 
-  const [show, setShow] = useState<boolean>(false)
+  const [show, setShow] = useState<boolean>(false);
+  const [alignment, setAlignment] = useState<PostAlignment>(PostAlignment.feed);
   const { campaignId } = useParams() as { campaignId: string };
 
   const history = useHistory();
@@ -140,7 +141,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     setSelectedPost(post);
     const platform = post?.related_platform.platform;
 
-    if (platform === 'facebook') setShow(true)
+    if (platform === 'facebook' && post?.spread !== 4) setShow(true)
     else setShow(false)
 
     services?.loading.actions.start();
@@ -163,14 +164,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
     });
   }
 
-  const onSetPostLayout = (layout: PostLayout) => {
-    const spread = spreadings && selectedPost &&
-    spreadings.find((spread) => spread.spread === layout)?.id as number
-
-    
-    if (spread)
-      setSelectedPost({ ...selectedPost, spread } as PlatformPostSerializerMaster)
-  }
+  const onSetPostLayout = (_alignment: PostAlignment) => setAlignment(_alignment)
 
   if (platformPosts && !Object.keys(platformPosts).length) {
     return <EmptyStateComponent title='No Posts Yet' />
@@ -198,23 +192,20 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
           <Grid item xs={6}>
 
             <StyledButtonContainer $show={show}>
-              {/* <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.NEWS_FEED)}>News Feed</Button>
-              <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.RIGHT_SIDE)}>Right Side</Button>
-              <Button variant='outlined' onClick={() => onSetFbPostStatus(FbPostStatus.MOBILE)}>Mobile</Button> */}
               <Button
                 variant='outlined' 
-                onClick={() => onSetPostLayout(PostLayout.facebook1)}
-                className={selectedSpread?.spread === PostLayout.facebook1 ? 'active' : ''}
+                onClick={() => onSetPostLayout(PostAlignment.feed)}
+                className={alignment === PostAlignment.feed ? 'active' : ''}
               >News Feed</Button>
               <Button 
                 variant='outlined' 
-                onClick={() => onSetPostLayout(PostLayout.facebook2)}
-                className={selectedSpread?.spread === PostLayout.facebook2 ? 'active' : ''}
+                onClick={() => onSetPostLayout(PostAlignment.right)}
+                className={alignment === PostAlignment.right ? 'active' : ''}
               >Right Side</Button>
               <Button 
                 variant='outlined' 
-                onClick={() => onSetPostLayout(PostLayout.facebook4)}
-                className={selectedSpread?.spread === PostLayout.facebook4 ? 'active' : ''}
+                onClick={() => onSetPostLayout(PostAlignment.mobile)}
+                className={alignment === PostAlignment.mobile ? 'active' : ''}
               >Mobile</Button>
             </StyledButtonContainer>
             <div className="left">
@@ -225,6 +216,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
                       post={selectedPost}
                       selectedSpread={selectedSpread}
                       media={postMedia}
+                      alignment={alignment}
                     />
                   )}
                 </Card>

@@ -1,69 +1,63 @@
 import React from 'react';
-import { Button } from '@material-ui/core'
-import { PlatformPostSerializerMaster, MediaFiles } from '../../../../../swagger2Ts/interfaces';
-import PostTitleComponent from '../../post-title/post-title.component';
+import { KeyboardArrowRight } from '@material-ui/icons';
+
+import MockImage from './mock/tiktok.png';
+import { MediaFiles, PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
+
+import { ReactComponent as Favorites } from '../../../../../assets/images/heart.svg';
+import { ReactComponent as Comment } from '../../../../../assets/images/comment.svg';
+import { ReactComponent as Share } from '../../../../../assets/images/share.svg';
+import { ReactComponent as Music } from '../../../../../assets/images/music.svg';
 
 import StyledContainer, {
-  StyledActions,
-  StyledPostFooterWrapper,
-  StyledIconWrapper,
+  StyledIcons,
+  StyledWrapper,
+  StyledFooter,
+  StyledAction,
+  StyledAvatar,
 } from './post-layout-mobile.styles';
-import PostContentComponent from '../../post-content/post-content.component'
-import PostFooterComponent from '../../post-footer/post-footer.component'
-
-import { ReactComponent as Like } from '../../../../../assets/images/thumbs-up.svg';
-import { ReactComponent as Comment } from '../../../../../assets/images/comment-1.svg';
-import { ReactComponent as Share } from '../../../../../assets/images/share-1.svg';
 
 
-export interface PostLayoutMobileComponentProps {
+export interface PostCarouselMobileProps {
   post: PlatformPostSerializerMaster;
   media: MediaFiles[];
 }
 
-const PostLayoutMobileComponent: React.FC<PostLayoutMobileComponentProps> = (props) => {
+const PostCarouselMobile: React.FC<PostCarouselMobileProps> = (props) => {
   return (
     <StyledContainer>
-      <PostTitleComponent
-        title={props.post.page_name}
-        logo={props.post.logo}
-      />
-      <PostContentComponent
-        headline={props.post.headline}
-        description={props.post.description}
-        callToAction={props.post.call_to_action}
-        post={props.post}
-        media={props.media}
-        mobile={true}
-      />
-      <StyledPostFooterWrapper>
-        <PostFooterComponent />
-      </StyledPostFooterWrapper>
-      <StyledActions>
-        <Button variant='text' startIcon={
-          <StyledIconWrapper>
-            <Like />
-          </StyledIconWrapper>
-        }>
-          <div>Like</div>
-        </Button>
-        <Button variant='text' startIcon={
-          <StyledIconWrapper>
-            <Comment />
-          </StyledIconWrapper>
-        }>
-          <div>Comment</div>
-        </Button>
-        <Button variant='text' startIcon={
-          <StyledIconWrapper>
-            <Share />
-          </StyledIconWrapper>
-        }>
-          <div>Share</div>
-        </Button>
-      </StyledActions>
+      <StyledWrapper style={{backgroundImage: `url(${props.media && props.media[0].file_in || MockImage})`}}>
+        <div className='header'>
+          <div>
+            <StyledAvatar>
+              <div>
+                <img src={props.post.logo} />
+              </div>
+            </StyledAvatar>
+          </div>
+          <div>
+            <p className='post-title'>
+              {props.post.page_name}
+            </p>
+            <p className='post-subtitle'>
+              {`Sponsored`}
+            </p>
+          </div>
+        </div>
+      </StyledWrapper>
+
+      <StyledFooter>
+        <div>
+          <p className='post-subtitle'>{props.post.description}</p>
+        </div>
+        <div>
+          <StyledAction>
+            <p className='post-subtitle'>Learn More</p>
+          </StyledAction>
+        </div>
+      </StyledFooter>
     </StyledContainer>
   );
 }
-
-export default PostLayoutMobileComponent;
+ 
+export default PostCarouselMobile;

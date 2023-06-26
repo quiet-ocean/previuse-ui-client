@@ -1,5 +1,5 @@
 import React from 'react';
-import { PostLayout } from '../../../common/models';
+import { PostAlignment, PostLayout } from '../../../common/models';
 
 import { PlatformPostSerializerMaster, Spread, MediaFiles } from '../../../swagger2Ts/interfaces';
 
@@ -16,7 +16,8 @@ import StyledContainer from './post-preview.styles';
 export interface PostPreviewComponentProps {
   post: PlatformPostSerializerMaster;
   selectedSpread: Spread;
-  media?: MediaFiles[]
+  media?: MediaFiles[];
+  alignment: PostAlignment;
 }
 
 const layoutBySpread: Record<PostLayout, any> = {
@@ -32,12 +33,13 @@ const layoutBySpread: Record<PostLayout, any> = {
 
 const PostPreviewComponent: React.FC<PostPreviewComponentProps> = (props) => {
   const Component = layoutBySpread[props.selectedSpread.spread as PostLayout];
-
+  /* eslint-disable no-console */
+  console.log(props)
   if (!Component) return null;
   
   return (
     <StyledContainer>
-      <Component post={props.post} media={props.media} />
+      <Component post={props.post} media={props.media} alignment={props.alignment} />
     </StyledContainer>
   );
 }

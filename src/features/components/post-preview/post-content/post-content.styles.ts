@@ -35,9 +35,10 @@ export const StyledWrapper = styled.div`
 export const StyledPostImage = styled.div`
   position: relative;
 
+  height: 200px;
   img {
     width: 100%;
-    height: 200px;
+    height: 100%;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
   }

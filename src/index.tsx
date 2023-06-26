@@ -4,6 +4,9 @@ import { Store } from 'redux';
 import { configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk';
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import './assets/css/resets.css';
 import './assets/css/fonts.css';
 import './assets/css/custom.css';

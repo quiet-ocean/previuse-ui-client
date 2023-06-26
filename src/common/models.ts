@@ -44,3 +44,7 @@ export interface WebSocketMessage {
   user_message_sender: UserCreation;
   user: UserCreation;
 }
+
+export enum PostAlignment {
+  feed, right, mobile
+}

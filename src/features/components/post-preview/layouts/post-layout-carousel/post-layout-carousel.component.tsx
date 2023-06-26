@@ -1,33 +1,53 @@
 import React from 'react';
-import { MediaFiles, PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
-import StyledContainer, {
-  StyledPostContent,
-  StyledPostBody,
-  StyledImageWrapper,
-} from './post-layout-carousel.styles';
 
-import MockImage3 from '../../mock/post-image3.png';
+import { MediaFiles, PlatformPostSerializerMaster } from '../../../../../swagger2Ts/interfaces';
+import PostContentComponent from '../../post-content/post-content.component';
+import PostFooterComponent from '../../post-footer/post-footer.component';
+import PostTitleComponent from '../../post-title/post-title.component';
+import StyledContainer from './post-layout-carousel.styles';
+import { PostAlignment } from '../../../../../common/models';
+import PostCarouselFeed from './post-carousel.feed';
+import PostCarouselRightComponent from './post-carousel.right';
+import PostCarouselMobileComponent from './post-carousel.mobile';
 
 export interface PostLayoutCarouselComponentProps {
   post: PlatformPostSerializerMaster;
   media: MediaFiles[];
+  alignment: PostAlignment;
 }
 
 const PostLayoutCarouselComponent: React.FC<PostLayoutCarouselComponentProps> = (props) => {
+
   return (
-    <StyledContainer>
-      <h3 className='post-title'>Sponsored</h3>
-      <StyledPostContent>
-        <StyledImageWrapper>
-          <img src={props.media && props?.media[0].file_in || MockImage3} alt='' />
-        </StyledImageWrapper>
-        <StyledPostBody>
-          <h3 className='post-title'>{props.post.page_name}</h3>
-          <p className='post-subtitle'>{props.media && props.media[0].caption}</p>
-        </StyledPostBody>
-      </StyledPostContent>
-    </StyledContainer>
-  );
+    <div>
+      {props.alignment === PostAlignment.feed ? (
+        <PostCarouselFeed post={props.post} media={props.media} />
+      ) : props.alignment === PostAlignment.right ? (
+        <PostCarouselRightComponent post={props.post} media={props.media} />
+      ) : (
+        <PostCarouselMobileComponent post={props.post} media={props.media} />
+      )}
+    </div>
+  )
+  // return (
+  //   <StyledContainer>
+  //     <div>
+  //       <PostTitleComponent
+  //         title={props.post.page_name}
+  //         logo={props.post.logo}
+  //       />
+  //       <PostContentComponent
+  //         headline={props.post.headline}
+  //         description={props.post.description}
+  //         callToAction={props.post.call_to_action}
+  //         post={props.post}
+  //         media={props.media}
+  //       />
+  //     </div>
+
+  //     <PostFooterComponent />
+  //   </StyledContainer>
+  // )
 }
 
 export default PostLayoutCarouselComponent;
