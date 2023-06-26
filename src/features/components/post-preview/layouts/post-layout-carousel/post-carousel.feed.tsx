@@ -6,20 +6,12 @@ import PostContentComponent from '../../post-content/post-content.component';
 import PostFooterComponent from '../../post-footer/post-footer.component';
 import PostTitleComponent from '../../post-title/post-title.component';
 import StyledContainer, { StyledSickWrapper } from './post-carousel.feed.styles';
+import { settings } from './post-layout-carousel.component';
 
 export interface PostCarouselFeedProps {
   post: PlatformPostSerializerMaster;
   media: MediaFiles[];
 }
-
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  variableWidth: true
-};
 
 const PostCarouselFeed: React.FC<PostCarouselFeedProps> = (props) => {
 

@@ -18,7 +18,7 @@ export interface PostCarouselMobileProps {
 const PostCarouselMobile: React.FC<PostCarouselMobileProps> = (props) => {
   return (
     <StyledContainer>
-      <StyledWrapper style={{backgroundImage: `url(${props.media && props.media[0].file_in || MockImage})`}}>
+      <StyledWrapper style={{backgroundImage: `url(${props.media && props.media.length > 0 && props.media[0]?.file_in || MockImage})`}}>
         <div className='header'>
           <div>
             <StyledAvatar>

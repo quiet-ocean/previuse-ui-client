@@ -3,16 +3,13 @@ import { connect } from 'react-redux';
 import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 
 import ButtonComponent from '../button/button.component';
-// import SwitchComponent from '../switch/switch.component';
 import CampaignPermissionsComponent from '../campaign-permissions/campaign-permissions.component';
 import { ReactComponent as Link } from '../../../assets/images/link.svg';
 import { ReactComponent as Send } from '../../../assets/images/send-1.svg';
-// import { ReactComponent as Comment } from '../../../assets/images/comment.svg';
 import { Group, Close, Pause, CheckOutlined } from '@material-ui/icons';
 
 import StyledContainer, {
   StyledActions,
-  // StyledSwitchButton
 } from './action-bar.styles';
 import { RootState } from '../../../common/models';
 import { ApproveStatus, UserType } from '../../../swagger2Ts/enums';
@@ -61,10 +58,12 @@ const ActionBarComponent: React.FC<ActionBarComponentProps & ActionBarDispatchPr
   }
   const onLaunch = async () => {
     services?.loading.actions.start()
+    
     await httpService.fetch({
       method: 'get',
       url: 'members/change_site_view',
     })
+
     services?.loading.actions.stop()
     services?.dialog.actions.open({
       title: 'Launch Client',
@@ -145,19 +144,6 @@ const ActionBarComponent: React.FC<ActionBarComponentProps & ActionBarDispatchPr
             </>
           } 
         />
-        {/* <ButtonComponent type='icon' theme='natural' iconElement={<Comment />} />
-
-        <SwitchComponent
-          checkedButtonColor='#BDBDBD'
-          unCheckedButtonColor='#3dd88c'
-          color='#E0E0E0'
-          checkedColor='#E0E0E0'
-          className='themed'
-          checkedIcon={<StyledSwitchButton className='on'>On</StyledSwitchButton>}
-          icon={<StyledSwitchButton className='off'>Off</StyledSwitchButton>}
-          onChange={props.onSetPostStatus}
-          checked={props.postStatus === -1 || props.postStatus === 0 ? false : true}
-        /> */}
       </StyledActions>
     </StyledContainer>
   );

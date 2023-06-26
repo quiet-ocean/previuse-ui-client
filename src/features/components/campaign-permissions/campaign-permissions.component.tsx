@@ -57,8 +57,7 @@ const CampaignPermissionComponent: React.FC<CampaignMemberComponentProps> = (pro
 )
 
 const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { campaignId?: number }> = (props) => {
-  /* eslint-disable no-console */
-  console.log(props)
+
   const autocompleteRef = useRef<HTMLInputElement>(null)
   const services: IServices | undefined = useContext(ServicesContext);
 
@@ -67,11 +66,6 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
   const [permission, setPermission] = useState<CampaignUserPermission>(CampaignUserPermission.owner)
 
   useEffect(() => {
-    console.log(userId, permission)
-  }, [userId, permission])
-
-  useEffect(() => {
-    console.log('updated data')
     setOptions(props.users?.filter((user) => !props.permissions?.find((pm) => pm.related_user?.toString() === user.email)).map((user: UserCreation) => user.email) || [])
   }, [props.permissions, props.users])
 
@@ -80,7 +74,6 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
   }
   
   const handleEmailChange = (event: ChangeEvent<{}>, value: string | null) => {
-    console.log(value)
     setUserId(props.users?.find((user: UserCreation) => user.email === value)?.id)
   }
 
@@ -88,7 +81,7 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
     
     if (userId && permission && props.campaignId) {
       services?.loading.actions.start()
-      console.log('create permission: ', userId, permission, props.campaignId)
+
       await props.createCampaignPermission({
         campaign_user_permission: permission,
         related_campaign: props.campaignId,
@@ -104,7 +97,6 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
 
   const onDeletePermission = async (id?: number) => {
     if (id) {
-      console.log('delete permission: ', id)
       services?.loading.actions.start()
       await props.deleteCampaignPermission({ id })
       services?.loading.actions.stop()

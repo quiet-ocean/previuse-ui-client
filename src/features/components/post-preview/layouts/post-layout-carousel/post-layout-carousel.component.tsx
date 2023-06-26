@@ -12,6 +12,15 @@ export interface PostLayoutCarouselComponentProps {
   alignment: PostAlignment;
 }
 
+export const settings = {
+  dots: false,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  variableWidth: true
+};
+
 const PostLayoutCarouselComponent: React.FC<PostLayoutCarouselComponentProps> = (props) => {
 
   return (

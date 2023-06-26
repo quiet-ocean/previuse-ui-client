@@ -16,22 +16,12 @@ import PostFooterComponent from '../../post-footer/post-footer.component'
 import { ReactComponent as Like } from '../../../../../assets/images/thumbs-up.svg';
 import { ReactComponent as Comment } from '../../../../../assets/images/comment-1.svg';
 import { ReactComponent as Share } from '../../../../../assets/images/share-1.svg';
-
+import { settings } from './post-layout-carousel.component';
 
 export interface PostCarouselMobileComponentProps {
   post: PlatformPostSerializerMaster;
   media: MediaFiles[];
 }
-
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  variableWidth: true
-};
-
 
 const PostCarouselMobileComponent: React.FC<PostCarouselMobileComponentProps> = (props) => {
   return (

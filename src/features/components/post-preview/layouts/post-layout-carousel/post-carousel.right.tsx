@@ -11,20 +11,12 @@ import StyledContainer, {
 
 import MockImage3 from '../../mock/post-image3.png';
 import ButtonComponent from '../../../button/button.component';
+import { settings } from './post-layout-carousel.component';
 
 export interface PostCarouselRightComponentProps {
   post: PlatformPostSerializerMaster;
   media: MediaFiles[];
 }
-
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  variableWidth: true
-};
 
 const PostCarouselRightComponent: React.FC<PostCarouselRightComponentProps> = (props) => {
   return (

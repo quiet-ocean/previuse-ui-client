@@ -53,7 +53,7 @@ const TwitterPreviewComponent: React.FC<Props> = (props) => {
         </StyledPostTitle>
         <StyledPostContent>
           <StyledPostImage>
-            <img src={props?.media && props?.media[0].file_in || MockPostImage} alt='' />
+            <img src={props?.media && props?.media.length > 0 && props?.media[0]?.file_in || MockPostImage} alt='' />
           </StyledPostImage>
           <StyledActions>
             <div>

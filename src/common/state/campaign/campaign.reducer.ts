@@ -31,7 +31,9 @@ const campaignReducer: Reducer<CampaignState> = (
         ))
       }
     case `${CampaignActionTypes.DELETE_CAMPAIGN_PERMISSIONS}${FAILED_SUFFIX}`:
-      console.log('failed to delete campaign permission')
+      console.log('failed to delete campaign permission', action.payload)
+      // if (action.payload?.fn)
+      //   action.payload.fn(action.payload)
       // dispatch
       return state
 

@@ -119,14 +119,16 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
       const filteredPosts = props.posts?.filter((post) => post.related_platform.related_campaign.id === selectedCampaign.id);
       setPlatformPosts(groupBy(filteredPosts, (post: PlatformPostSerializerMaster) => post.related_platform.platform));
       setCampaignPosts(props.posts?.filter((post) => post.related_platform.related_campaign.id === selectedCampaign.id));
-      if (filteredPosts && filteredPosts?.length > 0) {
-        if (postId === 0) onSelectPost(filteredPosts[0]);
-        else {
-          filteredPosts.forEach((post: PlatformPostSerializerMaster) => {
-            if (post?.id === postId) onSelectPost(post);
-          })
-        }
-      }
+      if (filteredPosts && filteredPosts?.length > 0)
+        onSelectPost(filteredPosts[0]);
+      // if (filteredPosts && filteredPosts?.length > 0) {
+      //   if (postId === 0) onSelectPost(filteredPosts[0]);
+      //   else {
+      //     filteredPosts.forEach((post: PlatformPostSerializerMaster) => {
+      //       if (post?.id === postId) onSelectPost(post);
+      //     })
+      //   }
+      // }
     }
   }, [selectedCampaign, props.posts])
 

@@ -19,7 +19,7 @@ const PostMainRightComponent: React.FC<PostMainRightComponentProps> = (props) =>
       <h3 className='post-title'>Sponsored</h3>
       <StyledPostContent>
         <StyledImageWrapper>
-          <img src={props.media && props?.media[0].file_in || MockImage3} alt='' />
+          <img src={props.media && props.media.length > 0 && props?.media[0]?.file_in || MockImage3} alt='' />
         </StyledImageWrapper>
         <StyledPostBody>
           <h3 className='post-title'>{props.post.page_name}</h3>

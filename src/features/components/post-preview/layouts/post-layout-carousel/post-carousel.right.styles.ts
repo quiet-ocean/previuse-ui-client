@@ -46,7 +46,7 @@ export const StyledFooter = styled.div`
   } 
 `
 export const StyledSickWrapper = styled.div`
-  width: 280;
+  width: 280px !important;
 `
 
 export default StyledContainer;

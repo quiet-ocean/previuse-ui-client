@@ -34,20 +34,20 @@ const LinkedInPreviewComponent: React.FC<LinkedInPreviewComponentProps> = (props
         action={<ButtonComponent type='icon' iconElement={<MoreHoriz />} />}
       />
       <StyledPostContent>
-        <p className='post-subtitle'>{props.media && props.media[0].description}</p>
+        <p className='post-subtitle'>{props.media && props.media[0]?.description}</p>
         <StyledImage>
-          <img src={props.media && props.media[0].file_in || MockPostImage} />
+          <img src={props.media && props.media[0]?.file_in || MockPostImage} />
         </StyledImage>
 
         <StyledPostBody>
           <StyledTitle>
-            <h3 className='post-title'>{props.media && props.media[0].headline}</h3>
+            <h3 className='post-title'>{props.media && props.media[0]?.headline}</h3>
             <div>
               <ButtonComponent text={<p className='post-subtitle'>Request Demo</p>} />
             </div>
           </StyledTitle>
           <div>
-            <p className='post-subtitle'>{props.media && props.media[0].caption}</p>
+            <p className='post-subtitle'>{props.media && props.media[0]?.caption}</p>
           </div>
         </StyledPostBody>
       </StyledPostContent>

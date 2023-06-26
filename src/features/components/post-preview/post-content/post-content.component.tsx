@@ -33,7 +33,7 @@ export interface PostContentComponentProps {
 const PostContentComponent: React.FC<PostContentComponentProps> = (props) => {
   const image = (
     <StyledPostImage>
-      <img src={props.media && props.media.length > 0 && props?.media[0].file_in || MockPostImage3} />
+      <img src={props.media && props.media.length > 0 && props?.media[0]?.file_in || MockPostImage3} />
       {props.video && (
         <ButtonComponent
           type='icon'
@@ -52,7 +52,7 @@ const PostContentComponent: React.FC<PostContentComponentProps> = (props) => {
           <Carousel>
             {image}
             <StyledPostImage>
-              <img src={props.media && props.media.length > 0 && props?.media[0].file_in || MockPostImage2} />
+              <img src={props.media && props.media.length > 0 && props?.media[0]?.file_in || MockPostImage2} />
             </StyledPostImage>
           </Carousel>
         ) : (
@@ -60,12 +60,12 @@ const PostContentComponent: React.FC<PostContentComponentProps> = (props) => {
         )}
 
         <div className='bottom'>
-          <StyledHeadline>{props.media && props.media.length > 0 && props.media[0].headline}</StyledHeadline>
+          <StyledHeadline>{props.media && props.media.length > 0 && props.media[0]?.headline}</StyledHeadline>
 
-          <StyledPostDescription>{props.media && props.media.length > 0 && props.media[0].description}</StyledPostDescription>
+          <StyledPostDescription>{props.media && props.media.length > 0 && props.media[0]?.description}</StyledPostDescription>
 
           <div className="flex">
-            <StyledCaption $show={!props.mobile}>{props.media && props.media.length > 0 && props.media[0].caption}</StyledCaption>
+            <StyledCaption $show={!props.mobile}>{props.media && props.media.length > 0 && props.media[0]?.caption}</StyledCaption>
             <StyledLikeButton>{props.callToAction ? camelCaseToWords(props.callToAction) : 'Learn more'}</StyledLikeButton>
           </div>
         </div>
