@@ -8,6 +8,7 @@ import StyledContainer, {
   StyledActions,
   StyledPostFooterWrapper,
   StyledIconWrapper,
+  StyledSickWrapper,
 } from './post-carousel.mobile.styles';
 import PostContentComponent from '../../post-content/post-content.component'
 import PostFooterComponent from '../../post-footer/post-footer.component'
@@ -41,7 +42,7 @@ const PostCarouselMobileComponent: React.FC<PostCarouselMobileComponentProps> = 
       />
       <Slider {...settings}>
         {props.media && props.media.map((media: MediaFiles, key: number) => (
-          <div style={{ width: 280 }} key={key}>
+          <StyledSickWrapper key={key}>
             <PostContentComponent
               headline={props.post.headline}
               description={props.post.description}
@@ -50,7 +51,7 @@ const PostCarouselMobileComponent: React.FC<PostCarouselMobileComponentProps> = 
               media={[media]}
               mobile={true}
             />
-          </div>
+          </StyledSickWrapper>
         ))}
       </Slider>
       <StyledPostFooterWrapper>

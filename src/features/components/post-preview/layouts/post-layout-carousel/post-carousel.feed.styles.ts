@@ -8,4 +8,8 @@ const StyledContainer = styled.div`
   }
 `;
 
+export const StyledSickWrapper = styled.div`
+  width: 280;
+`
+
 export default StyledContainer;

@@ -45,5 +45,8 @@ export const StyledFooter = styled.div`
     width: auto !important;
   } 
 `
+export const StyledSickWrapper = styled.div`
+  width: 280;
+`
 
 export default StyledContainer;

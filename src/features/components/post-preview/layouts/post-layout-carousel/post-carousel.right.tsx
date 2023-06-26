@@ -6,6 +6,7 @@ import StyledContainer, {
   StyledPostBody,
   StyledImageWrapper,
   StyledFooter,
+  StyledSickWrapper,
 } from './post-carousel.right.styles';
 
 import MockImage3 from '../../mock/post-image3.png';
@@ -31,7 +32,7 @@ const PostCarouselRightComponent: React.FC<PostCarouselRightComponentProps> = (p
       <h3 className='post-title'>Sponsored</h3>
       <Slider {...settings}>
         {props.media && props.media.map((media: MediaFiles, key: number) => (
-          <div style={{ width: 280 }} key={key}>
+          <StyledSickWrapper key={key}>
             <StyledPostContent>
               <StyledImageWrapper>
                 <img src={props.media && media.file_in || MockImage3} alt='' />
@@ -41,7 +42,7 @@ const PostCarouselRightComponent: React.FC<PostCarouselRightComponentProps> = (p
                 <p className='post-subtitle'>{props.media && media.caption}</p>
               </StyledPostBody>
             </StyledPostContent>
-          </div>
+          </StyledSickWrapper>
         ))}
       </Slider>
       <StyledFooter>

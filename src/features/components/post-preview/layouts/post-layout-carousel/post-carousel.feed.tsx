@@ -5,7 +5,7 @@ import { MediaFiles, PlatformPostSerializerMaster } from '../../../../../swagger
 import PostContentComponent from '../../post-content/post-content.component';
 import PostFooterComponent from '../../post-footer/post-footer.component';
 import PostTitleComponent from '../../post-title/post-title.component';
-import StyledContainer from './post-carousel.feed.styles';
+import StyledContainer, { StyledSickWrapper } from './post-carousel.feed.styles';
 
 export interface PostCarouselFeedProps {
   post: PlatformPostSerializerMaster;
@@ -32,7 +32,7 @@ const PostCarouselFeed: React.FC<PostCarouselFeedProps> = (props) => {
         />
         <Slider {...settings}>
           {props.media && props.media.length > 0 && props.media.map((media: MediaFiles, key: number) => (
-            <div style={{ marginRight: 12, width: 280 }} key={key}>
+            <StyledSickWrapper key={key}>
               <PostContentComponent
                 headline={props.post.headline}
                 description={props.post.description}
@@ -40,7 +40,7 @@ const PostCarouselFeed: React.FC<PostCarouselFeedProps> = (props) => {
                 post={props.post}
                 media={[media]}
               />
-            </div>
+            </StyledSickWrapper>
           ))}
         </Slider>
       </div>
