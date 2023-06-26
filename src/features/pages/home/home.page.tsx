@@ -74,7 +74,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   const [selectedCampaign, setSelectedCampaign] = useState<Campaigns>();
   const [campaignPosts, setCampaignPosts] = useState<PlatformPostSerializerMaster[]>();
   const [selectedPost, setSelectedPost] = useState<PlatformPostSerializerMaster>();
-  const [postId, setPostId] = useState<number>(0)
+  // const [postId, setPostId] = useState<number>(0)
   const [postMedia, setPostMedia] = useState<MediaFiles[]>();
   const [platformPosts, setPlatformPosts] = useState<Record<Platform, PlatformPostSerializerMaster[]>>();
 
@@ -137,7 +137,7 @@ const HomePage: React.FC<RouteChildrenProps & HomePageProps> = (props) => {
   }
 
   const onSelectPost = async (post: PlatformPostSerializerMaster) => {
-    setPostId(post?.id as number)
+    // setPostId(post?.id as number)
     setSelectedPost(post);
     const platform = post?.related_platform.platform;
 
