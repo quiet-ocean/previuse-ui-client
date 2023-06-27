@@ -8,6 +8,7 @@ export enum CampaignActionTypes {
   LIST_CAMPAIGN_PERMISSIONS = "@@campaign/LIST_CAMPAIGN_PERMISSIONS",
   CREATE_CAMPAIGN_PERMISSIONS = "@@campaign/CREATE_CAMPAIGN_PERMISSIONS",
   DELETE_CAMPAIGN_PERMISSIONS = "@@campaign/DELETE_CAMPAIGN_PERMISSIONS",
+  SET_OK = '@@campaign/SET_OK',
 }
 
 export const ListCampaignsAction: () => Promise<Campaigns[]> = createAsyncAction(
@@ -55,3 +56,9 @@ export const DeleteCampaignPermissionAction: (args: { id: number }) => Promise<C
     })
   }
 )
+
+export const SetOkAction = (payload: { ok: boolean, error?: string }) => ({
+  type: CampaignActionTypes.SET_OK,
+  payload,
+})
+ 

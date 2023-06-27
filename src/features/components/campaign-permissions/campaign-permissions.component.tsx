@@ -19,7 +19,11 @@ import { RootState } from "../../../common/models";
 import { CampaignPermission, UserCreation } from "../../../swagger2Ts/interfaces";
 import { CampaignUserPermission } from "../../../swagger2Ts/enums";
 import { AnyAction, Dispatch, bindActionCreators } from "redux";
-import { DeleteCampaignPermissionAction, CreateCampaignPermissionAction } from "../../../common/state/campaign/campaign.actions";
+import {
+  DeleteCampaignPermissionAction,
+  CreateCampaignPermissionAction,
+  SetOkAction,
+} from "../../../common/state/campaign/campaign.actions";
 
 import { ServicesContext } from '../../../common/contexts';
 import { IServices } from '../../../common/services/initiate';
@@ -31,8 +35,11 @@ interface CampaignMemberComponentProps {
 }
 
 interface CampaignMembersComponentProps {
-  permissions?: CampaignPermission[],
-  users?: UserCreation[],
+  permissions?: CampaignPermission[];
+  users?: UserCreation[];
+  isOk: boolean;
+  error: string;
+  setOk: (args: { ok: boolean, error?: string }) => void;
   deleteCampaignPermission: (args: {id: number}) => Promise<CampaignPermission>;
   createCampaignPermission: (args: CampaignPermission) => Promise<CampaignPermission>;
 }
@@ -69,6 +76,14 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
     setOptions(props.users?.filter((user) => !props.permissions?.find((pm) => pm.related_user?.toString() === user.email)).map((user: UserCreation) => user.email) || [])
   }, [props.permissions, props.users])
 
+  useEffect(() => {
+    /* eslint-disable no-console */
+    console.log('isOk changed: ', props.isOk)
+    if (!props.isOk) {
+      window.alert(props.error)
+      services?.loading.actions.stop()
+    }
+  }, [props.isOk])
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPermission(event.target.value as CampaignUserPermission)
   }
@@ -82,11 +97,16 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
     if (userId && permission && props.campaignId) {
       services?.loading.actions.start()
 
-      await props.createCampaignPermission({
-        campaign_user_permission: permission,
-        related_campaign: props.campaignId,
-        related_user: userId,
-      })
+      try {
+        await props.createCampaignPermission({
+          campaign_user_permission: permission,
+          related_campaign: props.campaignId,
+          related_user: userId,
+        })
+      } catch (err) {
+        services?.loading.actions.stop()
+        services?.snackbar.actions.open({ content: `You cannot add the client as ${permission}` })
+      }
       services?.loading.actions.stop()
     }
     if (autocompleteRef?.current !== null) {
@@ -98,7 +118,12 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
   const onDeletePermission = async (id?: number) => {
     if (id) {
       services?.loading.actions.start()
-      await props.deleteCampaignPermission({ id })
+      try {
+        await props.deleteCampaignPermission({ id })
+      } catch (error) {
+        services?.loading.actions.stop()
+        services?.snackbar.actions.open({ content: `You don't have permission to delete` }) 
+      }
       services?.loading.actions.stop()
     }
   }
@@ -170,11 +195,14 @@ const CampaignPermissionsComponent: React.FC<CampaignMembersComponentProps & { c
 const mapStateToProps = (state: RootState) => ({
   permissions: state.app.campaign.campaignPermissions,
   users: state.app.auth.users,
+  isOk: state.app.campaign.isOk,
+  error: state.app.campaign.error,
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction, RootState>) => ({
   deleteCampaignPermission: bindActionCreators(DeleteCampaignPermissionAction, dispatch),
   createCampaignPermission: bindActionCreators(CreateCampaignPermissionAction, dispatch),
+  setOk: bindActionCreators(SetOkAction, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CampaignPermissionsComponent);

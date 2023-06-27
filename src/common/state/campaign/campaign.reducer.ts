@@ -20,7 +20,8 @@ const campaignReducer: Reducer<CampaignState> = (
     case `${CampaignActionTypes.CREATE_CAMPAIGN_PERMISSIONS}${FAILED_SUFFIX}`:
       /* eslint-disable */
       console.log('failed to create campaign permission')
-      return state
+
+      return { ...state, ok: false, error: 'failed to create campaign permission' }
   
     case `${CampaignActionTypes.DELETE_CAMPAIGN_PERMISSIONS}${SUCCESS_SUFFIX}`:
       return {
@@ -32,10 +33,10 @@ const campaignReducer: Reducer<CampaignState> = (
       }
     case `${CampaignActionTypes.DELETE_CAMPAIGN_PERMISSIONS}${FAILED_SUFFIX}`:
       console.log('failed to delete campaign permission', action.payload)
-      // if (action.payload?.fn)
-      //   action.payload.fn(action.payload)
-      // dispatch
-      return state
+      return { ...state, ok: false, error: 'failed to delete campaign permission' }
+
+    case CampaignActionTypes.SET_OK:
+      return { ...state, ok: action.payload.ok, error: action.payload?.error ? action.payload.error : '' }
 
     default:
       return state;
